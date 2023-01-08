@@ -23,3 +23,23 @@ open class APIService {
         return try decoder.decode(T.self, from: data)
     }
 }
+
+#if DEBUG
+extension APIService {
+    private class APIServiceMock<T: Decodable>: APIService {
+        let mockedResponse: T
+        
+        init(_ mockedResponse: T) {
+            self.mockedResponse = mockedResponse
+        }
+        
+        override func request<T>(_ endpoint: Endpoint, _ method: API.Method = .GET) async throws -> T {
+            mockedResponse as! T
+        }
+    }
+    
+    static func mock<T: Decodable>(_ mock: T) -> APIService {
+        APIServiceMock(mock)
+    }
+}
+#endif

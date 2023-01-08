@@ -8,32 +8,46 @@
 import SwiftUI
 import Models
 import Networking
+import Factory
 
 struct ContentView: View {
     
-    private let service = APIService()
-    
-    @State private var news: [NewsEntry] = []
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
         List {
-            ForEach(news) { newsEntry in
+            ForEach(viewModel.news) { newsEntry in
                 Text(newsEntry.title)
             }
         }
         .task {
-            do {
-                let newsList: NewsList = try await service.request(.news(.list(limit: 500)))
-                news = newsList.data
-            } catch {
-                print(error)
-            }
+            try? await viewModel.loadNews()
+        }
+    }
+}
+
+extension ContentView {
+    @MainActor final class ViewModel: ObservableObject {
+        @Injected(Dependencies.apiService) private var apiService: APIService
+        
+        @Published private(set) var news: [NewsEntry] = []
+        
+        func loadNews() async throws {
+            let newsList: NewsList = try await apiService.request(.news(.list(limit: 25)))
+            news = newsList.data
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
+        let _ = Dependencies.apiService.register {
+            .mock(NewsList(data: [
+                .init(id: "1", title: "One"),
+                .init(id: "2", title: "Two")
+            ]))
+        }
         ContentView()
     }
 }

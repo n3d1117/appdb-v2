@@ -13,6 +13,8 @@
 		817875AB296AFFFB00372B65 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817875AA296AFFFB00372B65 /* APIService.swift */; };
 		817875AE296B009400372B65 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = 817875AD296B009400372B65 /* Models */; };
 		817875B0296B009700372B65 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 817875AF296B009700372B65 /* Networking */; };
+		81FBFDF6296B27650063361E /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 81FBFDF5296B27650063361E /* Factory */; };
+		81FBFDF9296B27830063361E /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FBFDF8296B27830063361E /* Dependencies.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,7 @@
 		817875A8296AFDB200372B65 /* Models */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Models; sourceTree = "<group>"; };
 		817875AA296AFFFB00372B65 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		817875B6296B124000372B65 /* appdbTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appdbTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		81FBFDF8296B27830063361E /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81FBFDF6296B27650063361E /* Factory in Frameworks */,
 				817875B0296B009700372B65 /* Networking in Frameworks */,
 				817875AE296B009400372B65 /* Models in Frameworks */,
 			);
@@ -88,7 +92,7 @@
 		817875A729698D0C00372B65 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				817875A9296AFFF300372B65 /* Services */,
+				817875A9296AFFF300372B65 /* Dependencies */,
 				81393C9E29698BF5007322B7 /* AppdbApp.swift */,
 				81393CA229698BF6007322B7 /* Assets.xcassets */,
 				81393CA029698BF5007322B7 /* ContentView.swift */,
@@ -96,12 +100,13 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		817875A9296AFFF300372B65 /* Services */ = {
+		817875A9296AFFF300372B65 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
 				817875AA296AFFFB00372B65 /* APIService.swift */,
+				81FBFDF8296B27830063361E /* Dependencies.swift */,
 			);
-			path = Services;
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
 		817875AC296B009400372B65 /* Frameworks */ = {
@@ -137,6 +142,7 @@
 			packageProductDependencies = (
 				817875AD296B009400372B65 /* Models */,
 				817875AF296B009700372B65 /* Networking */,
+				81FBFDF5296B27650063361E /* Factory */,
 			);
 			productName = "appdb-v2";
 			productReference = 81393C9B29698BF5007322B7 /* appdb-v2.app */;
@@ -188,6 +194,9 @@
 				Base,
 			);
 			mainGroup = 81393C9229698BF5007322B7;
+			packageReferences = (
+				81FBFDF4296B27650063361E /* XCRemoteSwiftPackageReference "Factory" */,
+			);
 			productRefGroup = 81393C9C29698BF5007322B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -221,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81FBFDF9296B27830063361E /* Dependencies.swift in Sources */,
 				81393CA129698BF5007322B7 /* ContentView.swift in Sources */,
 				817875AB296AFFFB00372B65 /* APIService.swift in Sources */,
 				81393C9F29698BF5007322B7 /* AppdbApp.swift in Sources */,
@@ -485,6 +495,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		81FBFDF4296B27650063361E /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory";
+			requirement = {
+				kind = exactVersion;
+				version = 1.3.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		817875AD296B009400372B65 /* Models */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -493,6 +514,11 @@
 		817875AF296B009700372B65 /* Networking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Networking;
+		};
+		81FBFDF5296B27650063361E /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81FBFDF4296B27650063361E /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
