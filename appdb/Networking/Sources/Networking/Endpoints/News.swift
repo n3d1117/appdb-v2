@@ -5,7 +5,6 @@
 //  Created by ned on 07/01/23.
 //
 
-
 import Foundation
 
 public enum News: HTTPEndpoint {

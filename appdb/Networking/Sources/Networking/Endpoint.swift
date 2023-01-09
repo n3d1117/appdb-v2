@@ -12,12 +12,14 @@ protocol HTTPEndpoint {
 }
 
 public enum Endpoint {
+    case apps(Apps)
     case news(News)
 }
 
 extension Endpoint: HTTPEndpoint {
     public func queryItems() -> [URLQueryItem]? {
         switch self {
+        case .apps(let appsEndpoint): return appsEndpoint.queryItems()
         case .news(let newsEndpoint): return newsEndpoint.queryItems()
         }
     }

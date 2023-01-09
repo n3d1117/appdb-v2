@@ -10,6 +10,19 @@ import XCTest
 
 final class EndpointTests: XCTestCase {
     
+    // MARK: - Apps
+    func testAppsListEndpointGeneratedURLIsCorrect() throws {
+        let request = API.generateRequest(.apps(.list(type: .ios)))
+        let url = try XCTUnwrap(request.url)
+        XCTAssertEqual(url.absoluteString, "https://\(API.apiURL)/v\(API.apiVersion)/?action=search&type=ios&page=1")
+    }
+    
+    func testAppsListEndpointGeneratedURLAndPageIsCorrect() throws {
+        let request = API.generateRequest(.apps(.list(type: .ios, page: 2)))
+        let url = try XCTUnwrap(request.url)
+        XCTAssertEqual(url.absoluteString, "https://\(API.apiURL)/v\(API.apiVersion)/?action=search&type=ios&page=2")
+    }
+    
     // MARK: - News
     func testNewsListEndpointGeneratedURLIsCorrect() throws {
         let request = API.generateRequest(.news(.list(limit: 50)))

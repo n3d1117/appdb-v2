@@ -22,12 +22,7 @@ struct NewsView: View {
                     await viewModel.loadNews()
                 }
             case .loading:
-                List {
-                    ForEach(0..<25) { _ in
-                        Text("Example news title currently loading")
-                    }
-                    .placeholder()
-                }
+                ProgressView()
             case .success(let news):
                 List {
                     ForEach(news) { newsEntry in
@@ -50,7 +45,7 @@ extension NewsView {
         
         func loadNews() async {
             do {
-                let response: APIResponse<[NewsEntry]> = try await apiService.request(.news(.list(limit: 25)))
+                let response: APIResponse<[NewsEntry]> = try await apiService.request(.news(.list(limit: 10_000)))
                 state = .success(response.data)
             } catch {
                 state = .failed(error)
@@ -59,7 +54,7 @@ extension NewsView {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct NewsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             // Preview with mocked news

@@ -11,7 +11,23 @@ import SwiftUI
 struct AppdbApp: App {
     var body: some Scene {
         WindowGroup {
-            NewsView()
+            TabView {
+                NavigationStack {
+                    AppsView()
+                        .navigationTitle("Apps")
+                }
+                .tabItem {
+                    Label("Apps", systemImage: "star")
+                }
+
+                NavigationStack {
+                    NewsView()
+                        .navigationTitle("News")
+                }
+                .tabItem {
+                    Label("News", systemImage: "newspaper")
+                }
+            }
         }
     }
 }
