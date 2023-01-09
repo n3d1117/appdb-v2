@@ -8,6 +8,7 @@
 import Factory
 
 typealias Dependencies = Container
+typealias Dependency = Injected
 
 extension Dependencies {
     static let apiService = Factory(scope: .shared) { APIService() }

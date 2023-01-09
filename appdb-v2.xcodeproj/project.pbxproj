@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		812309F2296C3C67005E2DE0 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = 812309F1296C3C67005E2DE0 /* UI */; };
+		812309F8296C3D1B005E2DE0 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812309F7296C3D1B005E2DE0 /* State.swift */; };
+		812309FB296C3DC8005E2DE0 /* NewsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812309FA296C3DC8005E2DE0 /* NewsViewModelTests.swift */; };
 		81393C9F29698BF5007322B7 /* AppdbApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81393C9E29698BF5007322B7 /* AppdbApp.swift */; };
-		81393CA129698BF5007322B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81393CA029698BF5007322B7 /* ContentView.swift */; };
+		81393CA129698BF5007322B7 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81393CA029698BF5007322B7 /* NewsView.swift */; };
 		81393CA329698BF6007322B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81393CA229698BF6007322B7 /* Assets.xcassets */; };
 		817875AB296AFFFB00372B65 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817875AA296AFFFB00372B65 /* APIService.swift */; };
 		817875AE296B009400372B65 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = 817875AD296B009400372B65 /* Models */; };
@@ -28,9 +31,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		812309F0296C3B2F005E2DE0 /* UI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UI; sourceTree = "<group>"; };
+		812309F7296C3D1B005E2DE0 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		812309FA296C3DC8005E2DE0 /* NewsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModelTests.swift; sourceTree = "<group>"; };
 		81393C9B29698BF5007322B7 /* appdb-v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "appdb-v2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81393C9E29698BF5007322B7 /* AppdbApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppdbApp.swift; sourceTree = "<group>"; };
-		81393CA029698BF5007322B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		81393CA029698BF5007322B7 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		81393CA229698BF6007322B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		817875A629698D0000372B65 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Networking; sourceTree = "<group>"; };
 		817875A8296AFDB200372B65 /* Models */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Models; sourceTree = "<group>"; };
@@ -44,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				812309F2296C3C67005E2DE0 /* UI in Frameworks */,
 				81FBFDF6296B27650063361E /* Factory in Frameworks */,
 				817875B0296B009700372B65 /* Networking in Frameworks */,
 				817875AE296B009400372B65 /* Models in Frameworks */,
@@ -60,6 +67,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		812309F3296C3CF7005E2DE0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				817875AA296AFFFB00372B65 /* APIService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		812309F4296C3D02005E2DE0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				812309F7296C3D1B005E2DE0 /* State.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		812309F9296C3D9B005E2DE0 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				812309FA296C3DC8005E2DE0 /* NewsViewModelTests.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		81393C9229698BF5007322B7 = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +113,7 @@
 		81393C9D29698BF5007322B7 /* appdb */ = {
 			isa = PBXGroup;
 			children = (
+				812309F0296C3B2F005E2DE0 /* UI */,
 				817875A8296AFDB200372B65 /* Models */,
 				817875A629698D0000372B65 /* Networking */,
 				817875A729698D0C00372B65 /* App */,
@@ -92,21 +124,14 @@
 		817875A729698D0C00372B65 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				817875A9296AFFF300372B65 /* Dependencies */,
+				81FBFDF8296B27830063361E /* Dependencies.swift */,
+				812309F3296C3CF7005E2DE0 /* Services */,
+				812309F4296C3D02005E2DE0 /* Utilities */,
 				81393C9E29698BF5007322B7 /* AppdbApp.swift */,
 				81393CA229698BF6007322B7 /* Assets.xcassets */,
-				81393CA029698BF5007322B7 /* ContentView.swift */,
+				81393CA029698BF5007322B7 /* NewsView.swift */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		817875A9296AFFF300372B65 /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				817875AA296AFFFB00372B65 /* APIService.swift */,
-				81FBFDF8296B27830063361E /* Dependencies.swift */,
-			);
-			path = Dependencies;
 			sourceTree = "<group>";
 		};
 		817875AC296B009400372B65 /* Frameworks */ = {
@@ -119,6 +144,7 @@
 		817875B7296B124000372B65 /* appdbTests */ = {
 			isa = PBXGroup;
 			children = (
+				812309F9296C3D9B005E2DE0 /* ViewModels */,
 			);
 			path = appdbTests;
 			sourceTree = "<group>";
@@ -143,6 +169,7 @@
 				817875AD296B009400372B65 /* Models */,
 				817875AF296B009700372B65 /* Networking */,
 				81FBFDF5296B27650063361E /* Factory */,
+				812309F1296C3C67005E2DE0 /* UI */,
 			);
 			productName = "appdb-v2";
 			productReference = 81393C9B29698BF5007322B7 /* appdb-v2.app */;
@@ -181,6 +208,7 @@
 					};
 					817875B5296B124000372B65 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 						TestTargetID = 81393C9A29698BF5007322B7;
 					};
 				};
@@ -231,8 +259,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81FBFDF9296B27830063361E /* Dependencies.swift in Sources */,
-				81393CA129698BF5007322B7 /* ContentView.swift in Sources */,
+				81393CA129698BF5007322B7 /* NewsView.swift in Sources */,
 				817875AB296AFFFB00372B65 /* APIService.swift in Sources */,
+				812309F8296C3D1B005E2DE0 /* State.swift in Sources */,
 				81393C9F29698BF5007322B7 /* AppdbApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				812309FB296C3DC8005E2DE0 /* NewsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,14 +461,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2SY882DX2;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.ned.appdbTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appdb-v2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/appdb-v2";
@@ -449,10 +486,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2SY882DX2;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.ned.appdbTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -507,6 +550,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		812309F1296C3C67005E2DE0 /* UI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UI;
+		};
 		817875AD296B009400372B65 /* Models */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Models;
