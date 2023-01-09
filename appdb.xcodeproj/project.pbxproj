@@ -34,7 +34,7 @@
 		812309F0296C3B2F005E2DE0 /* UI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UI; sourceTree = "<group>"; };
 		812309F7296C3D1B005E2DE0 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		812309FA296C3DC8005E2DE0 /* NewsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModelTests.swift; sourceTree = "<group>"; };
-		81393C9B29698BF5007322B7 /* appdb-v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "appdb-v2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81393C9B29698BF5007322B7 /* appdb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = appdb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81393C9E29698BF5007322B7 /* AppdbApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppdbApp.swift; sourceTree = "<group>"; };
 		81393CA029698BF5007322B7 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		81393CA229698BF6007322B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 		81393C9C29698BF5007322B7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				81393C9B29698BF5007322B7 /* appdb-v2.app */,
+				81393C9B29698BF5007322B7 /* appdb.app */,
 				817875B6296B124000372B65 /* appdbTests.xctest */,
 			);
 			name = Products;
@@ -152,9 +152,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		81393C9A29698BF5007322B7 /* appdb-v2 */ = {
+		81393C9A29698BF5007322B7 /* appdb */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 81393CA929698BF6007322B7 /* Build configuration list for PBXNativeTarget "appdb-v2" */;
+			buildConfigurationList = 81393CA929698BF6007322B7 /* Build configuration list for PBXNativeTarget "appdb" */;
 			buildPhases = (
 				81393C9729698BF5007322B7 /* Sources */,
 				81393C9829698BF5007322B7 /* Frameworks */,
@@ -164,7 +164,7 @@
 			);
 			dependencies = (
 			);
-			name = "appdb-v2";
+			name = appdb;
 			packageProductDependencies = (
 				817875AD296B009400372B65 /* Models */,
 				817875AF296B009700372B65 /* Networking */,
@@ -172,7 +172,7 @@
 				812309F1296C3C67005E2DE0 /* UI */,
 			);
 			productName = "appdb-v2";
-			productReference = 81393C9B29698BF5007322B7 /* appdb-v2.app */;
+			productReference = 81393C9B29698BF5007322B7 /* appdb.app */;
 			productType = "com.apple.product-type.application";
 		};
 		817875B5296B124000372B65 /* appdbTests */ = {
@@ -213,7 +213,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 81393C9629698BF5007322B7 /* Build configuration list for PBXProject "appdb-v2" */;
+			buildConfigurationList = 81393C9629698BF5007322B7 /* Build configuration list for PBXProject "appdb" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -229,7 +229,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				81393C9A29698BF5007322B7 /* appdb-v2 */,
+				81393C9A29698BF5007322B7 /* appdb */,
 				817875B5296B124000372B65 /* appdbTests */,
 			);
 		};
@@ -279,7 +279,7 @@
 /* Begin PBXTargetDependency section */
 		817875BB296B124000372B65 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 81393C9A29698BF5007322B7 /* appdb-v2 */;
+			target = 81393C9A29698BF5007322B7 /* appdb */;
 			targetProxy = 817875BA296B124000372B65 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -478,7 +478,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appdb-v2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/appdb-v2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appdb.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/appdb";
 			};
 			name = Debug;
 		};
@@ -502,14 +502,14 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appdb-v2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/appdb-v2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/appdb.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/appdb";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		81393C9629698BF5007322B7 /* Build configuration list for PBXProject "appdb-v2" */ = {
+		81393C9629698BF5007322B7 /* Build configuration list for PBXProject "appdb" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				81393CA729698BF6007322B7 /* Debug */,
@@ -518,7 +518,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		81393CA929698BF6007322B7 /* Build configuration list for PBXNativeTarget "appdb-v2" */ = {
+		81393CA929698BF6007322B7 /* Build configuration list for PBXNativeTarget "appdb" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				81393CAA29698BF6007322B7 /* Debug */,
