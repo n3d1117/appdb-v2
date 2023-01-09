@@ -13,6 +13,7 @@
 		81393C9F29698BF5007322B7 /* AppdbApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81393C9E29698BF5007322B7 /* AppdbApp.swift */; };
 		81393CA129698BF5007322B7 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81393CA029698BF5007322B7 /* NewsView.swift */; };
 		81393CA329698BF6007322B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81393CA229698BF6007322B7 /* Assets.xcassets */; };
+		814FF570296C5EFE0069FA54 /* APIServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814FF56F296C5EFE0069FA54 /* APIServiceTest.swift */; };
 		817875AB296AFFFB00372B65 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817875AA296AFFFB00372B65 /* APIService.swift */; };
 		817875AE296B009400372B65 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = 817875AD296B009400372B65 /* Models */; };
 		817875B0296B009700372B65 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 817875AF296B009700372B65 /* Networking */; };
@@ -38,6 +39,7 @@
 		81393C9E29698BF5007322B7 /* AppdbApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppdbApp.swift; sourceTree = "<group>"; };
 		81393CA029698BF5007322B7 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		81393CA229698BF6007322B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		814FF56F296C5EFE0069FA54 /* APIServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceTest.swift; sourceTree = "<group>"; };
 		817875A629698D0000372B65 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Networking; sourceTree = "<group>"; };
 		817875A8296AFDB200372B65 /* Models */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Models; sourceTree = "<group>"; };
 		817875AA296AFFFB00372B65 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -83,12 +85,12 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		812309F9296C3D9B005E2DE0 /* ViewModels */ = {
+		812309F9296C3D9B005E2DE0 /* ViewModelsTests */ = {
 			isa = PBXGroup;
 			children = (
 				812309FA296C3DC8005E2DE0 /* NewsViewModelTests.swift */,
 			);
-			path = ViewModels;
+			path = ViewModelsTests;
 			sourceTree = "<group>";
 		};
 		81393C9229698BF5007322B7 = {
@@ -121,15 +123,31 @@
 			path = appdb;
 			sourceTree = "<group>";
 		};
+		814FF56D296C4C210069FA54 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				81393CA029698BF5007322B7 /* NewsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		814FF56E296C5EEB0069FA54 /* ServicesTests */ = {
+			isa = PBXGroup;
+			children = (
+				814FF56F296C5EFE0069FA54 /* APIServiceTest.swift */,
+			);
+			path = ServicesTests;
+			sourceTree = "<group>";
+		};
 		817875A729698D0C00372B65 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				81393CA229698BF6007322B7 /* Assets.xcassets */,
+				81393C9E29698BF5007322B7 /* AppdbApp.swift */,
 				81FBFDF8296B27830063361E /* Dependencies.swift */,
 				812309F3296C3CF7005E2DE0 /* Services */,
 				812309F4296C3D02005E2DE0 /* Utilities */,
-				81393C9E29698BF5007322B7 /* AppdbApp.swift */,
-				81393CA229698BF6007322B7 /* Assets.xcassets */,
-				81393CA029698BF5007322B7 /* NewsView.swift */,
+				814FF56D296C4C210069FA54 /* Views */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -144,7 +162,8 @@
 		817875B7296B124000372B65 /* appdbTests */ = {
 			isa = PBXGroup;
 			children = (
-				812309F9296C3D9B005E2DE0 /* ViewModels */,
+				814FF56E296C5EEB0069FA54 /* ServicesTests */,
+				812309F9296C3D9B005E2DE0 /* ViewModelsTests */,
 			);
 			path = appdbTests;
 			sourceTree = "<group>";
@@ -270,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				814FF570296C5EFE0069FA54 /* APIServiceTest.swift in Sources */,
 				812309FB296C3DC8005E2DE0 /* NewsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

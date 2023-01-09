@@ -10,6 +10,7 @@ import XCTest
 
 final class APITests: XCTestCase {
     
+    // MARK: - HTTP Method
     func testHTTPRequestMethodIsCorrect() throws {
         let newsListEndpoint = Endpoint.news(.list(limit: 10))
         
@@ -27,18 +28,5 @@ final class APITests: XCTestCase {
         
         request = API.generateRequest(newsListEndpoint, method: .PATCH)
         XCTAssertEqual(request.httpMethod, "PATCH")
-    }
-    
-    // MARK: - News
-    func testNewsListEndpointGeneratedURLIsCorrect() throws {
-        let request = API.generateRequest(.news(.list(limit: 50)))
-        let url = try XCTUnwrap(request.url)
-        XCTAssertEqual(url.absoluteString, "https://\(API.apiURL)/v\(API.apiVersion)/?action=get_pages&category=news&length=50")
-    }
-    
-    func testNewsDetailEndpointGeneratedURLIsCorrect() throws {
-        let request = API.generateRequest(.news(.detail(id: "469")))
-        let url = try XCTUnwrap(request.url)
-        XCTAssertEqual(url.absoluteString, "https://\(API.apiURL)/v\(API.apiVersion)/?action=get_pages&category=news&id=469")
     }
 }

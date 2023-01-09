@@ -5,14 +5,6 @@
 //  Created by ned on 08/01/23.
 //
 
-public struct NewsList: Codable {
-    public let data: [NewsEntry]
-    
-    public init(data: [NewsEntry]) {
-        self.data = data
-    }
-}
-
 public struct NewsEntry: Codable, Identifiable {
     public let id: String
     public let title: String

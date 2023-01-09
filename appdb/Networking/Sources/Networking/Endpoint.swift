@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol AppdbEndpoint {
+protocol HTTPEndpoint {
     func queryItems() -> [URLQueryItem]?
 }
 
@@ -15,7 +15,7 @@ public enum Endpoint {
     case news(News)
 }
 
-extension Endpoint: AppdbEndpoint {
+extension Endpoint: HTTPEndpoint {
     public func queryItems() -> [URLQueryItem]? {
         switch self {
         case .news(let newsEndpoint): return newsEndpoint.queryItems()

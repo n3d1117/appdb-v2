@@ -1,6 +1,6 @@
 //
 //  AppdbApp.swift
-//  appdb-v2
+//  appdb
 //
 //  Created by ned on 07/01/23.
 //

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum News: AppdbEndpoint {
+public enum News: HTTPEndpoint {
     case list(limit: Int)
     case detail(id: String)
     

@@ -22,4 +22,9 @@ public extension View {
     }
 }
 
-
+struct Placeholder_Previews: PreviewProvider {
+    static var previews: some View {
+        Text("this is a test")
+            .placeholder()
+    }
+}

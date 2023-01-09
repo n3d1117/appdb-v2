@@ -15,9 +15,9 @@ public enum API {
         case GET, POST, PUT, PATCH, DELETE
     }
     
-    private static func generateURL(scheme: String = "https", endpoint: Endpoint) -> URL {
+    private static func generateURL(endpoint: Endpoint) -> URL {
         var components = URLComponents()
-        components.scheme = scheme
+        components.scheme = "https"
         components.host = Self.apiURL
         components.path += "/v\(Self.apiVersion)/"
         components.queryItems = endpoint.queryItems()
