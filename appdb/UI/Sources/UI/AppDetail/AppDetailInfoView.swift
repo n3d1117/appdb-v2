@@ -39,7 +39,7 @@ public struct AppDetailInfoView: View {
             }
             .padding(.horizontal)
         }
-        .frame(height: 65)
+        .fixedSize(horizontal: false, vertical: true)
     }
     
     @ViewBuilder private var verticalDivider: some View {
@@ -62,11 +62,11 @@ public struct AppDetailInfoView: View {
                 HStack(spacing: 1) {
                     ForEach(0..<5) { _ in
                         Image(systemName: "star.fill")
-                            .font(.system(size: 12, design: .rounded))
+                            .font(.system(.caption, design: .rounded))
                     }
                 }
             }
-            .frame(height: 45, alignment: .top)
+            .frame(alignment: .top)
         }
     }
     
@@ -79,12 +79,12 @@ public struct AppDetailInfoView: View {
             
             VStack(spacing: 4) {
                 Image(systemName: "person.crop.square")
-                    .font(.system(size: 24))
+                    .font(.system(.title2, design: .rounded))
                 
                 Text("TikTok Ltd.")
                     .font(.caption)
             }
-            .frame(height: 45, alignment: .top)
+            .frame(alignment: .top)
         }
     }
     
@@ -102,7 +102,7 @@ public struct AppDetailInfoView: View {
                 Text("2d ago")
                     .font(.caption)
             }
-            .frame(height: 45, alignment: .top)
+            .frame(alignment: .top)
         }
     }
     
@@ -120,7 +120,7 @@ public struct AppDetailInfoView: View {
                 Text("MB")
                     .font(.caption)
             }
-            .frame(height: 45, alignment: .top)
+            .frame(alignment: .top)
         }
     }
     
@@ -138,7 +138,7 @@ public struct AppDetailInfoView: View {
                 Text("This week")
                     .font(.caption)
             }
-            .frame(height: 45, alignment: .top)
+            .frame(alignment: .top)
         }
     }
 }
