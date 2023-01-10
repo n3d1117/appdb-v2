@@ -77,9 +77,7 @@ struct AppsView_Previews: PreviewProvider {
         Group {
             // Preview with mocked apps
             let _ = Dependencies.apiService.register {
-                .mock(.data([
-                    App(id: "1", name: "App name", image: .init(string: "https://edoardo.fyi/me.jpeg")!),
-                ]))
+                .mock(.data([App.mock]))
             }
             let viewModel = AppsView.ViewModel()
             AppsView(viewModel: viewModel)

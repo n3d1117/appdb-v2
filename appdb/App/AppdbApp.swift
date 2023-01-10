@@ -19,6 +19,14 @@ struct AppdbApp: App {
                 .tabItem {
                     Label("Apps", systemImage: "star")
                 }
+                
+                NavigationStack {
+                    AppDetailView(id: "985746746")
+                        .navigationTitle("App Detail")
+                }
+                .tabItem {
+                    Label("App Detail", systemImage: "newspaper")
+                }
 
                 NavigationStack {
                     NewsView()

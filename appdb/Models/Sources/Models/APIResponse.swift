@@ -57,3 +57,7 @@ public struct APIError: Codable {
 extension APIError: LocalizedError {
     public var errorDescription: String? { translated }
 }
+
+public extension APIError {
+    static let missingData: Self = .init(code: "MISSING_DATA", translated: "Some data is missing")
+}

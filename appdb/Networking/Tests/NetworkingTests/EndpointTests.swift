@@ -25,6 +25,12 @@ final class EndpointTests: XCTestCase {
         XCTAssertEqual(url.absoluteString, "\(Self.urlPath)/?action=search&type=ios&page=2")
     }
     
+    func testAppsDetailEndpointGeneratedURLIsCorrect() throws {
+        let request = API.generateRequest(.apps(.detail(type: .ios, trackid: "test")))
+        let url = try XCTUnwrap(request.url)
+        XCTAssertEqual(url.absoluteString, "\(Self.urlPath)/?action=search&type=ios&trackid=test")
+    }
+    
     // MARK: - News
     func testNewsListEndpointGeneratedURLIsCorrect() throws {
         let request = API.generateRequest(.news(.list(limit: 50)))

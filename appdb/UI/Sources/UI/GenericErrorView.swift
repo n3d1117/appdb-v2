@@ -12,7 +12,7 @@ public struct GenericErrorView: View {
     let error: String
     let onRetry: (() async -> Void)?
     
-    public init(title: String = "An error has occurred", error: String, onRetry: (() async -> Void)?) {
+    public init(title: String = "An error has occurred", error: String, onRetry: (() async -> Void)? = nil) {
         self.title = title
         self.error = error
         self.onRetry = onRetry
