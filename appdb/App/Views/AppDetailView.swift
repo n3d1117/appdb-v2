@@ -30,15 +30,23 @@ struct AppDetailView: View {
             case .success(let app):
                 ScrollView {
                     VStack(spacing: 0) {
-                        AppDetailHeaderView(name: app.name, image: app.image, category: app.genre.name)
-                            .padding()
+                        AppDetailHeaderView(
+                            name: app.name,
+                            image: .init(string: app.image.absoluteString.replacingOccurrences(of: "100x100bb.jpg", with: "200x200bb.jpg"))!,
+                            category: app.genre.name
+                        )
+                        .padding()
                         
-                        Divider()
-                        
-                        AppDetailInfoView()
-                            .padding(.vertical, 10)
-                        
-                        Divider()
+                        AppDetailInfoView(
+                            version: app.version,
+                            updateDate: app.lastUpdated,
+                            size: app.size,
+                            monthlyDownloads: app.clicksMonth,
+                            publisherName: app.publisher,
+                            rating: app.ratings,
+                            censorRating: app.censorRating,
+                            languages: app.languages
+                        )
                     }
                 }
                 .refreshable { await viewModel.loadAppDetails() }
@@ -46,6 +54,7 @@ struct AppDetailView: View {
         }
         .animation(.default, value: viewModel.state)
         .task { await viewModel.loadAppDetails() }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

@@ -14,7 +14,8 @@ public struct AppDetailHeaderView: View {
     let image: URL
     let category: String
     
-    let size: CGSize = .init(width: 90, height: 90)
+    @ScaledMetric private var iconWidth: CGFloat = 120
+    @ScaledMetric private var spacing: CGFloat = 12
     
     public init(name: String, image: URL, category: String) {
         self.name = name
@@ -23,7 +24,7 @@ public struct AppDetailHeaderView: View {
     }
     
     public var body: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .top, spacing: spacing) {
             LazyImage(url: image) { state in
                 if let image = state.image {
                     image
@@ -33,15 +34,15 @@ public struct AppDetailHeaderView: View {
                         .redacted(reason: .placeholder)
                 }
             }
-            .processors([.resize(size: size)])
-            .clipShape(RoundedRectangle(cornerRadius: size.width / 4.2, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: size.width / 4.2).stroke(.gray.opacity(0.15)))
-            .frame(width: size.width, height: size.height)
+            .processors([.resize(size: iconSize)])
+            .clipShape(RoundedRectangle(cornerRadius: iconSize.width / 4.2, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: iconSize.width / 4.2).stroke(.gray.opacity(0.15)))
+            .frame(width: iconSize.width, height: iconSize.height)
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(name)
                     .font(.title2.leading(.tight))
-                    .fontWeight(.medium)
+                    .fontWeight(.semibold)
                     .lineLimit(3)
                 
                 Text(category)
@@ -50,6 +51,10 @@ public struct AppDetailHeaderView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    var iconSize: CGSize {
+        .init(width: iconWidth, height: iconWidth)
     }
 }
 

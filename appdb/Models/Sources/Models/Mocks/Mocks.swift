@@ -20,8 +20,18 @@ public extension App {
         id: UUID().uuidString,
         name: "Example",
         image: .exampleImage,
+        version: "1.0",
+        clicksMonth: 439,
+        gname: Genre.mock.name,
         genreId: Genre.mock.id,
-        gname: Genre.mock.name
+        lastParseItunes: .init(
+            ratings: .init(count: 12, stars: 4.5),
+            censorRating: "Rated 12+",
+            published: .now.addingTimeInterval(-15000),
+            publisher: "TikTok Ltd.",
+            size: "395.46 MB",
+            languages: "EN, IT"
+        )
     )
 }
 
