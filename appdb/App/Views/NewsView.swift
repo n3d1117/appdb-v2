@@ -69,17 +69,13 @@ struct NewsView_Previews: PreviewProvider {
                 .previewDisplayName("Mocked")
             
             // Preview with error
-            let _ = Dependencies.apiService.register {
-                .mock(.error(.example))
-            }
+            let _ = Dependencies.apiService.register { .mock(.error(.example)) }
             let viewModel2 = NewsView.ViewModel()
             NewsView(viewModel: viewModel2)
                 .previewDisplayName("Error")
             
             // Preview while loading
-            let _ = Dependencies.apiService.register {
-                .mock(.loading())
-            }
+            let _ = Dependencies.apiService.register { .mock(.loading()) }
             let viewModel3 = NewsView.ViewModel()
             NewsView(viewModel: viewModel3)
                 .previewDisplayName("Loading")

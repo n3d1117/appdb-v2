@@ -24,7 +24,7 @@ import Models
     }
     
     func testApiServiceReturnsTheCorrectResponse() async throws {
-        let apiResponse: APIResponse<[NewsEntry]> = .init([NewsEntry(id: "1", title: "One")])
+        let apiResponse: APIResponse<[NewsEntry]> = .init([.mock])
         let data = try JSONEncoder().encode(apiResponse)
         let apiService = APIService(networking: NetworkingMock(mockedData: data))
         
@@ -33,7 +33,7 @@ import Models
     }
     
     func testApiServiceThrowsTheCorrectError() async throws {
-        let apiResponse = APIResponse<[String]>.init(success: false, errors: [.example], data: [], total: nil)
+        let apiResponse = APIResponse<[String]>.init(success: false, errors: [.example], data: [])
         let data = try JSONEncoder().encode(apiResponse)
         let apiService = APIService(networking: NetworkingMock(mockedData: data))
         

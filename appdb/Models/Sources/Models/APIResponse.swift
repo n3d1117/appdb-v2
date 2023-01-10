@@ -11,7 +11,7 @@ public struct APIResponse<T: Codable>: Codable {
     public let success: Bool
     public let errors: [APIError]
     public let data: T
-    public let total: String?
+    public let total: Int?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -20,13 +20,16 @@ public struct APIResponse<T: Codable>: Codable {
         self.data = try container.decode(T.self, forKey: .data)
         // `total` can either be an Int or a String...
         if let totalAsInteger = try? container.decodeIfPresent(Int.self, forKey: .total) {
-            self.total = String(describing: totalAsInteger)
+            self.total = totalAsInteger
+        } else if let totalAsString = try? container.decodeIfPresent(String.self, forKey: .total),
+                  let totalAsInteger = Int(totalAsString) {
+            self.total = totalAsInteger
         } else {
-            self.total = try container.decodeIfPresent(String.self, forKey: .total)
+            self.total = nil
         }
     }
     
-    public init(success: Bool, errors: [APIError], data: T, total: String?) {
+    public init(success: Bool, errors: [APIError], data: T, total: Int? = nil) {
         self.success = success
         self.errors = errors
         self.data = data
@@ -49,8 +52,6 @@ public struct APIError: Codable {
         self.code = code
         self.translated = translated
     }
-    
-    public static let example: Self = .init(code: "Example code", translated: "Example translation")
 }
 
 extension APIError: LocalizedError {

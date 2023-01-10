@@ -12,15 +12,16 @@ import Models
 @MainActor final class NewsViewModelTests: XCTestCase {
 
     func testNewsLoading() async throws {
+        let newsEntry: NewsEntry = .mock
         Dependencies.apiService.register {
-            .mock(.data([NewsEntry(id: "1", title: "One")]))
+            .mock(.data([newsEntry]))
         }
         let viewModel = NewsView.ViewModel()
-        XCTAssertTrue(viewModel.state == .loading)
+        XCTAssertEqual(viewModel.state, .loading)
         
         await viewModel.loadNews()
         
-        XCTAssertEqual(viewModel.state, .success([NewsEntry(id: "1", title: "One")]))
+        XCTAssertEqual(viewModel.state, .success([newsEntry]))
     }
     
     func testNewsLoadingFail() async throws {
@@ -29,7 +30,7 @@ import Models
             .mock(.error(apiError))
         }
         let viewModel = NewsView.ViewModel()
-        XCTAssertTrue(viewModel.state == .loading)
+        XCTAssertEqual(viewModel.state, .loading)
         
         await viewModel.loadNews()
         

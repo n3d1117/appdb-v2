@@ -12,12 +12,12 @@ import Models
 @MainActor final class AppsViewModelTests: XCTestCase {
 
     func testAppsLoading() async throws {
-        let app = App(id: "1", name: "Example", image: .init(string: "https://edoardo.fyi/me.jpeg")!)
+        let app: App = .mock
         Dependencies.apiService.register {
             .mock(.data([app]))
         }
         let viewModel = AppsView.ViewModel()
-        XCTAssertTrue(viewModel.state == .loading)
+        XCTAssertEqual(viewModel.state, .loading)
         
         await viewModel.loadApps()
         
@@ -30,7 +30,7 @@ import Models
             .mock(.error(apiError))
         }
         let viewModel = AppsView.ViewModel()
-        XCTAssertTrue(viewModel.state == .loading)
+        XCTAssertEqual(viewModel.state, .loading)
         
         await viewModel.loadApps()
         

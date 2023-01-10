@@ -86,17 +86,13 @@ struct AppsView_Previews: PreviewProvider {
                 .previewDisplayName("Mocked")
             
             // Preview with error
-            let _ = Dependencies.apiService.register {
-                .mock(.error(.example))
-            }
+            let _ = Dependencies.apiService.register { .mock(.error(.example)) }
             let viewModel2 = AppsView.ViewModel()
             AppsView(viewModel: viewModel2)
                 .previewDisplayName("Error")
             
             // Preview while loading
-            let _ = Dependencies.apiService.register {
-                .mock(.loading())
-            }
+            let _ = Dependencies.apiService.register { .mock(.loading()) }
             let viewModel3 = AppsView.ViewModel()
             AppsView(viewModel: viewModel3)
                 .previewDisplayName("Loading")
