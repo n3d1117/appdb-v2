@@ -62,10 +62,12 @@ public struct AppDetailInfoView: View {
                         
                         verticalDivider
                         
-                        ratingsView
-                            .padding(.horizontal, spacing)
-                        
-                        verticalDivider
+                        if rating != nil {
+                            ratingsView
+                                .padding(.horizontal, spacing)
+                            
+                            verticalDivider
+                        }
                         
                         languageView
                             .padding(.horizontal, spacing)
@@ -127,26 +129,24 @@ public struct AppDetailInfoView: View {
     }
     
     @ViewBuilder private var ratingsView: some View {
-        if let rating {
-            buildBlock(title: "\(rating.count.formatted()) ratings") {
-                Text(String(format: "%.1f", rating.stars))
-                    .padding(.bottom, -1)
-            } subtitle: {
-                HStack(spacing: 1) {
-                    ForEach(0..<Int(rating.stars), id: \.self) { _ in
-                        Image(systemName: "star.fill")
-                    }
-                    
-                    if rating.stars != floor(rating.stars) {
-                        Image(systemName: "star.leadinghalf.filled")
-                    }
-                    
-                    ForEach(0..<Int(Double(5) - rating.stars), id: \.self) { _ in
-                        Image(systemName: "star")
-                    }
+        buildBlock(title: "\(rating.count.formatted()) ratings") {
+            Text(String(format: "%.1f", rating.stars))
+                .padding(.bottom, -1)
+        } subtitle: {
+            HStack(spacing: 1) {
+                ForEach(0..<Int(rating.stars), id: \.self) { _ in
+                    Image(systemName: "star.fill")
                 }
-                .foregroundColor(.primary.opacity(0.4))
+                
+                if rating.stars != floor(rating.stars) {
+                    Image(systemName: "star.leadinghalf.filled")
+                }
+                
+                ForEach(0..<Int(Double(5) - rating.stars), id: \.self) { _ in
+                    Image(systemName: "star")
+                }
             }
+            .foregroundColor(.primary.opacity(0.4))
         }
     }
     
