@@ -33,7 +33,7 @@ struct AppsView: View {
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: 60), spacing: 20, alignment: .top)], spacing: 20) {
                                 ForEach(apps) { app in
                                     NavigationLink {
-                                        AppDetailView(id: app.id)
+                                        AppDetailView(app: app)
                                     } label: {
                                         AppGridView(name: app.name, image: app.image)
                                     }
@@ -43,7 +43,7 @@ struct AppsView: View {
                             LazyVStack {
                                 ForEach(apps) { app in
                                     NavigationLink {
-                                        AppDetailView(id: app.id)
+                                        AppDetailView(app: app)
                                     } label: {
                                         AppListView(name: app.name, image: app.image)
                                     }

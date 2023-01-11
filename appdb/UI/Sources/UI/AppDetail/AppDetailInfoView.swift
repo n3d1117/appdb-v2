@@ -94,39 +94,34 @@ public struct AppDetailInfoView: View {
     @ViewBuilder private var versionView: some View {
         buildBlock(title: "Version") {
             Text(version)
-                .modifier(BodyStyle())
+        } subtitle: {
             Text(updateDate.formatted(.relative(presentation: .numeric)))
-                .modifier(SubtitleStyle())
         }
     }
     
     @ViewBuilder private var sizeView: some View {
         buildBlock(title: "Size") {
             Text(size.size.formatted())
-                .modifier(BodyStyle())
+        } subtitle: {
             Text(size.unit)
-                .modifier(SubtitleStyle())
         }
     }
     
     @ViewBuilder private var downloadsView: some View {
         buildBlock(title: "Downloads") {
             Text(monthlyDownloads.formatted())
-                .modifier(BodyStyle())
+        } subtitle: {
             Text("This month")
-                .modifier(SubtitleStyle())
         }
     }
     
     @ViewBuilder private var developerView: some View {
         buildBlock(title: "Developer") {
             Image(systemName: "person.crop.square")
-                .modifier(BodyStyle())
                 .padding(.top, 1)
                 .padding(.bottom, 1)
-            
+        } subtitle: {
             Text(publisherName)
-                .modifier(SubtitleStyle())
                 .frame(maxWidth: maxDeveloperWidth)
         }
     }
@@ -135,9 +130,8 @@ public struct AppDetailInfoView: View {
         if let rating {
             buildBlock(title: "\(rating.count.formatted()) ratings") {
                 Text(String(format: "%.1f", rating.stars))
-                    .modifier(BodyStyle())
                     .padding(.bottom, -1)
-                
+            } subtitle: {
                 HStack(spacing: 1) {
                     ForEach(0..<Int(rating.stars), id: \.self) { _ in
                         Image(systemName: "star.fill")
@@ -151,41 +145,38 @@ public struct AppDetailInfoView: View {
                         Image(systemName: "star")
                     }
                 }
-                .modifier(SubtitleStyle())
                 .foregroundColor(.primary.opacity(0.4))
             }
         }
     }
     
     @ViewBuilder private var languageView: some View {
+        let firstLanguage = languages.first ?? "EN"
+        
         buildBlock(title: "Language") {
-            let firstLanguage = languages.first ?? "EN"
-            let hfFirstLanguage = Locale.current.localizedString(forLanguageCode: firstLanguage) ?? ""
-            
             Text(firstLanguage)
-                .modifier(BodyStyle())
-            
-            Group {
-                if languages.count > 1 {
-                    Text("+\(languages.count - 1) More")
-                } else {
-                    Text(hfFirstLanguage)
-                }
-            }.modifier(SubtitleStyle())
+        } subtitle: {
+            if languages.count > 1 {
+                Text("+\(languages.count - 1) More")
+            } else {
+                Text(Locale.current.localizedString(forLanguageCode: firstLanguage) ?? "")
+            }
         }
     }
     
     @ViewBuilder private var ageView: some View {
         buildBlock(title: "Age") {
             Text(censorRating)
-                .modifier(BodyStyle())
-            
+        } subtitle: {
             Text("Years Old")
-                .modifier(SubtitleStyle())
         }
     }
     
-    @ViewBuilder private func buildBlock<V: View>(title: String, @ViewBuilder body: () -> V) -> some View {
+    @ViewBuilder private func buildBlock<V1: View, V2: View>(
+        title: String,
+        @ViewBuilder body: () -> V1,
+        @ViewBuilder subtitle: () -> V2
+    ) -> some View {
         VStack(spacing: 5) {
             Text(title.uppercased())
                 .font(.caption)
@@ -194,24 +185,13 @@ public struct AppDetailInfoView: View {
             
             VStack(spacing: 2) {
                 body()
+                    .font(.system(.title2, design: .rounded))
+                    .fontWeight(.semibold)
+                subtitle()
+                    .font(.caption)
             }
             .frame(alignment: .top)
             .foregroundColor(.primary.opacity(0.7))
-        }
-    }
-    
-    private struct BodyStyle: ViewModifier {
-        func body(content: Content) -> some View {
-            content
-                .font(.system(.title2, design: .rounded))
-                .fontWeight(.semibold)
-        }
-    }
-    
-    private struct SubtitleStyle: ViewModifier {
-        func body(content: Content) -> some View {
-            content
-                .font(.caption)
         }
     }
 }

@@ -18,6 +18,10 @@ struct AppDetailView: View {
         _viewModel = StateObject(wrappedValue: .init(id: id))
     }
     
+    public init(app: Models.App) {
+        _viewModel = StateObject(wrappedValue: .init(app: app))
+    }
+    
     var body: some View {
         ZStack {
             switch viewModel.state {
@@ -68,6 +72,11 @@ extension AppDetailView {
         
         init(id: String) {
             self.id = id
+        }
+        
+        init(app: Models.App) {
+            self.id = app.id
+            self.state = .success(app)
         }
         
         func loadAppDetails() async {
