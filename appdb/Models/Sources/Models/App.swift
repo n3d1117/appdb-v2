@@ -21,9 +21,12 @@ public struct App: Codable, Identifiable {
     public var genre: Genre { .init(id: genreId, name: gname) }
     public var publisher: String { lastParseItunes.publisher }
     public var lastUpdated: Date { lastParseItunes.published }
-    public var ratings: (count: Int, stars: Double) { (lastParseItunes.ratings.count, lastParseItunes.ratings.stars) }
     public var censorRating: String { lastParseItunes.censorRating.components(separatedBy: " ").dropFirst().first ?? "4+" }
     public var languages: [String] { lastParseItunes.languages.components(separatedBy: ", ") }
+    public var ratings: (count: Int, stars: Double)? {
+        guard let ratings = lastParseItunes.ratings else { return nil }
+        return (ratings.count, ratings.stars)
+    }
     public var size: (size: Double, unit: String) {
         let separatedSize = lastParseItunes.size.components(separatedBy: " ")
         return (Double(separatedSize.first ?? "") ?? .zero, separatedSize.dropFirst().first ?? "MB")
@@ -66,14 +69,14 @@ public struct App: Codable, Identifiable {
 }
 
 public struct LastParseItunes: Codable, Equatable {
-    public let ratings: CustomerRating
+    public let ratings: CustomerRating?
     public let censorRating: String
     public let published: Date
     public let publisher: String
     public let size: String
     public let languages: String
     
-    public init(ratings: CustomerRating, censorRating: String, published: Date, publisher: String, size: String, languages: String) {
+    public init(ratings: CustomerRating?, censorRating: String, published: Date, publisher: String, size: String, languages: String) {
         self.ratings = ratings
         self.censorRating = censorRating
         self.published = published
@@ -84,7 +87,7 @@ public struct LastParseItunes: Codable, Equatable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.ratings = try container.decode(CustomerRating.self, forKey: .ratings)
+        self.ratings = try container.decodeIfPresent(CustomerRating.self, forKey: .ratings)
         self.censorRating = try container.decode(String.self, forKey: .censorRating)
         self.publisher = try container.decode(String.self, forKey: .publisher)
         self.size = try container.decode(String.self, forKey: .size)

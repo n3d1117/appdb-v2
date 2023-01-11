@@ -17,11 +17,11 @@ public struct AppDetailInfoView: View {
     let size: (size: Double, unit: String)
     let monthlyDownloads: Int
     let publisherName: String
-    let rating: (count: Int, stars: Double)
+    let rating: (count: Int, stars: Double)?
     let censorRating: String
     let languages: [String]
     
-    public init(version: String, updateDate: Date, size: (size: Double, unit: String), monthlyDownloads: Int, publisherName: String, rating: (count: Int, stars: Double), censorRating: String, languages: [String]) {
+    public init(version: String, updateDate: Date, size: (size: Double, unit: String), monthlyDownloads: Int, publisherName: String, rating: (count: Int, stars: Double)?, censorRating: String, languages: [String]) {
         self.version = version
         self.updateDate = updateDate
         self.size = size
@@ -132,26 +132,28 @@ public struct AppDetailInfoView: View {
     }
     
     @ViewBuilder private var ratingsView: some View {
-        buildBlock(title: "\(rating.count.formatted()) ratings") {
-            Text(String(format: "%.1f", rating.stars))
-                .modifier(BodyStyle())
-                .padding(.bottom, -1)
-            
-            HStack(spacing: 1) {
-                ForEach(0..<Int(rating.stars), id: \.self) { _ in
-                    Image(systemName: "star.fill")
+        if let rating {
+            buildBlock(title: "\(rating.count.formatted()) ratings") {
+                Text(String(format: "%.1f", rating.stars))
+                    .modifier(BodyStyle())
+                    .padding(.bottom, -1)
+                
+                HStack(spacing: 1) {
+                    ForEach(0..<Int(rating.stars), id: \.self) { _ in
+                        Image(systemName: "star.fill")
+                    }
+                    
+                    if rating.stars != floor(rating.stars) {
+                        Image(systemName: "star.leadinghalf.filled")
+                    }
+                    
+                    ForEach(0..<Int(Double(5) - rating.stars), id: \.self) { _ in
+                        Image(systemName: "star")
+                    }
                 }
-
-                if rating.stars != floor(rating.stars) {
-                    Image(systemName: "star.leadinghalf.filled")
-                }
-
-                ForEach(0..<Int(Double(5) - rating.stars), id: \.self) { _ in
-                    Image(systemName: "star")
-                }
+                .modifier(SubtitleStyle())
+                .foregroundColor(.primary.opacity(0.4))
             }
-            .modifier(SubtitleStyle())
-            .foregroundColor(.primary.opacity(0.4))
         }
     }
     
