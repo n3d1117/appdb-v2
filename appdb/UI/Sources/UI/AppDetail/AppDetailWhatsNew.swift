@@ -22,7 +22,7 @@ public struct AppDetailWhatsNew: View {
     }
     
     public var body: some View {
-        VStack(spacing: spacing) {
+        VStack(alignment: .leading, spacing: spacing) {
             HStack(alignment: .lastTextBaseline) {
                 Text("What's New")
                     .font(.title3)

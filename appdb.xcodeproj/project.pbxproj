@@ -27,6 +27,7 @@
 		81DC0BAC2985953E00C3F1F4 /* Bodega in Frameworks */ = {isa = PBXBuildFile; productRef = 81DC0BAB2985953E00C3F1F4 /* Bodega */; };
 		81DC0BAE2985A0CF00C3F1F4 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DC0BAD2985A0CF00C3F1F4 /* URL+Extensions.swift */; };
 		81E078622986B6BD00E75F37 /* Bodega in Frameworks */ = {isa = PBXBuildFile; productRef = 81E078612986B6BD00E75F37 /* Bodega */; };
+		81E078642986B82000E75F37 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E078632986B82000E75F37 /* SettingsView.swift */; };
 		81FBFDF6296B27650063361E /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 81FBFDF5296B27650063361E /* Factory */; };
 		81FBFDF9296B27830063361E /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FBFDF8296B27830063361E /* Dependencies.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,7 @@
 		81D6DBC3296D936000FB5CFA /* AppDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailView.swift; sourceTree = "<group>"; };
 		81D945CB296CA72A00CAA997 /* AppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsView.swift; sourceTree = "<group>"; };
 		81DC0BAD2985A0CF00C3F1F4 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
+		81E078632986B82000E75F37 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		81FBFDF8296B27830063361E /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +156,7 @@
 				81393CA029698BF5007322B7 /* NewsView.swift */,
 				81D945CB296CA72A00CAA997 /* AppsView.swift */,
 				81D6DBC3296D936000FB5CFA /* AppDetailView.swift */,
+				81E078632986B82000E75F37 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				817875AB296AFFFB00372B65 /* APIService.swift in Sources */,
 				812309F8296C3D1B005E2DE0 /* ViewState.swift in Sources */,
 				81D945CC296CA72A00CAA997 /* AppsView.swift in Sources */,
+				81E078642986B82000E75F37 /* SettingsView.swift in Sources */,
 				819D07882972CB9500FF6C6F /* ScreenshotsCacheService.swift in Sources */,
 				81393C9F29698BF5007322B7 /* AppdbApp.swift in Sources */,
 			);

@@ -8,6 +8,8 @@
 import SwiftUI
 
 public struct AppDetailDescription: View {
+    @ScaledMetric private var spacing: CGFloat = 8
+    
     let text: String
     
     public init(text: String) {
@@ -15,7 +17,13 @@ public struct AppDetailDescription: View {
     }
 
     public var body: some View {
-        ExpandableText(text)
+        VStack(alignment: .leading, spacing: spacing) {
+            Text("Description")
+                .font(.title3)
+                .fontWeight(.semibold)
+            
+            ExpandableText(text)
+        }
     }
 }
 

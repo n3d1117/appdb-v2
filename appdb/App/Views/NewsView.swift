@@ -37,6 +37,7 @@ struct NewsView: View {
             }
         }
         .onFirstAppear { await viewModel.loadNews() }
+        .navigationTitle("News")
         .animation(.default, value: viewModel.state)
     }
 }

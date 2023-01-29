@@ -21,8 +21,8 @@ struct AppdbApp: App {
                 }
 
                 NavigationStack {
-                    NewsView()
-                        .navigationTitle("News")
+                    SettingsView()
+                        .navigationTitle("Settings")
                 }
                 .tabItem {
                     Label("Settings", systemImage: "gear")

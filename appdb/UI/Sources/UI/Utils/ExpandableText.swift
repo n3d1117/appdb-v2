@@ -59,12 +59,12 @@ struct ExpandableText: View {
             )
             .contentShape(Rectangle())
             .onTapGesture {
-                withAnimation {
-                    isExpanded.toggle()
+                if !isExpanded, isTruncated {
+                    withAnimation { isExpanded.toggle() }
                 }
             }
             .overlay(alignment: .trailingLastTextBaseline) {
-                if !isExpanded && isTruncated {
+                if !isExpanded, isTruncated {
                     Button {
                         withAnimation { isExpanded.toggle() }
                     } label: {
@@ -99,7 +99,7 @@ private struct TruncationTextMask: ViewModifier {
     @Environment(\.layoutDirection) private var layoutDirection
 
     func body(content: Content) -> some View {
-        if !isExpanded && isTruncated {
+        if !isExpanded, isTruncated {
             content
                 .mask(
                     VStack(spacing: 0) {
