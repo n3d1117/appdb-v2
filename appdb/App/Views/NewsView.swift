@@ -15,6 +15,10 @@ struct NewsView: View {
     @StateObject var viewModel = ViewModel()
     
     var body: some View {
+        #if DEBUG
+        let _ = Self._printChanges()
+        #endif
+        
         ZStack {
             switch viewModel.state {
             case .failed(let error):
@@ -32,8 +36,8 @@ struct NewsView: View {
                 .refreshable { await viewModel.loadNews() }
             }
         }
+        .onFirstAppear { await viewModel.loadNews() }
         .animation(.default, value: viewModel.state)
-        .task { await viewModel.loadNews() }
     }
 }
 
@@ -41,7 +45,7 @@ extension NewsView {
     @MainActor final class ViewModel: ObservableObject {
         @Dependency(Dependencies.apiService) private var apiService: APIService
         
-        @Published private(set) var state: State<[NewsEntry]> = .loading
+        @Published private(set) var state: ViewState<[NewsEntry]> = .loading
         
         func loadNews() async {
             do {

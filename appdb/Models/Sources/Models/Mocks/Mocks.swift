@@ -22,15 +22,19 @@ public extension App {
         image: .exampleImage,
         version: "1.0",
         clicksMonth: 439,
+        description: "Example app description",
+        whatsnew: "Example what's new",
         gname: Genre.mock.name,
         genreId: Genre.mock.id,
+        compatibilityString: "Compatible with iPhone, iPad, iPod. Requires iOS 11.0 or newer",
         lastParseItunes: .init(
             ratings: .init(count: 12, stars: 4.5),
             censorRating: "Rated 12+",
             published: .now.addingTimeInterval(-15000),
             publisher: "TikTok Ltd.",
             size: "395.46 MB",
-            languages: "EN, IT"
+            languages: "EN, IT",
+            screenshots: .init(iphone: [.init(src: .init(string: "https://is5-ssl.mzstatic.com/image/thumb/Purple112/v4/31/9d/63/319d63fe-14dd-bfcf-2808-b201c3e934df/286d4143-8b62-46e7-926e-2f7595c165f6_en-GB__screenshots__iOS-5.5-in__01.jpg/392x696bb.jpg")!), .init(src: .init(string: "https://is5-ssl.mzstatic.com/image/thumb/Purple112/v4/31/9d/63/319d63fe-14dd-bfcf-2808-b201c3e934df/286d4143-8b62-46e7-926e-2f7595c165f6_en-GB__screenshots__iOS-5.5-in__01.jpg/392x696bb.jpg")!), .init(src: .init(string: "https://is5-ssl.mzstatic.com/image/thumb/Purple112/v4/31/9d/63/319d63fe-14dd-bfcf-2808-b201c3e934df/286d4143-8b62-46e7-926e-2f7595c165f6_en-GB__screenshots__iOS-5.5-in__01.jpg/392x696bb.jpg")!)], ipad: [])
         )
     )
 }

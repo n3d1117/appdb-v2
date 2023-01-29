@@ -9,7 +9,7 @@ import SwiftUI
 import NukeUI
 
 public struct AppGridView: View {
-    private let size: CGSize = .init(width: 60, height: 60)
+    private let size: CGSize = .init(width: 65, height: 65)
     
     let name: String
     let image: URL
@@ -30,10 +30,7 @@ public struct AppGridView: View {
                         .redacted(reason: .placeholder)
                 }
             }
-            .processors([.resize(size: size)])
-            .clipShape(RoundedRectangle(cornerRadius: size.width / 4.2, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: size.width / 4.2).stroke(.gray.opacity(0.15)))
-            .frame(width: size.width, height: size.height)
+            .iconRounded(size: size)
                         
             Text(name)
                 .font(.footnote.leading(.tight))

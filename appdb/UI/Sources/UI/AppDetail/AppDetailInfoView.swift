@@ -12,16 +12,16 @@ public struct AppDetailInfoView: View {
     @ScaledMetric private var spacing: CGFloat = 12
     @ScaledMetric private var maxDeveloperWidth: CGFloat = 100
     
-    let version: String
-    let updateDate: Date
-    let size: (size: Double, unit: String)
+    let version: String?
+    let updateDate: Date?
+    let size: (size: Double, unit: String)?
     let monthlyDownloads: Int
-    let publisherName: String
+    let publisherName: String?
     let rating: (count: Int, stars: Double)?
-    let censorRating: String
-    let languages: [String]
+    let censorRating: String?
+    let languages: [String]?
     
-    public init(version: String, updateDate: Date, size: (size: Double, unit: String), monthlyDownloads: Int, publisherName: String, rating: (count: Int, stars: Double)?, censorRating: String, languages: [String]) {
+    public init(version: String?, updateDate: Date?, size: (size: Double, unit: String)?, monthlyDownloads: Int, publisherName: String?, rating: (count: Int, stars: Double)?, censorRating: String?, languages: [String]?) {
         self.version = version
         self.updateDate = updateDate
         self.size = size
@@ -33,59 +33,82 @@ public struct AppDetailInfoView: View {
     }
     
     public var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            VStack(spacing: spacing) {
-                Divider()
-                    .padding(.horizontal)
-                
-                HStack(alignment: .top) {
-                    Group {
-                        versionView
-                            .padding(.horizontal, spacing)
-                        
-                        verticalDivider
-                        
-                        downloadsView
-                            .padding(.horizontal, spacing)
-                        
-                        verticalDivider
-                        
-                        sizeView
-                            .padding(.horizontal, spacing)
-                        
-                        verticalDivider
-                    }
+        if !hasSomethingToShow { EmptyView() } else {
+            ScrollView(.horizontal, showsIndicators: false) {
+                VStack(spacing: spacing) {
+                    Divider()
+                        .padding(.horizontal)
                     
-                    Group {
-                        developerView
-                            .padding(.horizontal, spacing)
-                        
-                        verticalDivider
-                        
-                        if rating != nil {
-                            ratingsView
-                                .padding(.horizontal, spacing)
+                    HStack(alignment: .top) {
+                        Group {
+                            if let version, let updateDate {
+                                versionView(version: version, updateDate: updateDate)
+                                    .padding(.horizontal, spacing)
+                            }
                             
-                            verticalDivider
+                            if monthlyDownloads > .zero {
+                                if let _ = version, let _ = updateDate {
+                                    verticalDivider
+                                }
+                                
+                                downloadsView
+                                    .padding(.horizontal, spacing)
+                            }
+                            
+                            if let size, size.size > .zero {
+                                verticalDivider
+                                
+                                sizeView(size: size)
+                                    .padding(.horizontal, spacing)
+                            }
                         }
                         
-                        languageView
-                            .padding(.horizontal, spacing)
-                        
-                        verticalDivider
-                        
-                        ageView
-                            .padding(.horizontal, spacing)
+                        Group {
+                            if let publisherName {
+                                verticalDivider
+                                
+                                developerView(publisherName: publisherName)
+                                    .padding(.horizontal, spacing)
+                            }
+                            
+                            if let rating {
+                                verticalDivider
+                                
+                                ratingsView(rating: rating)
+                                    .padding(.horizontal, spacing)
+                            }
+                            
+                            if let languages {
+                                verticalDivider
+                                
+                                languageView(languages: languages)
+                                    .padding(.horizontal, spacing)
+                            }
+                            
+                            if let censorRating {
+                                verticalDivider
+                                
+                                ageView(censorRating: censorRating)
+                                    .padding(.horizontal, spacing)
+                            }
+                        }
                     }
-                }
                     .fixedSize()
                     .padding(.horizontal)
-                
-                Divider()
-                    .padding(.horizontal)
+                    
+                    Divider()
+                        .padding(.horizontal)
+                }
+                .scrollViewContentRTLFriendly()
             }
+            .scrollViewRTLFriendly()
+            .fixedSize(horizontal: false, vertical: true)
         }
-        .fixedSize(horizontal: false, vertical: true)
+    }
+    
+    private var hasSomethingToShow: Bool {
+        let totalInfo: [Any?] = [version, updateDate, size, publisherName, rating, censorRating, languages]
+        return monthlyDownloads > .zero || !totalInfo.compactMap { $0 }.isEmpty
     }
     
     @ViewBuilder private var verticalDivider: some View {
@@ -93,7 +116,7 @@ public struct AppDetailInfoView: View {
             .padding(.vertical)
     }
     
-    @ViewBuilder private var versionView: some View {
+    @ViewBuilder private func versionView(version: String, updateDate: Date) -> some View {
         buildBlock(title: "Version") {
             Text(version)
         } subtitle: {
@@ -101,7 +124,7 @@ public struct AppDetailInfoView: View {
         }
     }
     
-    @ViewBuilder private var sizeView: some View {
+    @ViewBuilder private func sizeView(size: (size: Double, unit: String)) -> some View {
         buildBlock(title: "Size") {
             Text(size.size.formatted())
         } subtitle: {
@@ -117,7 +140,7 @@ public struct AppDetailInfoView: View {
         }
     }
     
-    @ViewBuilder private var developerView: some View {
+    @ViewBuilder private func developerView(publisherName: String) -> some View {
         buildBlock(title: "Developer") {
             Image(systemName: "person.crop.square")
                 .padding(.top, 1)
@@ -128,9 +151,11 @@ public struct AppDetailInfoView: View {
         }
     }
     
-    @ViewBuilder private var ratingsView: some View {
-        buildBlock(title: "\(rating.count.formatted()) ratings") {
-            Text(String(format: "%.1f", rating.stars))
+    @ViewBuilder private func ratingsView(rating: (count: Int, stars: Double)) -> some View {
+        buildBlock(title: "\(rating.count.formatted()) \(rating.count == 1 ? "rating" : "ratings")") {
+            let stringRating = NumberFormatter.ratingsNumberFormatter
+                .string(from: rating.stars as NSNumber) ?? String(format: "%.1f", rating.stars)
+            Text(stringRating)
                 .padding(.bottom, -1)
         } subtitle: {
             HStack(spacing: 1) {
@@ -150,7 +175,7 @@ public struct AppDetailInfoView: View {
         }
     }
     
-    @ViewBuilder private var languageView: some View {
+    @ViewBuilder private func languageView(languages: [String]) -> some View {
         let firstLanguage = languages.first ?? "EN"
         
         buildBlock(title: "Language") {
@@ -164,7 +189,7 @@ public struct AppDetailInfoView: View {
         }
     }
     
-    @ViewBuilder private var ageView: some View {
+    @ViewBuilder private func ageView(censorRating: String) -> some View {
         buildBlock(title: "Age") {
             Text(censorRating)
         } subtitle: {
@@ -199,14 +224,14 @@ public struct AppDetailInfoView: View {
 struct AppDetailInfoView_Previews: PreviewProvider {
     static var previews: some View {
         AppDetailInfoView(
-            version: "159.0",
-            updateDate: .now.addingTimeInterval(-15000),
-            size: (size: 111.1, unit: "MB"),
-            monthlyDownloads: 1_323,
-            publisherName: "Very very long very long name TikTok Ltd.",
-            rating: (count: 6_090, stars: 4.8),
-            censorRating: "12+",
-            languages: ["IT"]
+            version: nil,
+            updateDate: nil,
+            size: nil,
+            monthlyDownloads: 0,
+            publisherName: nil,
+            rating: nil,
+            censorRating: nil,
+            languages: nil
         )
         .padding(.vertical)
         .border(.red)

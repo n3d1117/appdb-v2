@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		810BA453296CD0E6005640DF /* AppsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810BA452296CD0E6005640DF /* AppsViewModelTests.swift */; };
 		812309F2296C3C67005E2DE0 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = 812309F1296C3C67005E2DE0 /* UI */; };
-		812309F8296C3D1B005E2DE0 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812309F7296C3D1B005E2DE0 /* State.swift */; };
+		812309F8296C3D1B005E2DE0 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812309F7296C3D1B005E2DE0 /* ViewState.swift */; };
 		812309FB296C3DC8005E2DE0 /* NewsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812309FA296C3DC8005E2DE0 /* NewsViewModelTests.swift */; };
 		81393C9F29698BF5007322B7 /* AppdbApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81393C9E29698BF5007322B7 /* AppdbApp.swift */; };
 		81393CA129698BF5007322B7 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81393CA029698BF5007322B7 /* NewsView.swift */; };
@@ -19,8 +19,14 @@
 		817875AE296B009400372B65 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = 817875AD296B009400372B65 /* Models */; };
 		817875B0296B009700372B65 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 817875AF296B009700372B65 /* Networking */; };
 		817F3BD7296DC64900A42802 /* AppDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817F3BD6296DC64900A42802 /* AppDetailViewModelTests.swift */; };
+		8184122D29856C3100580223 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8184122C29856C3100580223 /* Array+Extensions.swift */; };
+		8187ED3B296F169400C20176 /* ImageSizeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8187ED3A296F169400C20176 /* ImageSizeFetcher.swift */; };
+		819D07882972CB9500FF6C6F /* ScreenshotsCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819D07872972CB9500FF6C6F /* ScreenshotsCacheService.swift */; };
 		81D6DBC4296D936000FB5CFA /* AppDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D6DBC3296D936000FB5CFA /* AppDetailView.swift */; };
 		81D945CC296CA72A00CAA997 /* AppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D945CB296CA72A00CAA997 /* AppsView.swift */; };
+		81DC0BAC2985953E00C3F1F4 /* Bodega in Frameworks */ = {isa = PBXBuildFile; productRef = 81DC0BAB2985953E00C3F1F4 /* Bodega */; };
+		81DC0BAE2985A0CF00C3F1F4 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DC0BAD2985A0CF00C3F1F4 /* URL+Extensions.swift */; };
+		81E078622986B6BD00E75F37 /* Bodega in Frameworks */ = {isa = PBXBuildFile; productRef = 81E078612986B6BD00E75F37 /* Bodega */; };
 		81FBFDF6296B27650063361E /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 81FBFDF5296B27650063361E /* Factory */; };
 		81FBFDF9296B27830063361E /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FBFDF8296B27830063361E /* Dependencies.swift */; };
 /* End PBXBuildFile section */
@@ -38,7 +44,7 @@
 /* Begin PBXFileReference section */
 		810BA452296CD0E6005640DF /* AppsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsViewModelTests.swift; sourceTree = "<group>"; };
 		812309F0296C3B2F005E2DE0 /* UI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UI; sourceTree = "<group>"; };
-		812309F7296C3D1B005E2DE0 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		812309F7296C3D1B005E2DE0 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		812309FA296C3DC8005E2DE0 /* NewsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModelTests.swift; sourceTree = "<group>"; };
 		81393C9B29698BF5007322B7 /* appdb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = appdb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81393C9E29698BF5007322B7 /* AppdbApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppdbApp.swift; sourceTree = "<group>"; };
@@ -50,8 +56,12 @@
 		817875AA296AFFFB00372B65 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		817875B6296B124000372B65 /* appdbTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appdbTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		817F3BD6296DC64900A42802 /* AppDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailViewModelTests.swift; sourceTree = "<group>"; };
+		8184122C29856C3100580223 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		8187ED3A296F169400C20176 /* ImageSizeFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSizeFetcher.swift; sourceTree = "<group>"; };
+		819D07872972CB9500FF6C6F /* ScreenshotsCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsCacheService.swift; sourceTree = "<group>"; };
 		81D6DBC3296D936000FB5CFA /* AppDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailView.swift; sourceTree = "<group>"; };
 		81D945CB296CA72A00CAA997 /* AppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsView.swift; sourceTree = "<group>"; };
+		81DC0BAD2985A0CF00C3F1F4 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		81FBFDF8296B27830063361E /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81DC0BAC2985953E00C3F1F4 /* Bodega in Frameworks */,
 				812309F2296C3C67005E2DE0 /* UI in Frameworks */,
 				81FBFDF6296B27650063361E /* Factory in Frameworks */,
 				817875B0296B009700372B65 /* Networking in Frameworks */,
@@ -71,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81E078622986B6BD00E75F37 /* Bodega in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				817875AA296AFFFB00372B65 /* APIService.swift */,
+				8187ED3A296F169400C20176 /* ImageSizeFetcher.swift */,
+				819D07872972CB9500FF6C6F /* ScreenshotsCacheService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -88,7 +102,8 @@
 		812309F4296C3D02005E2DE0 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				812309F7296C3D1B005E2DE0 /* State.swift */,
+				8184122B29856C2300580223 /* Extensions */,
+				812309F7296C3D1B005E2DE0 /* ViewState.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -180,6 +195,15 @@
 			path = appdbTests;
 			sourceTree = "<group>";
 		};
+		8184122B29856C2300580223 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8184122C29856C3100580223 /* Array+Extensions.swift */,
+				81DC0BAD2985A0CF00C3F1F4 /* URL+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -201,6 +225,7 @@
 				817875AF296B009700372B65 /* Networking */,
 				81FBFDF5296B27650063361E /* Factory */,
 				812309F1296C3C67005E2DE0 /* UI */,
+				81DC0BAB2985953E00C3F1F4 /* Bodega */,
 			);
 			productName = "appdb-v2";
 			productReference = 81393C9B29698BF5007322B7 /* appdb.app */;
@@ -220,6 +245,9 @@
 				817875BB296B124000372B65 /* PBXTargetDependency */,
 			);
 			name = appdbTests;
+			packageProductDependencies = (
+				81E078612986B6BD00E75F37 /* Bodega */,
+			);
 			productName = appdbTests;
 			productReference = 817875B6296B124000372B65 /* appdbTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -255,6 +283,7 @@
 			mainGroup = 81393C9229698BF5007322B7;
 			packageReferences = (
 				81FBFDF4296B27650063361E /* XCRemoteSwiftPackageReference "Factory" */,
+				81DC0BAA2985953E00C3F1F4 /* XCRemoteSwiftPackageReference "Bodega" */,
 			);
 			productRefGroup = 81393C9C29698BF5007322B7 /* Products */;
 			projectDirPath = "";
@@ -289,12 +318,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81DC0BAE2985A0CF00C3F1F4 /* URL+Extensions.swift in Sources */,
+				8187ED3B296F169400C20176 /* ImageSizeFetcher.swift in Sources */,
+				8184122D29856C3100580223 /* Array+Extensions.swift in Sources */,
 				81FBFDF9296B27830063361E /* Dependencies.swift in Sources */,
 				81D6DBC4296D936000FB5CFA /* AppDetailView.swift in Sources */,
 				81393CA129698BF5007322B7 /* NewsView.swift in Sources */,
 				817875AB296AFFFB00372B65 /* APIService.swift in Sources */,
-				812309F8296C3D1B005E2DE0 /* State.swift in Sources */,
+				812309F8296C3D1B005E2DE0 /* ViewState.swift in Sources */,
 				81D945CC296CA72A00CAA997 /* AppsView.swift in Sources */,
+				819D07882972CB9500FF6C6F /* ScreenshotsCacheService.swift in Sources */,
 				81393C9F29698BF5007322B7 /* AppdbApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,12 +608,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		81DC0BAA2985953E00C3F1F4 /* XCRemoteSwiftPackageReference "Bodega" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mergesort/Bodega";
+			requirement = {
+				kind = exactVersion;
+				version = 2.0.2;
+			};
+		};
 		81FBFDF4296B27650063361E /* XCRemoteSwiftPackageReference "Factory" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hmlongco/Factory";
 			requirement = {
 				kind = exactVersion;
-				version = 1.3.3;
+				version = 1.3.5;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -597,6 +638,16 @@
 		817875AF296B009700372B65 /* Networking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Networking;
+		};
+		81DC0BAB2985953E00C3F1F4 /* Bodega */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81DC0BAA2985953E00C3F1F4 /* XCRemoteSwiftPackageReference "Bodega" */;
+			productName = Bodega;
+		};
+		81E078612986B6BD00E75F37 /* Bodega */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81DC0BAA2985953E00C3F1F4 /* XCRemoteSwiftPackageReference "Bodega" */;
+			productName = Bodega;
 		};
 		81FBFDF5296B27650063361E /* Factory */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -12,4 +12,6 @@ typealias Dependency = Injected
 
 extension Dependencies {
     static let apiService = Factory(scope: .shared) { APIService() }
+    static let imageSizeFetcher = Factory(scope: .shared) { ImageSizeFetcher() }
+    static let screenshotsCache = Factory(scope: .shared) { ScreenshotsCacheService() }
 }

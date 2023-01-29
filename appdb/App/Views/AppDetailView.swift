@@ -14,6 +14,8 @@ struct AppDetailView: View {
     
     @StateObject var viewModel: ViewModel
     
+    @Environment(\.colorScheme) var colorScheme
+    
     public init(id: String) {
         _viewModel = StateObject(wrappedValue: .init(id: id))
     }
@@ -23,24 +25,38 @@ struct AppDetailView: View {
     }
     
     var body: some View {
+        #if DEBUG
+        let _ = Self._printChanges()
+        #endif
+        
         ZStack {
             switch viewModel.state {
             case .loading:
                 ProgressView()
+                    .tint(.gray)
+            
             case .failed(let error):
                 GenericErrorView(error: error.localizedDescription) {
                     await viewModel.loadAppDetails()
                 }
+            
             case .success(let app):
-                ScrollView {
+                FittingScrollView {
+                    
                     VStack(spacing: 0) {
+                        
+                        // MARK: - Header
                         AppDetailHeaderView(
                             name: app.name,
-                            image: .init(string: app.image.absoluteString.replacingOccurrences(of: "100x100bb.jpg", with: "200x200bb.jpg"))!,
-                            category: app.genre.name
+                            image: app.image.iconHigherQuality(),
+                            category: app.genre.name,
+                            onImage: { image in
+                                viewModel.findAverageColor(for: image)
+                            }
                         )
                         .padding()
                         
+                        // MARK: - Info view
                         AppDetailInfoView(
                             version: app.version,
                             updateDate: app.lastUpdated,
@@ -51,44 +67,255 @@ struct AppDetailView: View {
                             censorRating: app.censorRating,
                             languages: app.languages
                         )
+                        
+                        if viewModel.isLoadingScreenshots {
+                            Spacer()
+                            ProgressView()
+                                .tint(.gray)
+                            
+                        } else {
+                            
+                            // MARK: - What's new
+                            if viewModel.hasRecentUpdate(app: app) {
+                                whatsNewView(for: app)
+                            }
+                            
+                            // MARK: - Screenshots
+                            if !viewModel.appScreenshots.isEmpty {
+                                AppDetailScreenshots(screenshots: viewModel.appScreenshots)
+                                    .padding(.top)
+                            }
+                            
+                            // MARK: - Compatibility
+                            AppDetailCompatibilityView(compatibilityString: app.compatibilityString)
+                                .padding()
+                            
+                            Divider()
+                                .padding(.horizontal)
+                            
+                            // MARK: - Description
+                            if !app.description.isEmpty {
+                                AppDetailDescription(text: app.description)
+                                    .padding()
+                                
+                                Divider()
+                                    .padding(.horizontal)
+                            }
+                            
+                            // MARK: - What's new
+                            if !viewModel.hasRecentUpdate(app: app) {
+                                whatsNewView(for: app)
+                            }
+                        }
+                        
+                        Spacer()
                     }
+                } onOffsetChange: {
+                    viewModel.scrollOffset = $0
                 }
-                .refreshable { await viewModel.loadAppDetails() }
+                .refreshable { await viewModel.loadAppDetails(forceReload: true) }
             }
         }
-        .animation(.default, value: viewModel.state)
-        .task { await viewModel.loadAppDetails() }
+        .onFirstAppear { await viewModel.loadAppDetails() }
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                if case .success(let app) = viewModel.state {
+                    AppDetailMiniIconView(image: app.image)
+                        .opacity(viewModel.hasScrolledPastNavigationBar ? 1 : 0)
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    
+                } label: {
+                    Image(systemName: "icloud.and.arrow.down")
+                        .font(.subheadline.weight(.semibold))
+                        .opacity(viewModel.hasScrolledPastNavigationBar ? 1 : 0)
+                }
+            }
+        }
+        .toolbarBackground(.visible, for: .tabBar)
+        .background {
+            if let appIconAverageColor = viewModel.appIconAverageColor {
+                LinearGradient(gradient: Gradient(colors: [Color(appIconAverageColor).opacity(0.3), Color(UIColor.systemBackground)]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .ignoresSafeArea(.all)
+            }
+        }
+        .tint(tintColor)
+        .animation(.default, value: viewModel.state)
+        .animation(.default, value: viewModel.isLoadingScreenshots)
+        .animation(.default, value: viewModel.appIconAverageColor)
+        .animation(.default, value: viewModel.hasScrolledPastNavigationBar)
+    }
+    
+    @ViewBuilder private func whatsNewView(for app: Models.App) -> some View {
+        if let whatsNew = app.whatsnew,
+           !whatsNew.isEmpty,
+           let updatedDate = app.lastUpdated {
+            
+            AppDetailWhatsNew(text: whatsNew, version: app.version, updatedDate: updatedDate)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding()
+            
+            Divider()
+                .padding(.horizontal)
+        }
+    }
+    
+    private var tintColor: Color {
+        let proposedColor = colorScheme == .dark
+            ? viewModel.increasedBrightnessAverageColor
+            : viewModel.decreasedBrightnessAverageColor
+        return Color(proposedColor ?? UIColor(.accentColor))
     }
 }
 
 extension AppDetailView {
     @MainActor final class ViewModel: ObservableObject {
+        
+        // MARK: - Dependencies
         @Dependency(Dependencies.apiService) private var apiService: APIService
+        @Dependency(Dependencies.imageSizeFetcher) private var imageSizeFetcher: ImageSizeFetcher
+        @Dependency(Dependencies.screenshotsCache) private var screenshotsCache: ScreenshotsCacheService
         
-        @Published private(set) var state: State<Models.App> = .loading
+        // MARK: - Published vars
+        @Published private(set) var state: ViewState<Models.App> = .loading
+        @Published private(set) var isLoadingScreenshots = true
+        @Published private(set) var hasScrolledPastNavigationBar = false
+        @Published private(set) var appIconAverageColor: UIColor? {
+            didSet { calculateAverageColorBrightnessVariants() }
+        }
         
+        // MARK: - Vars
+        private(set) var appScreenshots: [AppDetailScreenshots.Screenshot] = []
+        private(set) var increasedBrightnessAverageColor: UIColor?
+        private(set) var decreasedBrightnessAverageColor: UIColor?
+        
+        // MARK: - Constants
         let id: String
         
+        // MARK: - Initializers
         init(id: String) {
             self.id = id
         }
         
         init(app: Models.App) {
             self.id = app.id
-            self.state = .success(app)
+            state = .success(app)
         }
         
-        func loadAppDetails() async {
+        // MARK: - Public
+        func loadAppDetails(forceReload: Bool = false) async {
             do {
-                let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.detail(type: .ios, trackid: id)))
-                guard let app = response.data.first else {
-                    state = .failed(APIError.missingData)
-                    return
+                
+                // Load app
+                if forceReload || !hasApp {
+                    try await loadApp()
                 }
-                state = .success(app)
+                
+                guard case .success(let app) = state else { return }
+                
+                // Load screenshots
+                await loadScreenshots(for: app)
+                
             } catch {
                 state = .failed(error)
+            }
+        }
+        
+        func findAverageColor(for image: UIImage?) {
+            appIconAverageColor = image?.findAverageColor()
+        }
+        
+        func hasRecentUpdate(app: Models.App) -> Bool {
+            guard let updatedDate = app.lastUpdated,
+                  let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: .now) else {
+                return false
+            }
+            return updatedDate >= threeDaysAgo
+        }
+        
+        // MARK: - Private
+        private func loadApp() async throws {
+            let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.detail(type: .ios, trackid: id)))
+            guard let app = response.data.first else { throw APIError.missingData }
+            state = .success(app)
+        }
+        
+        private func loadScreenshots(for app: Models.App) async {
+            defer { isLoadingScreenshots = false }
+            
+            if let cachedScreenshots = await screenshotsCache.first(for: app.id) {
+                appScreenshots = cachedScreenshots.map({ (url: $0.url, size: $0.size) })
+            } else {
+                do {
+                    appScreenshots = try await fetchScreenshots(urls: app.screenshotsUrls)
+                    try await screenshotsCache.add(
+                        .init(id: app.id, screenshots: appScreenshots.map({ .init(url: $0.url, size: $0.size) }))
+                    )
+                } catch { }
+            }
+        }
+        
+        private func fetchScreenshots(urls: [URL]) async throws -> [AppDetailScreenshots.Screenshot] {
+            try await withThrowingTaskGroup(of: AppDetailScreenshots.Screenshot?.self) { group in
+                var screenshots: [AppDetailScreenshots.Screenshot] = []
+                for url in urls {
+                    group.addTask {
+                        do {
+                            let size = try await self.imageSizeFetcher
+                                .fetchSize(
+                                    url: url,
+                                    preferredWidth: AppDetailScreenshots.preferredWidth,
+                                    maxHeight: AppDetailScreenshots.maxHeight
+                                )
+                            return (url: url, size: size)
+                        } catch {
+                            return nil
+                        }
+                    }
+                }
+                for try await screenshot in group {
+                    if let screenshot {
+                        screenshots.append(screenshot)
+                    }
+                }
+                return screenshots.sorted(like: urls, keyPath: \.url)
+            }
+        }
+        
+        private func calculateAverageColorBrightnessVariants() {
+            guard let appIconAverageColor else { return }
+            
+            if appIconAverageColor.brightness >= 0.85 {
+                increasedBrightnessAverageColor = appIconAverageColor
+            } else {
+                let newBrightness = 1.9 - appIconAverageColor.brightness
+                increasedBrightnessAverageColor = appIconAverageColor.colorWithBrightness(brightness: newBrightness)
+            }
+            
+            if appIconAverageColor.brightness <= 0.55 {
+                decreasedBrightnessAverageColor = appIconAverageColor
+            } else {
+                decreasedBrightnessAverageColor = appIconAverageColor.colorWithBrightness(brightness: 0.55)
+            }
+        }
+        
+        // MARK: - Computed vars
+        var scrollOffset: CGFloat = .zero {
+            didSet {
+                let _hasScrolledPastNavigationBar = scrollOffset < -140
+                if hasScrolledPastNavigationBar != _hasScrolledPastNavigationBar {
+                    hasScrolledPastNavigationBar = _hasScrolledPastNavigationBar
+                }
+            }
+        }
+        
+        var hasApp: Bool {
+            switch state {
+            case .success: return true
+            default: return false
             }
         }
     }
@@ -97,10 +324,11 @@ extension AppDetailView {
 struct AppDetailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
+            let _ = Dependencies.screenshotsCache.register { .mock }
+            let _ = Dependencies.imageSizeFetcher.register { .mock(returning: .init(width: 180, height: 320)) }
+            
             // Preview with mocked app
-            let _ = Dependencies.apiService.register {
-                .mock(.data([App.mock]))
-            }
+            let _ = Dependencies.apiService.register { .mock(.data([App.mock])) }
             let viewModel = AppDetailView.ViewModel(id: "1")
             AppDetailView(viewModel: viewModel)
                 .previewDisplayName("Mocked")

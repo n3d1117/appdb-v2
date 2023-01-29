@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Models"
-               BuildableName = "Models"
-               BlueprintName = "Models"
-               ReferencedContainer = "container:">
+               BlueprintIdentifier = "81393C9A29698BF5007322B7"
+               BuildableName = "appdb.app"
+               BlueprintName = "appdb"
+               ReferencedContainer = "container:appdb.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,33 +29,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ModelsTests"
-               BuildableName = "ModelsTests"
-               BlueprintName = "ModelsTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "NetworkingTests"
-               BuildableName = "NetworkingTests"
-               BlueprintName = "NetworkingTests"
-               ReferencedContainer = "container:../Networking">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "817875B5296B124000372B65"
                BuildableName = "appdbTests.xctest"
                BlueprintName = "appdbTests"
-               ReferencedContainer = "container:../../appdb.xcodeproj">
+               ReferencedContainer = "container:appdb.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -70,6 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "81393C9A29698BF5007322B7"
+            BuildableName = "appdb.app"
+            BlueprintName = "appdb"
+            ReferencedContainer = "container:appdb.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -77,15 +68,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Models"
-            BuildableName = "Models"
-            BlueprintName = "Models"
-            ReferencedContainer = "container:">
+            BlueprintIdentifier = "81393C9A29698BF5007322B7"
+            BuildableName = "appdb.app"
+            BlueprintName = "appdb"
+            ReferencedContainer = "container:appdb.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -10,6 +10,11 @@ import Models
 @testable import appdb
 
 @MainActor final class AppDetailViewModelTests: XCTestCase {
+    
+    override class func setUp() {
+        Dependencies.screenshotsCache.register { .mock }
+        Dependencies.imageSizeFetcher.register { .mock(returning: .init(width: 180, height: 320)) }
+    }
 
     func testAppLoading() async throws {
         let app: App = .mock

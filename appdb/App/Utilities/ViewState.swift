@@ -1,18 +1,16 @@
 //
-//  State.swift
+//  ViewState.swift
 //  appdb
 //
 //  Created by ned on 09/01/23.
 //
 
-import Foundation
-
-enum State<T: Equatable>: Equatable {
+enum ViewState<T: Equatable>: Equatable {
     case success(T)
     case failed(Error)
     case loading
     
-    static func ==(lhs: State, rhs: State) -> Bool {
+    static func ==(lhs: ViewState, rhs: ViewState) -> Bool {
         switch (lhs, rhs) {
         case (.loading, .loading):
             return true
