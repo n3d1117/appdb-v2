@@ -55,10 +55,10 @@ public struct AppDetailInfoView: View {
                                     .padding(.horizontal, spacing)
                             }
                             
-                            if let size, size.size > .zero {
+                            if let rating {
                                 verticalDivider
                                 
-                                sizeView(size: size)
+                                ratingsView(rating: rating)
                                     .padding(.horizontal, spacing)
                             }
                         }
@@ -71,10 +71,10 @@ public struct AppDetailInfoView: View {
                                     .padding(.horizontal, spacing)
                             }
                             
-                            if let rating {
+                            if let size, size.size > .zero {
                                 verticalDivider
                                 
-                                ratingsView(rating: rating)
+                                sizeView(size: size)
                                     .padding(.horizontal, spacing)
                             }
                             
@@ -224,14 +224,14 @@ public struct AppDetailInfoView: View {
 struct AppDetailInfoView_Previews: PreviewProvider {
     static var previews: some View {
         AppDetailInfoView(
-            version: nil,
-            updateDate: nil,
-            size: nil,
-            monthlyDownloads: 0,
-            publisherName: nil,
-            rating: nil,
-            censorRating: nil,
-            languages: nil
+            version: "1.0",
+            updateDate: .now.addingTimeInterval(-15000),
+            size: (size: 12.1, unit: "MB"),
+            monthlyDownloads: 213,
+            publisherName: "Test",
+            rating: (count: 12, stars: 2.3),
+            censorRating: "4+",
+            languages: ["IT"]
         )
         .padding(.vertical)
         .border(.red)
