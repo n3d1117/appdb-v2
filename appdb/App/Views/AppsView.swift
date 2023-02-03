@@ -12,7 +12,11 @@ import UI
 
 struct AppsView: View {
     
-    @StateObject var viewModel = ViewModel()
+    @StateObject var viewModel: ViewModel
+    
+    public init(type: AppType) {
+        _viewModel = StateObject(wrappedValue: .init(type: type))
+    }
     
     var body: some View {
         #if DEBUG
@@ -68,6 +72,14 @@ extension AppsView {
         @Published private(set) var page: Int = 1
         @Published private(set) var isLoadingMore: Bool = false
         
+        // MARK: - Constants
+        let type: AppType
+        
+        // MARK: - Initializers
+        init(type: AppType) {
+            self.type = type
+        }
+        
         var currentTask: Task<Void, Never>? {
             willSet {
                 if let task = currentTask {
@@ -79,7 +91,7 @@ extension AppsView {
         
         func loadApps() async {
             do {
-                let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: .ios)))
+                let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: type)))
                 state = .success(response.data)
             } catch {
                 state = .failed(error)
@@ -92,9 +104,9 @@ extension AppsView {
                 isLoadingMore = true
                 if case let .success(statee) = state {
                     self.page += 3
-                    let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: .ios, page: page - 2)))
-                    let response2: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: .ios, page: page - 1)))
-                    let response3: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: .ios, page: page)))
+                    let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: type, page: page - 2)))
+                    let response2: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: type, page: page - 1)))
+                    let response3: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: type, page: page)))
                     state = .success(statee + response.data + response2.data + response3.data)
                 }
             } catch {
@@ -112,21 +124,29 @@ struct AppsView_Previews: PreviewProvider {
             let _ = Dependencies.apiService.register {
                 .mock(.data([App.mock]))
             }
-            let viewModel = AppsView.ViewModel()
+            let viewModel = AppsView.ViewModel(type: .ios)
             AppsView(viewModel: viewModel)
                 .previewDisplayName("Mocked")
             
             // Preview with error
             let _ = Dependencies.apiService.register { .mock(.error(.example)) }
-            let viewModel2 = AppsView.ViewModel()
+            let viewModel2 = AppsView.ViewModel(type: .ios)
             AppsView(viewModel: viewModel2)
                 .previewDisplayName("Error")
             
             // Preview while loading
             let _ = Dependencies.apiService.register { .mock(.loading()) }
-            let viewModel3 = AppsView.ViewModel()
+            let viewModel3 = AppsView.ViewModel(type: .ios)
             AppsView(viewModel: viewModel3)
                 .previewDisplayName("Loading")
         }
     }
 }
+
+#if DEBUG
+extension AppsView {
+    init(viewModel: ViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+}
+#endif

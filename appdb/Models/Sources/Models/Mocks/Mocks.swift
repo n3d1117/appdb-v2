@@ -27,6 +27,7 @@ public extension App {
         gname: Genre.mock.name,
         genreId: Genre.mock.id,
         compatibilityString: "Compatible with iPhone, iPad, iPod. Requires iOS 11.0 or newer",
+        screenshots: nil,
         lastParseItunes: .init(
             ratings: .init(count: 12, stars: 4.5),
             censorRating: "Rated 12+",

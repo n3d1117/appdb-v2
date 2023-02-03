@@ -30,11 +30,9 @@ public enum Apps: HTTPEndpoint {
     }
 }
 
-extension Apps {
-    public enum AppType: String {
-        case ios
-        case macos = "osx"
-        case cydia
-        case books
-    }
+public enum AppType: String {
+    case ios
+    case macos = "osx"
+    case cydia
+    case books
 }

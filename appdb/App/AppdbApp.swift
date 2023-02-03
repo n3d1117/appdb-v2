@@ -13,7 +13,7 @@ struct AppdbApp: App {
         WindowGroup {
             TabView {
                 NavigationStack {
-                    AppsView()
+                    AppsView(type: .cydia)
                         .navigationTitle("Apps")
                 }
                 .tabItem {

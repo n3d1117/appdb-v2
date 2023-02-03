@@ -20,6 +20,7 @@ public struct App: Codable, Identifiable {
     private let gname: String
     private let genreId: String
     private let lastParseItunes: LastParseItunes?
+    private let screenshots: Screenshots?
     
     public var genre: Genre { .init(id: genreId, name: gname) }
     public var publisher: String? { lastParseItunes?.publisher }
@@ -37,8 +38,9 @@ public struct App: Codable, Identifiable {
         return nil
     }
     public var screenshotsUrls: [URL] {
-        var urls: [URL] = lastParseItunes?.screenshots.iphone.map(\.src) ?? []
-        if urls.isEmpty { urls = lastParseItunes?.screenshots.ipad.map(\.src) ?? [] }
+        guard let screenshots = lastParseItunes?.screenshots ?? screenshots else { return [] }
+        var urls: [URL] = screenshots.iphone.map(\.src)
+        if urls.isEmpty { urls = screenshots.ipad.map(\.src) }
         return urls
     }
     
@@ -55,6 +57,19 @@ public struct App: Codable, Identifiable {
         self.genreId = try container.decode(String.self, forKey: .genreId)
         self.compatibilityString = try container.decode(String.self, forKey: .compatibilityString)
         
+        // Custom apps screenshots
+        do {
+            if let screenshotsStringData = try container.decodeIfPresent(String.self, forKey: .screenshots) {
+                let screenshotsData = screenshotsStringData.data(using: .utf8) ?? .init()
+                self.screenshots = try JSONDecoder.convertFromSnakeCase.decode(Screenshots.self, from: screenshotsData)
+            } else {
+                self.screenshots = nil
+            }
+        } catch {
+            self.screenshots = nil
+        }
+        
+        // Last parse itunes
         do {
             if let lastParseItunesString = try container.decodeIfPresent(String.self, forKey: .lastParseItunes) {
                 let lastParseItunesData = lastParseItunesString.data(using: .utf8) ?? .init()
@@ -78,7 +93,8 @@ public struct App: Codable, Identifiable {
         gname: String,
         genreId: String,
         compatibilityString: String,
-        lastParseItunes: LastParseItunes
+        screenshots: Screenshots?,
+        lastParseItunes: LastParseItunes?
     ) {
         self.id = id
         self.name = name
@@ -90,6 +106,7 @@ public struct App: Codable, Identifiable {
         self.gname = gname
         self.genreId = genreId
         self.compatibilityString = compatibilityString
+        self.screenshots = screenshots
         self.lastParseItunes = lastParseItunes
     }
 }
