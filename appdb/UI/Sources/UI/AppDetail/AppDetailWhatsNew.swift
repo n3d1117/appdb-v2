@@ -13,9 +13,9 @@ public struct AppDetailWhatsNew: View {
     
     let text: String
     let version: String
-    let updatedDate: Date
+    let updatedDate: Date?
     
-    public init(text: String, version: String, updatedDate: Date) {
+    public init(text: String, version: String, updatedDate: Date?) {
         self.text = text
         self.version = version
         self.updatedDate = updatedDate
@@ -34,9 +34,11 @@ public struct AppDetailWhatsNew: View {
                 
                 Spacer()
                 
-                Text(updatedDate.formatted(.relative(presentation: .numeric)))
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                if let updatedDate {
+                    Text(updatedDate.formatted(.relative(presentation: .numeric)))
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
             }
             
             ExpandableText(text)

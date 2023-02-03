@@ -11,7 +11,7 @@ import NukeUI
 public struct AppDetailHeaderView: View {
     
     let name: String
-    let image: URL
+    let image: URL?
     let category: String
     
     let onImage: (UIImage?) -> Void
@@ -19,7 +19,7 @@ public struct AppDetailHeaderView: View {
     @ScaledMetric private var iconWidth: CGFloat = 120
     @ScaledMetric private var spacing: CGFloat = 15
     
-    public init(name: String, image: URL, category: String, onImage: @escaping (UIImage?) -> Void) {
+    public init(name: String, image: URL?, category: String, onImage: @escaping (UIImage?) -> Void) {
         self.name = name
         self.image = image
         self.category = category

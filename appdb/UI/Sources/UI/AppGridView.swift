@@ -12,9 +12,9 @@ public struct AppGridView: View {
     private let size: CGSize = .init(width: 65, height: 65)
     
     let name: String
-    let image: URL
+    let image: URL?
     
-    public init(name: String, image: URL) {
+    public init(name: String, image: URL?) {
         self.name = name
         self.image = image
     }

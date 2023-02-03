@@ -13,11 +13,19 @@ struct AppdbApp: App {
         WindowGroup {
             TabView {
                 NavigationStack {
-                    AppsView(type: .cydia)
+                    AppsView(type: .ios)
                         .navigationTitle("Apps")
                 }
                 .tabItem {
                     Label("Apps", systemImage: "star")
+                }
+                
+                NavigationStack {
+                    AppsView(type: .cydia)
+                        .navigationTitle("Custom")
+                }
+                .tabItem {
+                    Label("Custom", systemImage: "star")
                 }
 
                 NavigationStack {

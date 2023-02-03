@@ -25,8 +25,10 @@ public extension App {
         description: "Example app description",
         whatsnew: "Example what's new",
         gname: Genre.mock.name,
+        pname: nil,
         genreId: Genre.mock.id,
         compatibilityString: "Compatible with iPhone, iPad, iPod. Requires iOS 11.0 or newer",
+        added: nil,
         screenshots: nil,
         lastParseItunes: .init(
             ratings: .init(count: 12, stars: 4.5),

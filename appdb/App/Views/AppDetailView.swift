@@ -48,7 +48,7 @@ struct AppDetailView: View {
                         // MARK: - Header
                         AppDetailHeaderView(
                             name: app.name,
-                            image: app.image.iconHigherQuality(),
+                            image: app.image?.iconHigherQuality(),
                             category: app.genre.name,
                             onImage: { image in
                                 viewModel.findAverageColor(for: image)
@@ -94,8 +94,8 @@ struct AppDetailView: View {
                                 .padding(.horizontal)
                             
                             // MARK: - Description
-                            if !app.description.isEmpty {
-                                AppDetailDescription(text: app.description)
+                            if let description = app.description, !description.isEmpty {
+                                AppDetailDescription(text: description)
                                     .padding()
                                 
                                 Divider()
@@ -151,10 +151,9 @@ struct AppDetailView: View {
     
     @ViewBuilder private func whatsNewView(for app: Models.App) -> some View {
         if let whatsNew = app.whatsnew,
-           !whatsNew.isEmpty,
-           let updatedDate = app.lastUpdated {
+           !whatsNew.isEmpty {
             
-            AppDetailWhatsNew(text: whatsNew, version: app.version, updatedDate: updatedDate)
+            AppDetailWhatsNew(text: whatsNew, version: app.version, updatedDate: app.lastUpdated)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding()
             
@@ -208,7 +207,6 @@ extension AppDetailView {
         // MARK: - Public
         func loadAppDetails(forceReload: Bool = false) async {
             do {
-                
                 // Load app
                 if forceReload || !hasApp {
                     try await loadApp()

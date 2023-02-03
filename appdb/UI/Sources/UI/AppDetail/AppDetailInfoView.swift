@@ -41,7 +41,7 @@ public struct AppDetailInfoView: View {
                     
                     HStack(alignment: .top) {
                         Group {
-                            if let version, let updateDate {
+                            if let version {
                                 versionView(version: version, updateDate: updateDate)
                                     .padding(.horizontal, spacing)
                             }
@@ -116,11 +116,15 @@ public struct AppDetailInfoView: View {
             .padding(.vertical)
     }
     
-    @ViewBuilder private func versionView(version: String, updateDate: Date) -> some View {
+    @ViewBuilder private func versionView(version: String, updateDate: Date?) -> some View {
         buildBlock(title: "Version") {
             Text(version)
         } subtitle: {
-            Text(updateDate.formatted(.relative(presentation: .numeric)))
+            if let updateDate {
+                Text(updateDate.formatted(.relative(presentation: .numeric)))
+            } else {
+                Text("Recently")
+            }
         }
     }
     
@@ -143,8 +147,8 @@ public struct AppDetailInfoView: View {
     @ViewBuilder private func developerView(publisherName: String) -> some View {
         buildBlock(title: "Developer") {
             Image(systemName: "person.crop.square")
-                .padding(.top, 1)
-                .padding(.bottom, 1)
+                .padding(.top, 2)
+                .padding(.bottom, 4)
         } subtitle: {
             Text(publisherName)
                 .frame(maxWidth: maxDeveloperWidth)

@@ -38,7 +38,7 @@ struct AppsView: View {
                             NavigationLink {
                                 AppDetailView(app: app)
                             } label: {
-                                AppGridView(name: app.name, image: app.image.iconHigherQuality())
+                                AppGridView(name: app.name, image: app.image?.iconHigherQuality())
                                     .onAppear {
                                         if app == apps.last {
                                             viewModel.currentTask = Task {

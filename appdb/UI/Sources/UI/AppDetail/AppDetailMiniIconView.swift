@@ -9,11 +9,11 @@ import SwiftUI
 import NukeUI
 
 public struct AppDetailMiniIconView: View {
-    let image: URL
+    let image: URL?
     
     private let iconWidth: CGFloat = 28
     
-    public init(image: URL) {
+    public init(image: URL?) {
         self.image = image
     }
     

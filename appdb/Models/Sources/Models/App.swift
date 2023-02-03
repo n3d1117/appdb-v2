@@ -10,21 +10,23 @@ import Foundation
 public struct App: Codable, Identifiable {
     public let id: String
     public let name: String
-    public let image: URL
+    public let image: URL?
     public let version: String
     public let clicksMonth: Int
-    public let description: String
+    public let description: String?
     public let whatsnew: String?
     public let compatibilityString: String
     
     private let gname: String
+    private let pname: String?
     private let genreId: String
     private let lastParseItunes: LastParseItunes?
     private let screenshots: Screenshots?
+    private let added: Date?
     
     public var genre: Genre { .init(id: genreId, name: gname) }
-    public var publisher: String? { lastParseItunes?.publisher }
-    public var lastUpdated: Date? { lastParseItunes?.published }
+    public var publisher: String? { lastParseItunes?.publisher ?? pname?.trimmingCharacters(in: .whitespacesAndNewlines) }
+    public var lastUpdated: Date? { lastParseItunes?.published ?? added }
     public var censorRating: String? { lastParseItunes?.censorRating.components(separatedBy: " ").dropFirst().first }
     public var languages: [String]? { lastParseItunes?.languages.components(separatedBy: ", ") }
     public var ratings: (count: Int, stars: Double)? {
@@ -48,14 +50,29 @@ public struct App: Codable, Identifiable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name).htmlDecoded
-        self.image = try container.decode(URL.self, forKey: .image)
+        self.image = try container.decodeIfPresent(URL.self, forKey: .image)
         self.version = try container.decode(String.self, forKey: .version)
         self.clicksMonth = try Int(container.decode(String.self, forKey: .clicksMonth)) ?? .zero
-        self.description = try container.decode(String.self, forKey: .description).htmlDecoded
+        self.description = try container.decodeIfPresent(String.self, forKey: .description)?.htmlDecoded
         self.whatsnew = try container.decodeIfPresent(String.self, forKey: .whatsnew)?.htmlDecoded
         self.gname = try container.decode(String.self, forKey: .gname)
+        self.pname = try container.decodeIfPresent(String.self, forKey: .pname)
         self.genreId = try container.decode(String.self, forKey: .genreId)
         self.compatibilityString = try container.decode(String.self, forKey: .compatibilityString)
+        
+        // Added
+        do {
+            if let addedString = try container.decodeIfPresent(String.self, forKey: .added),
+               let addedDouble = Double(addedString) {
+                self.added = Date(timeIntervalSince1970: addedDouble)
+            } else {
+                self.added = nil
+            }
+        } catch {
+            self.added = nil
+        }
+        
+        // todo generify
         
         // Custom apps screenshots
         do {
@@ -91,8 +108,10 @@ public struct App: Codable, Identifiable {
         description: String,
         whatsnew: String,
         gname: String,
+        pname: String?,
         genreId: String,
         compatibilityString: String,
+        added: Date?,
         screenshots: Screenshots?,
         lastParseItunes: LastParseItunes?
     ) {
@@ -104,8 +123,10 @@ public struct App: Codable, Identifiable {
         self.description = description
         self.whatsnew = whatsnew
         self.gname = gname
+        self.pname = pname
         self.genreId = genreId
         self.compatibilityString = compatibilityString
+        self.added = added
         self.screenshots = screenshots
         self.lastParseItunes = lastParseItunes
     }
