@@ -6,22 +6,20 @@
 //
 
 import UIKit
+import Kanna
 
 extension String {
     
+    //
+    // Decode from HTML using Kanna and keep new line
+    //
+    // regex from http://buildregex.com
+    // matches <br />, <br/> and <p/>
+    //
     var htmlDecoded: String {
-        // matches <br />, <br/> and <p/>
         let regex = "(?:(?:(?:\\<br\\ \\/\\>))|(?:(?:\\<br\\/\\>))|(?:(?:\\<p\\/\\>)))"
-        let newString: String = replacingOccurrences(of: "\n", with: "")
-            .replacingOccurrences(of: regex, with: "<br>", options: .regularExpression)
-        return newString.htmlToAttributedString?.string ?? self
-    }
-    
-    private var htmlToAttributedString: NSAttributedString? {
-        guard let data = data(using: .utf8) else { return nil }
-        return try? .init(data: data, options: [
-            .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue
-        ], documentAttributes: nil)
+        var newString: String = replacingOccurrences(of: "\n", with: "")
+        newString = newString.replacingOccurrences(of: regex, with: "\n", options: .regularExpression)
+        return (try? HTML(html: newString, encoding: .utf8).text) ?? self
     }
 }
