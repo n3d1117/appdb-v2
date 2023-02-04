@@ -19,12 +19,12 @@
       }
     },
     {
-      "identity" : "kanna",
+      "identity" : "html2markdown",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tid-kijyun/Kanna.git",
+      "location" : "https://gitlab.com/mflint/HTML2Markdown",
       "state" : {
-        "revision" : "609367a2cd84827a33383cf7923cb4fe8f69ee0a",
-        "version" : "5.2.2"
+        "revision" : "00d7a9744bbd1e7762c587bbd248775e16345a65",
+        "version" : "1.0.0"
       }
     },
     {

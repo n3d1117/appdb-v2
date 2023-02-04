@@ -63,12 +63,12 @@ public struct App: Codable, Identifiable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
-        self.name = try container.decode(String.self, forKey: .name).htmlDecoded
+        self.name = try container.decode(String.self, forKey: .name).htmlToMarkdown
         self.image = try container.decodeIfPresent(URL.self, forKey: .image)
         self.version = try container.decode(String.self, forKey: .version)
         self.clicksMonth = try Int(container.decode(String.self, forKey: .clicksMonth)) ?? .zero
-        self.description = try container.decodeIfPresent(String.self, forKey: .description)?.htmlDecoded
-        self.whatsnew = try container.decodeIfPresent(String.self, forKey: .whatsnew)?.htmlDecoded
+        self.description = try container.decodeIfPresent(String.self, forKey: .description)?.htmlToMarkdown
+        self.whatsnew = try container.decodeIfPresent(String.self, forKey: .whatsnew)?.htmlToMarkdown
         self.gname = try container.decode(String.self, forKey: .gname)
         self.pname = try container.decodeIfPresent(String.self, forKey: .pname)
         self.genreId = try container.decode(String.self, forKey: .genreId)
