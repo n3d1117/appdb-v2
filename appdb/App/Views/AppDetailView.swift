@@ -16,12 +16,12 @@ struct AppDetailView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    public init(id: String) {
-        _viewModel = StateObject(wrappedValue: .init(id: id))
+    public init(id: String, type: AppType) {
+        _viewModel = StateObject(wrappedValue: .init(id: id, type: type))
     }
     
-    public init(app: Models.App) {
-        _viewModel = StateObject(wrappedValue: .init(app: app))
+    public init(app: Models.App, type: AppType) {
+        _viewModel = StateObject(wrappedValue: .init(app: app, type: type))
     }
     
     var body: some View {
@@ -116,6 +116,7 @@ struct AppDetailView: View {
                 .refreshable { await viewModel.loadAppDetails(forceReload: true) }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onFirstAppear { await viewModel.loadAppDetails() }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -193,14 +194,17 @@ extension AppDetailView {
         
         // MARK: - Constants
         let id: String
+        let type: AppType
         
         // MARK: - Initializers
-        init(id: String) {
+        init(id: String, type: AppType) {
             self.id = id
+            self.type = type
         }
         
-        init(app: Models.App) {
+        init(app: Models.App, type: AppType) {
             self.id = app.id
+            self.type = type
             state = .success(app)
         }
         
@@ -236,7 +240,7 @@ extension AppDetailView {
         
         // MARK: - Private
         private func loadApp() async throws {
-            let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.detail(type: .ios, trackid: id)))
+            let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.detail(type: type, trackid: id)))
             guard let app = response.data.first else { throw APIError.missingData }
             state = .success(app)
         }
@@ -327,19 +331,19 @@ struct AppDetailView_Previews: PreviewProvider {
             
             // Preview with mocked app
             let _ = Dependencies.apiService.register { .mock(.data([App.mock])) }
-            let viewModel = AppDetailView.ViewModel(id: "1")
+            let viewModel = AppDetailView.ViewModel(id: "1", type: .ios)
             AppDetailView(viewModel: viewModel)
                 .previewDisplayName("Mocked")
             
             // Preview with error
             let _ = Dependencies.apiService.register { .mock(.error(.example)) }
-            let viewModel2 = AppDetailView.ViewModel(id: "1")
+            let viewModel2 = AppDetailView.ViewModel(id: "1", type: .ios)
             AppDetailView(viewModel: viewModel2)
                 .previewDisplayName("Error")
             
             // Preview while loading
             let _ = Dependencies.apiService.register { .mock(.loading()) }
-            let viewModel3 = AppDetailView.ViewModel(id: "1")
+            let viewModel3 = AppDetailView.ViewModel(id: "1", type: .ios)
             AppDetailView(viewModel: viewModel3)
                 .previewDisplayName("Loading")
         }

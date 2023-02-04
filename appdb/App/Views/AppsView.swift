@@ -36,7 +36,7 @@ struct AppsView: View {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 60), spacing: 20, alignment: .top)], spacing: 20) {
                         ForEach(apps) { app in
                             NavigationLink {
-                                AppDetailView(app: app)
+                                AppDetailView(app: app, type: viewModel.type)
                             } label: {
                                 AppGridView(name: app.name, image: app.image?.iconHigherQuality())
                                     .onAppear {
