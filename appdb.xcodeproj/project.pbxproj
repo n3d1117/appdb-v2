@@ -51,6 +51,7 @@
 		81393C9E29698BF5007322B7 /* AppdbApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppdbApp.swift; sourceTree = "<group>"; };
 		81393CA029698BF5007322B7 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		81393CA229698BF6007322B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8142D196298EDAF7001DD99D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		814FF56F296C5EFE0069FA54 /* APIServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceTest.swift; sourceTree = "<group>"; };
 		817875A629698D0000372B65 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Networking; sourceTree = "<group>"; };
 		817875A8296AFDB200372B65 /* Models */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Models; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 		81393C9D29698BF5007322B7 /* appdb */ = {
 			isa = PBXGroup;
 			children = (
+				8142D196298EDAF7001DD99D /* Info.plist */,
 				812309F0296C3B2F005E2DE0 /* UI */,
 				817875A8296AFDB200372B65 /* Models */,
 				817875A629698D0000372B65 /* Networking */,
@@ -483,6 +485,7 @@
 				DEVELOPMENT_TEAM = A2SY882DX2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = appdb/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -512,6 +515,7 @@
 				DEVELOPMENT_TEAM = A2SY882DX2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = appdb/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
