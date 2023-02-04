@@ -82,8 +82,7 @@ struct ExpandableText: View {
     }
     
     private var textTrimmingDoubleNewlines: String {
-        print(text.replacingOccurrences(of: "\n", with: "~"))
-        return text.replacingOccurrences(of: #"\n\s*\n"#, with: "\n", options: .regularExpression)
+        text.replacingOccurrences(of: #"\n\s*\n"#, with: "\n", options: .regularExpression)
     }
 }
 
