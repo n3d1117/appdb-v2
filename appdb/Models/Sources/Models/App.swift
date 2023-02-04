@@ -23,6 +23,10 @@ public struct App: Codable, Identifiable {
     private let lastParseItunes: LastParseItunes?
     private let screenshots: Screenshots?
     private let added: Date?
+    private let originalTrackid: String?
+    private let originalSection: String?
+    private let pwebsite: URL?
+    private let psupport: URL?
     
     public var genre: Genre { .init(id: genreId, name: gname) }
     public var publisher: String? { lastParseItunes?.publisher ?? pname?.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -45,6 +49,16 @@ public struct App: Codable, Identifiable {
         if urls.isEmpty { urls = screenshots.ipad.map(\.src) }
         return urls
     }
+    public var isTweaked: Bool {
+        originalTrackid != nil && originalTrackid != "0"
+    }
+    public var originalApp: (trackid: String, section: String)? {
+        guard isTweaked, let originalTrackid, let originalSection else { return nil }
+        return (trackid: originalTrackid, section: originalSection)
+    }
+    public var website: URL? {
+        pwebsite ?? psupport
+    }
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -59,42 +73,33 @@ public struct App: Codable, Identifiable {
         self.pname = try container.decodeIfPresent(String.self, forKey: .pname)
         self.genreId = try container.decode(String.self, forKey: .genreId)
         self.compatibilityString = try container.decode(String.self, forKey: .compatibilityString)
+        self.originalTrackid = try container.decodeIfPresent(String.self, forKey: .originalTrackid)
+        self.originalSection = try container.decodeIfPresent(String.self, forKey: .originalSection)
+        
+        self.pwebsite = try? container.decodeIfPresent(URL.self, forKey: .pwebsite)
+        self.psupport = try? container.decodeIfPresent(URL.self, forKey: .psupport)
         
         // Added
-        do {
-            if let addedString = try container.decodeIfPresent(String.self, forKey: .added),
-               let addedDouble = Double(addedString) {
-                self.added = Date(timeIntervalSince1970: addedDouble)
-            } else {
-                self.added = nil
-            }
-        } catch {
+        if let addedString = try? container.decodeIfPresent(String.self, forKey: .added),
+           let addedDouble = Double(addedString) {
+            self.added = Date(timeIntervalSince1970: addedDouble)
+        } else {
             self.added = nil
         }
         
-        // todo generify
-        
         // Custom apps screenshots
-        do {
-            if let screenshotsStringData = try container.decodeIfPresent(String.self, forKey: .screenshots) {
-                let screenshotsData = screenshotsStringData.data(using: .utf8) ?? .init()
-                self.screenshots = try JSONDecoder.convertFromSnakeCase.decode(Screenshots.self, from: screenshotsData)
-            } else {
-                self.screenshots = nil
-            }
-        } catch {
+        if let screenshotsStringData = try? container.decodeIfPresent(String.self, forKey: .screenshots) {
+            let screenshotsData = screenshotsStringData.data(using: .utf8) ?? .init()
+            self.screenshots = try? JSONDecoder.convertFromSnakeCase.decode(Screenshots.self, from: screenshotsData)
+        } else {
             self.screenshots = nil
         }
         
         // Last parse itunes
-        do {
-            if let lastParseItunesString = try container.decodeIfPresent(String.self, forKey: .lastParseItunes) {
-                let lastParseItunesData = lastParseItunesString.data(using: .utf8) ?? .init()
-                self.lastParseItunes = try JSONDecoder.convertFromSnakeCase.decode(LastParseItunes.self, from: lastParseItunesData)
-            } else {
-                self.lastParseItunes = nil
-            }
-        } catch {
+        if let lastParseItunesString = try? container.decodeIfPresent(String.self, forKey: .lastParseItunes) {
+            let lastParseItunesData = lastParseItunesString.data(using: .utf8) ?? .init()
+            self.lastParseItunes = try? JSONDecoder.convertFromSnakeCase.decode(LastParseItunes.self, from: lastParseItunesData)
+        } else {
             self.lastParseItunes = nil
         }
     }
@@ -112,6 +117,10 @@ public struct App: Codable, Identifiable {
         genreId: String,
         compatibilityString: String,
         added: Date?,
+        originalTrackid: String?,
+        originalSection: String?,
+        pWebsite: URL?,
+        pSupport: URL?,
         screenshots: Screenshots?,
         lastParseItunes: LastParseItunes?
     ) {
@@ -127,6 +136,10 @@ public struct App: Codable, Identifiable {
         self.genreId = genreId
         self.compatibilityString = compatibilityString
         self.added = added
+        self.originalTrackid = originalTrackid
+        self.originalSection = originalSection
+        self.pwebsite = pWebsite
+        self.psupport = pSupport
         self.screenshots = screenshots
         self.lastParseItunes = lastParseItunes
     }
@@ -135,7 +148,7 @@ public struct App: Codable, Identifiable {
 public struct LastParseItunes: Codable, Equatable {
     public let ratings: CustomerRating?
     public let censorRating: String
-    public let published: Date
+    public let published: Date?
     public let publisher: String
     public let size: String
     public let languages: String
@@ -164,11 +177,8 @@ public struct LastParseItunes: Codable, Equatable {
         if let date = DateFormatter.ddMMyyyy.date(from: publishedString) {
             self.published = date
         } else {
-            throw DecodingError.dataCorruptedError(
-                forKey: .published,
-                in: container,
-                debugDescription: "Date string does not match format expected by formatter."
-            )
+            print("Date string \(publishedString) does not match format expected by formatter.")
+            self.published = nil
         }
     }
 }

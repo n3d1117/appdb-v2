@@ -56,6 +56,9 @@ struct AppDetailView: View {
                         )
                         .padding()
                         
+                        Divider()
+                            .padding(.horizontal)
+                        
                         // MARK: - Info view
                         AppDetailInfoView(
                             version: app.version,
@@ -65,8 +68,22 @@ struct AppDetailView: View {
                             publisherName: app.publisher,
                             rating: app.ratings,
                             censorRating: app.censorRating,
-                            languages: app.languages
+                            languages: app.languages,
+                            website: app.website,
+                            isTweaked: app.isTweaked,
+                            onDeveloperTapped: {
+                                // TODO
+                                print(app.publisher)
+                            },
+                            onWebsiteTapped: {
+                                // TODO
+                                print(app.website)
+                            }
                         )
+                        .padding(.vertical)
+                        
+                        Divider()
+                            .padding(.horizontal)
                         
                         if viewModel.isLoadingScreenshots {
                             Spacer()
@@ -74,6 +91,18 @@ struct AppDetailView: View {
                                 .tint(.gray)
                             
                         } else {
+                            
+                            // MARK: - Tweaked notice
+                            if app.isTweaked {
+                                AppDetailTweakedNoticeView {
+                                    // TODO
+                                    print(app.originalApp)
+                                }
+                                .padding()
+                                
+                                Divider()
+                                    .padding(.horizontal)
+                            }
                             
                             // MARK: - What's new
                             if viewModel.hasRecentUpdate(app: app) {
@@ -84,11 +113,11 @@ struct AppDetailView: View {
                             if !viewModel.appScreenshots.isEmpty {
                                 AppDetailScreenshots(screenshots: viewModel.appScreenshots)
                                     .padding(.top)
+                                
+                                // MARK: - Compatibility
+                                AppDetailCompatibilityView(compatibilityString: app.compatibilityString)
+                                    .padding()
                             }
-                            
-                            // MARK: - Compatibility
-                            AppDetailCompatibilityView(compatibilityString: app.compatibilityString)
-                                .padding()
                             
                             Divider()
                                 .padding(.horizontal)
@@ -105,6 +134,15 @@ struct AppDetailView: View {
                             // MARK: - What's new
                             if !viewModel.hasRecentUpdate(app: app) {
                                 whatsNewView(for: app)
+                            }
+                            
+                            // MARK: - Compatibility
+                            if viewModel.appScreenshots.isEmpty {
+                                Divider()
+                                    .padding(.horizontal)
+                                
+                                AppDetailCompatibilityView(compatibilityString: app.compatibilityString)
+                                    .padding()
                             }
                         }
                         

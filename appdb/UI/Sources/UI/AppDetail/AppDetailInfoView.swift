@@ -11,6 +11,7 @@ public struct AppDetailInfoView: View {
     
     @ScaledMetric private var spacing: CGFloat = 12
     @ScaledMetric private var maxDeveloperWidth: CGFloat = 130
+    @ScaledMetric(relativeTo: .caption2) private var chevronSize: CGFloat = 9
     
     let version: String?
     let updateDate: Date?
@@ -20,8 +21,13 @@ public struct AppDetailInfoView: View {
     let rating: (count: Int, stars: Double)?
     let censorRating: String?
     let languages: [String]?
+    let website: URL?
+    let isTweaked: Bool
     
-    public init(version: String?, updateDate: Date?, size: (size: Double, unit: String)?, monthlyDownloads: Int, publisherName: String?, rating: (count: Int, stars: Double)?, censorRating: String?, languages: [String]?) {
+    let onDeveloperTapped: () -> Void
+    let onWebsiteTapped: () -> Void
+    
+    public init(version: String?, updateDate: Date?, size: (size: Double, unit: String)?, monthlyDownloads: Int, publisherName: String?, rating: (count: Int, stars: Double)?, censorRating: String?, languages: [String]?, website: URL?, isTweaked: Bool, onDeveloperTapped: @escaping () -> Void, onWebsiteTapped: @escaping () -> Void) {
         self.version = version
         self.updateDate = updateDate
         self.size = size
@@ -30,75 +36,85 @@ public struct AppDetailInfoView: View {
         self.rating = rating
         self.censorRating = censorRating
         self.languages = languages
+        self.website = website
+        self.isTweaked = isTweaked
+        self.onDeveloperTapped = onDeveloperTapped
+        self.onWebsiteTapped = onWebsiteTapped
     }
     
     public var body: some View {
         if !hasSomethingToShow { EmptyView() } else {
             ScrollView(.horizontal, showsIndicators: false) {
-                VStack(spacing: spacing) {
-                    Divider()
-                        .padding(.horizontal)
-                    
-                    HStack {
-                        Group {
-                            if let version {
-                                versionView(version: version, updateDate: updateDate)
-                                    .padding(.horizontal, spacing)
-                            }
-                            
-                            if monthlyDownloads > .zero {
-                                if let _ = version, let _ = updateDate {
-                                    verticalDivider
-                                }
-                                
-                                downloadsView
-                                    .padding(.horizontal, spacing)
-                            }
-                            
-                            if let rating {
-                                verticalDivider
-                                
-                                ratingsView(rating: rating)
-                                    .padding(.horizontal, spacing)
-                            }
+                HStack {
+                    Group {
+                        if isTweaked {
+                            tweakedView
+                                .padding(.horizontal, spacing)
                         }
                         
-                        Group {
-                            if let publisherName {
+                        if let version {
+                            if isTweaked {
                                 verticalDivider
-                                
-                                developerView(publisherName: publisherName)
-                                    .padding(.horizontal, spacing)
                             }
                             
-                            if let size, size.size > .zero {
-                                verticalDivider
-                                
-                                sizeView(size: size)
-                                    .padding(.horizontal, spacing)
-                            }
+                            versionView(version: version, updateDate: updateDate)
+                                .padding(.horizontal, spacing)
+                        }
+                        
+                        if monthlyDownloads > .zero {
+                            verticalDivider
                             
-                            if let languages {
-                                verticalDivider
-                                
-                                languageView(languages: languages)
-                                    .padding(.horizontal, spacing)
-                            }
+                            downloadsView
+                                .padding(.horizontal, spacing)
+                        }
+                        
+                        if let rating {
+                            verticalDivider
                             
-                            if let censorRating {
-                                verticalDivider
-                                
-                                ageView(censorRating: censorRating)
-                                    .padding(.horizontal, spacing)
-                            }
+                            ratingsView(rating: rating)
+                                .padding(.horizontal, spacing)
                         }
                     }
-                    .fixedSize()
-                    .padding(.horizontal)
                     
-                    Divider()
-                        .padding(.horizontal)
+                    Group {
+                        if let publisherName {
+                            verticalDivider
+                            
+                            developerView(publisherName: publisherName)
+                                .padding(.horizontal, spacing)
+                        }
+                        
+                        if let size, size.size > .zero {
+                            verticalDivider
+                            
+                            sizeView(size: size)
+                                .padding(.horizontal, spacing)
+                        }
+                        
+                        if let languages {
+                            verticalDivider
+                            
+                            languageView(languages: languages)
+                                .padding(.horizontal, spacing)
+                        }
+                        
+                        if let censorRating {
+                            verticalDivider
+                            
+                            ageView(censorRating: censorRating)
+                                .padding(.horizontal, spacing)
+                        }
+                        
+                        if let website {
+                            verticalDivider
+                            
+                            websiteView(website: website)
+                                .padding(.horizontal, spacing)
+                        }
+                    }
                 }
+                .fixedSize()
+                .padding(.horizontal)
                 .scrollViewContentRTLFriendly()
             }
             .scrollViewRTLFriendly()
@@ -108,12 +124,21 @@ public struct AppDetailInfoView: View {
     
     private var hasSomethingToShow: Bool {
         let totalInfo: [Any?] = [version, updateDate, size, publisherName, rating, censorRating, languages]
-        return monthlyDownloads > .zero || !totalInfo.compactMap { $0 }.isEmpty
+        return isTweaked || monthlyDownloads > .zero || !totalInfo.compactMap { $0 }.isEmpty
     }
     
     @ViewBuilder private var verticalDivider: some View {
         Divider()
             .padding(.vertical)
+    }
+    
+    @ViewBuilder private var tweakedView: some View {
+        buildBlock(title: "App type") {
+            Image(systemName: "hammer")
+                .font(.headline)
+        } subtitle: {
+            Text("Tweaked")
+        }
     }
     
     @ViewBuilder private func versionView(version: String, updateDate: Date?) -> some View {
@@ -148,8 +173,16 @@ public struct AppDetailInfoView: View {
         buildBlock(title: "Developer") {
             Image(systemName: "person.crop.square")
         } subtitle: {
-            Text(publisherName)
+            Button {
+                onDeveloperTapped()
+            } label: {
+                HStack(spacing: 2) {
+                    Text(publisherName)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: chevronSize))
+                }
                 .frame(maxWidth: maxDeveloperWidth)
+            }
         }
     }
     
@@ -199,6 +232,23 @@ public struct AppDetailInfoView: View {
         }
     }
     
+    @ViewBuilder private func websiteView(website: URL) -> some View {
+        buildBlock(title: "Website") {
+            Image(systemName: "globe")
+                .font(.title3)
+        } subtitle: {
+            Button {
+                onWebsiteTapped()
+            } label: {
+                HStack(spacing: 2) {
+                    Text("Visit")
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: chevronSize))
+                }
+            }
+        }
+    }
+    
     @ViewBuilder private func buildBlock<V1: View, V2: View>(
         title: String,
         @ViewBuilder body: () -> V1,
@@ -237,7 +287,11 @@ struct AppDetailInfoView_Previews: PreviewProvider {
             publisherName: "Test",
             rating: (count: 12, stars: 2.3),
             censorRating: "4+",
-            languages: ["IT"]
+            languages: ["IT"],
+            website: .init(string: "https://appdb.to"),
+            isTweaked: true,
+            onDeveloperTapped: {},
+            onWebsiteTapped: {}
         )
         .padding(.vertical)
         .border(.red)
