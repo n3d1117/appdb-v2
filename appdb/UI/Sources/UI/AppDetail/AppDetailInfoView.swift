@@ -10,7 +10,7 @@ import SwiftUI
 public struct AppDetailInfoView: View {
     
     @ScaledMetric private var spacing: CGFloat = 12
-    @ScaledMetric private var maxDeveloperWidth: CGFloat = 100
+    @ScaledMetric private var maxDeveloperWidth: CGFloat = 130
     
     let version: String?
     let updateDate: Date?
@@ -39,7 +39,7 @@ public struct AppDetailInfoView: View {
                     Divider()
                         .padding(.horizontal)
                     
-                    HStack(alignment: .top) {
+                    HStack {
                         Group {
                             if let version {
                                 versionView(version: version, updateDate: updateDate)
@@ -147,8 +147,6 @@ public struct AppDetailInfoView: View {
     @ViewBuilder private func developerView(publisherName: String) -> some View {
         buildBlock(title: "Developer") {
             Image(systemName: "person.crop.square")
-                .padding(.top, 2)
-                .padding(.bottom, 4)
         } subtitle: {
             Text(publisherName)
                 .frame(maxWidth: maxDeveloperWidth)
@@ -160,7 +158,6 @@ public struct AppDetailInfoView: View {
             let stringRating = NumberFormatter.ratingsNumberFormatter
                 .string(from: rating.stars as NSNumber) ?? String(format: "%.1f", rating.stars)
             Text(stringRating)
-                .padding(.bottom, -1)
         } subtitle: {
             HStack(spacing: 1) {
                 ForEach(0..<Int(rating.stars), id: \.self) { _ in
@@ -176,6 +173,7 @@ public struct AppDetailInfoView: View {
                 }
             }
             .foregroundColor(.primary.opacity(0.4))
+            .offset(y: -2)
         }
     }
     
@@ -206,20 +204,24 @@ public struct AppDetailInfoView: View {
         @ViewBuilder body: () -> V1,
         @ViewBuilder subtitle: () -> V2
     ) -> some View {
-        VStack(spacing: 5) {
+        VStack {
             Text(title.uppercased())
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(.secondary.opacity(0.7))
             
-            VStack(spacing: 2) {
+            Spacer(minLength: 4)
+            
+            Group {
                 body()
                     .font(.system(.title2, design: .rounded))
                     .fontWeight(.semibold)
+                
+                Spacer(minLength: 1)
+                
                 subtitle()
                     .font(.caption)
             }
-            .frame(alignment: .top)
             .foregroundColor(.primary.opacity(0.7))
         }
     }
