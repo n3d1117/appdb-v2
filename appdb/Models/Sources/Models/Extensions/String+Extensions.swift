@@ -12,6 +12,7 @@ extension String {
     var htmlToMarkdown: String {
         HTMLParser.htmlToMarkdown(self
             .replacingOccurrences(of: "\r\n", with: "")
+            .replacingOccurrences(of: "<br />\n", with: "\n")
         )
     }
 }
