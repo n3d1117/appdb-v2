@@ -10,6 +10,8 @@ import HTML2Markdown
 
 extension String {
     var htmlToMarkdown: String {
-        (try? HTMLParser().parse(html: self).toMarkdown(options: .unorderedListBullets)) ?? self
+        HTMLParser.htmlToMarkdown(self
+            .replacingOccurrences(of: "\r\n", with: "")
+        )
     }
 }

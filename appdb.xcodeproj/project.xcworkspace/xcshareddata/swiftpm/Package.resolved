@@ -21,10 +21,10 @@
     {
       "identity" : "html2markdown",
       "kind" : "remoteSourceControl",
-      "location" : "https://gitlab.com/mflint/HTML2Markdown",
+      "location" : "https://github.com/DonkeyRepublic/HTML2Markdown",
       "state" : {
-        "revision" : "00d7a9744bbd1e7762c587bbd248775e16345a65",
-        "version" : "1.0.0"
+        "revision" : "d78ddae999a12f4f55770d3bb90a4ad6f0357b68",
+        "version" : "1.0.2"
       }
     },
     {
