@@ -48,6 +48,10 @@ struct AppDetailView: View {
                             category: app.genre.name,
                             onImage: { image in
                                 viewModel.findAverageColor(for: image)
+                            },
+                            onCategoryTapped: {
+                                // TODO
+                                print(app.genre.name)
                             }
                         )
                         .padding()

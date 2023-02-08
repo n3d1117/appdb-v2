@@ -260,14 +260,14 @@ public struct AppDetailInfoView: View {
                 .fontWeight(.semibold)
                 .foregroundColor(.secondary.opacity(0.7))
             
-            Spacer(minLength: 4)
+            Spacer(minLength: 5)
             
             Group {
                 body()
                     .font(.system(.title2, design: .rounded))
                     .fontWeight(.semibold)
                 
-                Spacer(minLength: 1)
+                Spacer(minLength: 2)
                 
                 subtitle()
                     .font(.caption)

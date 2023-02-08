@@ -15,15 +15,18 @@ public struct AppDetailHeaderView: View {
     let category: String
     
     let onImage: (UIImage?) -> Void
+    let onCategoryTapped: () -> Void
     
     @ScaledMetric private var iconWidth: CGFloat = 120
     @ScaledMetric private var spacing: CGFloat = 15
+    @ScaledMetric(relativeTo: .caption2) private var chevronSize: CGFloat = 9
     
-    public init(name: String, image: URL?, category: String, onImage: @escaping (UIImage?) -> Void) {
+    public init(name: String, image: URL?, category: String, onImage: @escaping (UIImage?) -> Void, onCategoryTapped: @escaping () -> Void) {
         self.name = name
         self.image = image
         self.category = category
         self.onImage = onImage
+        self.onCategoryTapped = onCategoryTapped
     }
     
     public var body: some View {
@@ -47,9 +50,17 @@ public struct AppDetailHeaderView: View {
                         .fontWeight(.semibold)
                         .lineLimit(2)
                     
-                    Text(category)
-                        .font(.subheadline)
+                    Button {
+                        onCategoryTapped()
+                    } label: {
+                        HStack(spacing: 2) {
+                            Text(category)
+                                .font(.subheadline)
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: chevronSize))
+                        }
                         .foregroundColor(.secondary)
+                    }
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 
@@ -93,7 +104,8 @@ struct AppDetailHeaderView_Previews: PreviewProvider {
             name: "Discord - Chat, Talk & Hangout",
             image: .init(string: "https://is2-ssl.mzstatic.com/image/thumb/Purple113/v4/40/3f/c5/403fc5f0-7622-1171-5127-fae1666d3a84/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/100x100bb.jpg")!,
             category: "Social Networking",
-            onImage: { _ in }
+            onImage: { _ in },
+            onCategoryTapped: {}
         )
         .border(.red)
         .padding()
