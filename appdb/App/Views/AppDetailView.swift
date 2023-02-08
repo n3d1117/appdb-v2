@@ -25,10 +25,6 @@ struct AppDetailView: View {
     }
     
     var body: some View {
-        #if DEBUG
-        let _ = Self._printChanges()
-        #endif
-        
         ZStack {
             switch viewModel.state {
             case .loading:
@@ -345,10 +341,7 @@ extension AppDetailView {
         // MARK: - Computed vars
         var scrollOffset: CGFloat = .zero {
             didSet {
-                let _hasScrolledPastNavigationBar = scrollOffset < -140
-                if hasScrolledPastNavigationBar != _hasScrolledPastNavigationBar {
-                    hasScrolledPastNavigationBar = _hasScrolledPastNavigationBar
-                }
+                hasScrolledPastNavigationBar = scrollOffset < -140
             }
         }
         
