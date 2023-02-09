@@ -33,6 +33,7 @@ public extension App {
         originalSection: nil,
         pWebsite: nil,
         pSupport: nil,
+        tweakedVersions: nil,
         screenshots: nil,
         lastParseItunes: .init(
             ratings: .init(count: 12, stars: 4.5),

@@ -16,6 +16,7 @@ public struct App: Codable, Identifiable {
     public let description: String?
     public let whatsnew: String?
     public let compatibilityString: String
+    public let tweakedVersions: TweakedVersions?
     
     private let gname: String
     private let pname: String?
@@ -73,6 +74,7 @@ public struct App: Codable, Identifiable {
         self.pname = try container.decodeIfPresent(String.self, forKey: .pname)
         self.genreId = try container.decode(String.self, forKey: .genreId)
         self.compatibilityString = try container.decode(String.self, forKey: .compatibilityString)
+        self.tweakedVersions = try container.decodeIfPresent(TweakedVersions.self, forKey: .tweakedVersions)
         self.originalTrackid = try container.decodeIfPresent(String.self, forKey: .originalTrackid)
         self.originalSection = try container.decodeIfPresent(String.self, forKey: .originalSection)
         
@@ -121,6 +123,7 @@ public struct App: Codable, Identifiable {
         originalSection: String?,
         pWebsite: URL?,
         pSupport: URL?,
+        tweakedVersions: TweakedVersions?,
         screenshots: Screenshots?,
         lastParseItunes: LastParseItunes?
     ) {
@@ -140,6 +143,7 @@ public struct App: Codable, Identifiable {
         self.originalSection = originalSection
         self.pwebsite = pWebsite
         self.psupport = pSupport
+        self.tweakedVersions = tweakedVersions
         self.screenshots = screenshots
         self.lastParseItunes = lastParseItunes
     }
@@ -229,6 +233,14 @@ public struct CustomerRating: Codable, Equatable {
 public struct Genre: Codable, Equatable {
     public let id: String
     public let name: String
+}
+
+public struct TweakedVersions: Codable, Equatable {
+    public let cydia: [TweakedVersion]
+}
+
+public struct TweakedVersion: Codable, Equatable {
+    public let trackid: String
 }
 
 extension App: Equatable {

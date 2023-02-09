@@ -13,7 +13,6 @@ import UI
 struct AppDetailView: View {
     
     @StateObject var viewModel: ViewModel
-    
     @Environment(\.colorScheme) var colorScheme
     
     public init(id: String, type: AppType) {
@@ -92,6 +91,16 @@ struct AppDetailView: View {
                             
                         } else {
                             
+                            // MARK: - Tweaked versions
+                            if let tweakedVersions = app.tweakedVersions?.cydia, !tweakedVersions.isEmpty {
+                                AppDetailTweakedVersionsView(numberOfTweaks: tweakedVersions.count) {
+                                    // TODO
+                                    print(tweakedVersions)
+                                }
+                                .padding([.top, .horizontal])
+                                .padding(.bottom, 10)
+                            }
+                            
                             // MARK: - Tweaked notice
                             if app.isTweaked {
                                 AppDetailTweakedNoticeView {
@@ -151,7 +160,7 @@ struct AppDetailView: View {
                 } onOffsetChange: {
                     viewModel.scrollOffset = $0
                 }
-                .refreshable { await viewModel.loadAppDetails(forceReload: true) }
+                //.refreshable { await viewModel.loadAppDetails() }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -247,18 +256,11 @@ extension AppDetailView {
         }
         
         // MARK: - Public
-        func loadAppDetails(forceReload: Bool = false) async {
+        func loadAppDetails() async {
             do {
-                // Load app
-                if forceReload || !hasApp {
-                    try await loadApp()
-                }
-                
-                guard case .success(let app) = state else { return }
-                
-                // Load screenshots
+                let app = try await loadApp()
                 await loadScreenshots(for: app)
-                
+                state = .success(app)
             } catch {
                 state = .failed(error)
             }
@@ -277,10 +279,10 @@ extension AppDetailView {
         }
         
         // MARK: - Private
-        private func loadApp() async throws {
+        private func loadApp() async throws -> Models.App {
             let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.detail(type: type, trackid: id)))
             guard let app = response.data.first else { throw APIError.missingData }
-            state = .success(app)
+            return app
         }
         
         private func loadScreenshots(for app: Models.App) async {
@@ -342,17 +344,9 @@ extension AppDetailView {
             }
         }
         
-        // MARK: - Computed vars
         var scrollOffset: CGFloat = .zero {
             didSet {
                 hasScrolledPastNavigationBar = scrollOffset < -140
-            }
-        }
-        
-        var hasApp: Bool {
-            switch state {
-            case .success: return true
-            default: return false
             }
         }
     }
