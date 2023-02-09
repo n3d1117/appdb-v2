@@ -84,7 +84,7 @@ struct AppDetailView: View {
                         Divider()
                             .padding(.horizontal)
                         
-                        if viewModel.isLoadingScreenshots {
+                        if viewModel.isLoadingDetails {
                             Spacer()
                             ProgressView()
                                 .tint(.gray)
@@ -192,7 +192,7 @@ struct AppDetailView: View {
         }
         .tint(tintColor)
         .animation(.default, value: viewModel.state)
-        .animation(.default, value: viewModel.isLoadingScreenshots)
+        .animation(.default, value: viewModel.isLoadingDetails)
         .animation(.default, value: viewModel.appIconAverageColor)
         .animation(.default, value: viewModel.hasScrolledPastNavigationBar)
     }
@@ -228,7 +228,7 @@ extension AppDetailView {
         
         // MARK: - Published vars
         @Published private(set) var state: ViewState<Models.App> = .loading
-        @Published private(set) var isLoadingScreenshots = true
+        @Published private(set) var isLoadingDetails = true
         @Published private(set) var hasScrolledPastNavigationBar = false
         @Published private(set) var appIconAverageColor: UIColor? {
             didSet { calculateAverageColorBrightnessVariants() }
@@ -258,8 +258,10 @@ extension AppDetailView {
         // MARK: - Public
         func loadAppDetails() async {
             do {
+                defer { isLoadingDetails = false }
                 let app = try await loadApp()
-                await loadScreenshots(for: app)
+                appScreenshots = await loadScreenshots(for: app)
+                print(appScreenshots)
                 state = .success(app)
             } catch {
                 state = .failed(error)
@@ -285,18 +287,19 @@ extension AppDetailView {
             return app
         }
         
-        private func loadScreenshots(for app: Models.App) async {
-            defer { isLoadingScreenshots = false }
-            
+        private func loadScreenshots(for app: Models.App) async -> [AppDetailScreenshots.Screenshot] {
             if let cachedScreenshots = await screenshotsCache.first(for: app.id) {
-                appScreenshots = cachedScreenshots.map({ (url: $0.url, size: $0.size) })
+                return cachedScreenshots.map({ (url: $0.url, size: $0.size) })
             } else {
                 do {
-                    appScreenshots = try await fetchScreenshots(urls: app.screenshotsUrls)
+                    let appScreenshots = try await fetchScreenshots(urls: app.screenshotsUrls)
                     try await screenshotsCache.add(
                         .init(id: app.id, screenshots: appScreenshots.map({ .init(url: $0.url, size: $0.size) }))
                     )
-                } catch { }
+                    return appScreenshots
+                } catch {
+                    return []
+                }
             }
         }
         

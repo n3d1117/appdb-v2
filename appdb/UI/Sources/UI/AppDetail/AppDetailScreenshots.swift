@@ -38,7 +38,7 @@ public struct AppDetailScreenshots: View {
                         }
                     }
                     .processors([.resize(width: screenshot.size.width)])
-                    .modifier(RotationHandler(shouldRotate: shouldRotate, size: screenshot.size))
+                    .modifier(RotationHandler(shouldRotate: shouldRotate, size: screenshot.size, height: galleryHeight))
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(.gray.opacity(0.15)))
                 }
@@ -46,8 +46,12 @@ public struct AppDetailScreenshots: View {
             .padding(.horizontal)
             .scrollViewContentRTLFriendly()
         }
-        .frame(height: screenshots.map(\.size.height).max() ?? Self.maxHeight)
+        .frame(height: galleryHeight)
         .scrollViewRTLFriendly()
+    }
+    
+    private var galleryHeight: CGFloat {
+        screenshots.map(\.size.height).max() ?? Self.maxHeight
     }
     
     private var mixedClasses: Bool {
@@ -65,15 +69,17 @@ private struct RotationHandler: ViewModifier {
     
     let shouldRotate: Bool
     let size: CGSize
+    let height: CGFloat
     
     func body(content: Content) -> some View {
         if shouldRotate {
             let preferredWidth: CGFloat = AppDetailScreenshots.preferredWidth.portrait
-            let preferredHeight: CGFloat = size.width/size.height * preferredWidth
+            let preferredHeight: CGFloat = min(height, size.width/size.height * preferredWidth)
+            let actualWidth: CGFloat = min(preferredWidth, size.height/size.width * preferredHeight)
             content
                 .frame(width: preferredHeight, height: preferredHeight)
                 .scaledToFit()
-                .frame(width: preferredWidth, height: preferredHeight)
+                .frame(width: actualWidth, height: preferredHeight)
         } else {
             content
                 .frame(width: size.width, height: size.height)
