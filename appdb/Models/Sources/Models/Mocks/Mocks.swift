@@ -43,7 +43,8 @@ public extension App {
             size: "395.46 MB",
             languages: "EN, IT",
             screenshots: .init(iphone: [.init(src: .init(string: "https://is5-ssl.mzstatic.com/image/thumb/Purple112/v4/31/9d/63/319d63fe-14dd-bfcf-2808-b201c3e934df/286d4143-8b62-46e7-926e-2f7595c165f6_en-GB__screenshots__iOS-5.5-in__01.jpg/392x696bb.jpg")!), .init(src: .init(string: "https://is5-ssl.mzstatic.com/image/thumb/Purple112/v4/31/9d/63/319d63fe-14dd-bfcf-2808-b201c3e934df/286d4143-8b62-46e7-926e-2f7595c165f6_en-GB__screenshots__iOS-5.5-in__01.jpg/392x696bb.jpg")!), .init(src: .init(string: "https://is5-ssl.mzstatic.com/image/thumb/Purple112/v4/31/9d/63/319d63fe-14dd-bfcf-2808-b201c3e934df/286d4143-8b62-46e7-926e-2f7595c165f6_en-GB__screenshots__iOS-5.5-in__01.jpg/392x696bb.jpg")!)], ipad: [])
-        )
+        ),
+        is18Plus: false
     )
 }
 

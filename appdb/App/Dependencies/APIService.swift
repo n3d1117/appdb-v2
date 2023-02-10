@@ -31,7 +31,6 @@ class APIService {
     ///   - networking: An instance that conforms to the Networking protocol, used to fetch data for requests. Defaults to `URLSession.shared`.
     ///   - decoder: An instance of `JSONDecoder`, used to decode data into codable models. Defaults to a new instance of `JSONDecoder`.
     init(networking: Networking = URLSession.shared, decoder: JSONDecoder = .init()) {
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         self.networking = networking
         self.decoder = decoder
     }

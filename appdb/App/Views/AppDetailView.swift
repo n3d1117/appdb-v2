@@ -101,6 +101,15 @@ struct AppDetailView: View {
                                 .padding(.bottom, 10)
                             }
                             
+                            // MARK: - Adult notice
+                            if app.is18Plus {
+                                AppDetailAdultNoticeView()
+                                    .padding()
+                                
+                                Divider()
+                                    .padding(.horizontal)
+                            }
+                            
                             // MARK: - Tweaked notice
                             if app.isTweaked {
                                 AppDetailTweakedNoticeView {

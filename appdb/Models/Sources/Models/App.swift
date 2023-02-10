@@ -17,6 +17,7 @@ public struct App: Codable, Identifiable {
     public let whatsnew: String?
     public let compatibilityString: String
     public let tweakedVersions: TweakedVersions?
+    public let is18Plus: Bool
     
     private let gname: String
     private let pname: String?
@@ -61,6 +62,18 @@ public struct App: Codable, Identifiable {
         pwebsite ?? psupport
     }
     
+    enum CodingKeys: String, CodingKey {
+        case id, name, image, version, description, whatsnew, gname, pname, screenshots, added, pwebsite, psupport
+        case clicksMonth = "clicks_month"
+        case compatibilityString = "compatibility_string"
+        case tweakedVersions = "tweaked_versions"
+        case is18Plus = "is_18plus"
+        case genreId = "genre_id"
+        case lastParseItunes = "last_parse_itunes"
+        case originalTrackid = "original_trackid"
+        case originalSection = "original_section"
+    }
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
@@ -77,7 +90,7 @@ public struct App: Codable, Identifiable {
         self.tweakedVersions = try container.decodeIfPresent(TweakedVersions.self, forKey: .tweakedVersions)
         self.originalTrackid = try container.decodeIfPresent(String.self, forKey: .originalTrackid)
         self.originalSection = try container.decodeIfPresent(String.self, forKey: .originalSection)
-        
+        self.is18Plus = (try? container.decodeIfPresent(String.self, forKey: .is18Plus) ?? "") == "1"
         self.pwebsite = try? container.decodeIfPresent(URL.self, forKey: .pwebsite)
         self.psupport = try? container.decodeIfPresent(URL.self, forKey: .psupport)
         
@@ -125,7 +138,8 @@ public struct App: Codable, Identifiable {
         pSupport: URL?,
         tweakedVersions: TweakedVersions?,
         screenshots: Screenshots?,
-        lastParseItunes: LastParseItunes?
+        lastParseItunes: LastParseItunes?,
+        is18Plus: Bool
     ) {
         self.id = id
         self.name = name
@@ -146,6 +160,7 @@ public struct App: Codable, Identifiable {
         self.tweakedVersions = tweakedVersions
         self.screenshots = screenshots
         self.lastParseItunes = lastParseItunes
+        self.is18Plus = is18Plus
     }
 }
 
