@@ -22,5 +22,5 @@ extension APIError: LocalizedError {
 }
 
 public extension APIError {
-    static let missingData: Self = .init(code: "MISSING_DATA", translated: "Some data is missing")
+    static let missingData: Self = .init(code: "MISSING_DATA", translated: "Content not found")
 }

@@ -31,9 +31,7 @@ struct AppDetailView: View {
                     .tint(.gray)
             
             case .failed(let error):
-                GenericErrorView(error: error.localizedDescription) {
-                    await viewModel.loadAppDetails()
-                }
+                GenericErrorView(error: error.localizedDescription)
             
             case .success(let app):
                 FittingScrollView {
