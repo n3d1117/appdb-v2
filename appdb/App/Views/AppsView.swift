@@ -67,6 +67,7 @@ struct AppsView: View {
 extension AppsView {
     @MainActor final class ViewModel: ObservableObject {
         @Dependency(Dependencies.apiService) private var apiService: APIService
+        @Dependency(Dependencies.logger) private var logger
         
         @Published private(set) var state: ViewState<[Models.App]> = .loading
         @Published private(set) var page: Int = 1
@@ -110,7 +111,7 @@ extension AppsView {
                     state = .success(statee + response.data + response2.data + response3.data)
                 }
             } catch {
-                print(error)
+                logger.log(.error, error.localizedDescription)
                 state = .failed(error)
             }
         }

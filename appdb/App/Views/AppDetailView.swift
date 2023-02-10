@@ -225,6 +225,7 @@ extension AppDetailView {
         @Dependency(Dependencies.apiService) private var apiService: APIService
         @Dependency(Dependencies.imageSizeFetcher) private var imageSizeFetcher: ImageSizeFetcher
         @Dependency(Dependencies.screenshotsCache) private var screenshotsCache: ScreenshotsCacheService
+        @Dependency(Dependencies.logger) private var logger
         
         // MARK: - Published vars
         @Published private(set) var state: ViewState<Models.App> = .loading
@@ -262,7 +263,9 @@ extension AppDetailView {
                 let app = try await loadApp()
                 appScreenshots = await loadScreenshots(for: app)
                 state = .success(app)
+                logger.log(.debug, "loadAppDetails")
             } catch {
+                logger.log(.error, "Error while loading app details: \(error)")
                 state = .failed(error)
             }
         }
@@ -283,6 +286,7 @@ extension AppDetailView {
         private func loadApp() async throws -> Models.App {
             let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.detail(type: type, trackid: id)))
             guard let app = response.data.first else { throw APIError.missingData }
+            logger.log(.debug, "loadApp")
             return app
         }
         
@@ -344,6 +348,8 @@ extension AppDetailView {
             } else {
                 decreasedBrightnessAverageColor = appIconAverageColor.colorWithBrightness(brightness: 0.55)
             }
+            
+            logger.log(.debug, "calculateAverageColorBrightnessVariants")
         }
         
         var scrollOffset: CGFloat = .zero {
