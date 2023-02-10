@@ -14,6 +14,7 @@ extension String {
             .replacingOccurrences(of: "\r\n", with: "")
             .replacingOccurrences(of: "<br />\n ", with: "\n")
             .replacingOccurrences(of: "<br />\n", with: "\n")
+            .replacingOccurrences(of: "<br />", with: "<br>")
         )
     }
 }

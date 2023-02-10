@@ -261,7 +261,6 @@ extension AppDetailView {
                 defer { isLoadingDetails = false }
                 let app = try await loadApp()
                 appScreenshots = await loadScreenshots(for: app)
-                print(appScreenshots)
                 state = .success(app)
             } catch {
                 state = .failed(error)
