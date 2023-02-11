@@ -18,7 +18,7 @@ public struct AppDetailTweakedNoticeView: View {
     public var body: some View {
         HStack(spacing: 15) {
             Image(systemName: "exclamationmark.triangle")
-                .font(.body)
+                .font(.title3)
                 .foregroundColor(.secondary)
             
             VStack(alignment: .leading, spacing: 4) {

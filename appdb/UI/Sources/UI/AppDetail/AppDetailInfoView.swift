@@ -34,7 +34,7 @@ public struct AppDetailInfoView: View {
         self.monthlyDownloads = monthlyDownloads
         self.publisherName = publisherName
         self.rating = rating
-        self.censorRating = censorRating
+        self.censorRating = censorRating?.components(separatedBy: " ").dropFirst().first
         self.languages = languages
         self.website = website
         self.isTweaked = isTweaked

@@ -160,6 +160,22 @@ struct AppDetailView: View {
                                 AppDetailCompatibilityView(compatibilityString: app.compatibilityString)
                                     .padding()
                             }
+                            
+                            // MARK: - Information
+                            AppDetailInfoFullView(
+                                developer: app.publisher,
+                                bundleID: app.bundleId,
+                                genreName: app.genre.name,
+                                price: app.price,
+                                updatedDate: app.lastUpdated,
+                                version: app.version,
+                                size: app.size,
+                                rating: app.ratings,
+                                censorRating: app.censorRating,
+                                compatibilityString: app.compatibilityString,
+                                languages: app.languages
+                            )
+                            .padding()
                         }
                         
                         Spacer()

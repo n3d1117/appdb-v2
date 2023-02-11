@@ -20,6 +20,8 @@ public struct App: Codable, Identifiable {
     public let compatibilityString: String
     public let tweakedVersions: TweakedVersions?
     public let is18Plus: Bool
+    public let bundleId: String?
+    public let price: String?
     
     // MARK: - Private
     private let gname: String
@@ -37,7 +39,7 @@ public struct App: Codable, Identifiable {
     public var genre: Genre { .init(id: genreId, name: gname) }
     public var publisher: String? { lastParseItunes?.publisher ?? pname?.trimmingCharacters(in: .whitespacesAndNewlines) }
     public var lastUpdated: Date? { lastParseItunes?.published ?? added }
-    public var censorRating: String? { lastParseItunes?.censorRating.components(separatedBy: " ").dropFirst().first }
+    public var censorRating: String? { lastParseItunes?.censorRating }
     public var languages: [String]? { lastParseItunes?.languages.components(separatedBy: ", ") }
     public var isTweaked: Bool { originalTrackid != nil && originalTrackid != "0" }
     public var website: URL? { pwebsite ?? psupport }
@@ -62,7 +64,8 @@ public struct App: Codable, Identifiable {
     
     // MARK: - CodingKeys
     enum CodingKeys: String, CodingKey {
-        case id, name, image, version, description, whatsnew, gname, pname, screenshots, added, pwebsite, psupport
+        case id, name, image, version, description, whatsnew, gname,
+             pname, screenshots, added, pwebsite, psupport, price
         case clicksMonth = "clicks_month"
         case compatibilityString = "compatibility_string"
         case tweakedVersions = "tweaked_versions"
@@ -71,6 +74,7 @@ public struct App: Codable, Identifiable {
         case lastParseItunes = "last_parse_itunes"
         case originalTrackid = "original_trackid"
         case originalSection = "original_section"
+        case bundleId = "bundle_id"
     }
     
     // MARK: - Decoding
@@ -96,6 +100,8 @@ public struct App: Codable, Identifiable {
         self.added = try? container.decodeUnixDate(forKey: .added)
         self.screenshots = try? container.decodeJSON(Screenshots.self, forKey: .screenshots)
         self.lastParseItunes = try? container.decodeJSON(LastParseItunes.self, forKey: .lastParseItunes)
+        self.bundleId = try container.decodeIfPresent(String.self, forKey: .bundleId)
+        self.price = try container.decodeIfPresent(String.self, forKey: .price)
     }
     
     // MARK: - Initializer
@@ -119,7 +125,9 @@ public struct App: Codable, Identifiable {
         tweakedVersions: TweakedVersions?,
         screenshots: Screenshots?,
         lastParseItunes: LastParseItunes?,
-        is18Plus: Bool
+        is18Plus: Bool,
+        bundleId: String?,
+        price: String?
     ) {
         self.id = id
         self.name = name
@@ -141,6 +149,8 @@ public struct App: Codable, Identifiable {
         self.screenshots = screenshots
         self.lastParseItunes = lastParseItunes
         self.is18Plus = is18Plus
+        self.bundleId = bundleId
+        self.price = price
     }
 }
 
