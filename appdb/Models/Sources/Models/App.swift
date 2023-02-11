@@ -22,6 +22,8 @@ public struct App: Codable, Identifiable {
     public let is18Plus: Bool
     public let bundleId: String?
     public let price: String?
+    public let pwebsite: URL?
+    public let psupport: URL?
     
     // MARK: - Private
     private let gname: String
@@ -32,8 +34,6 @@ public struct App: Codable, Identifiable {
     private let added: Date?
     private let originalTrackid: String?
     private let originalSection: String?
-    private let pwebsite: URL?
-    private let psupport: URL?
     
     // MARK: - Computed vars
     public var genre: Genre { .init(id: genreId, name: gname) }

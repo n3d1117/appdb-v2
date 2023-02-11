@@ -161,21 +161,50 @@ struct AppDetailView: View {
                                     .padding()
                             }
                             
-                            // MARK: - Information
-                            AppDetailInfoFullView(
-                                developer: app.publisher,
-                                bundleID: app.bundleId,
-                                genreName: app.genre.name,
-                                price: app.price,
-                                updatedDate: app.lastUpdated,
-                                version: app.version,
-                                size: app.size,
-                                rating: app.ratings,
-                                censorRating: app.censorRating,
-                                compatibilityString: app.compatibilityString,
-                                languages: app.languages
-                            )
-                            .padding()
+                            Group {
+                                // MARK: - Information
+                                AppDetailInfoFullView(
+                                    developer: app.publisher,
+                                    bundleID: app.bundleId,
+                                    genreName: app.genre.name,
+                                    price: app.price,
+                                    updatedDate: app.lastUpdated,
+                                    version: app.version,
+                                    size: app.size,
+                                    rating: app.ratings,
+                                    censorRating: app.censorRating,
+                                    compatibilityString: app.compatibilityString,
+                                    languages: app.languages
+                                )
+                                .padding()
+                                
+                                if let developer = app.publisher, !developer.isEmpty {
+                                    Divider()
+                                        .padding(.horizontal)
+                                    
+                                    // MARK: - More by the developer
+                                    AppDetailMoreByDeveloperView(
+                                        developerName: developer,
+                                        developerWebsite: app.pwebsite,
+                                        developerSupport: app.psupport,
+                                        onDeveloperAppsTapped: {
+                                            // TODO
+                                            print(developer)
+                                        }, onDeveloperWebsiteTapped: {
+                                            // TODO
+                                            print(app.pwebsite)
+                                        }, onDeveloperSupportTapped: {
+                                            // TODO
+                                            print(app.psupport)
+                                        }
+                                    )
+                                    .padding()
+                                    
+                                    // MARK: - Copyright
+                                    AppDetailCopyrightView(publisher: developer)
+                                        .padding(.bottom)
+                                }
+                            }
                         }
                         
                         Spacer()
