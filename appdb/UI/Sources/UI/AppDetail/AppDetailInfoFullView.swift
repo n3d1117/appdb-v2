@@ -82,6 +82,7 @@ public struct AppDetailInfoFullView: View {
                 Text(value)
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.trailing)
+                    .textSelection(.enabled)
             } label: {
                 Label {
                     Text(text)

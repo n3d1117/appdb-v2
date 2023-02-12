@@ -43,19 +43,20 @@ public struct AppDetailDownloadsView: View {
                 .annotation(position: .trailing) {
                     Text(item.amount.formatted())
                         .foregroundColor(.secondary)
-                        .font(.caption2)
+                        .font(.caption)
                 }
                 .foregroundStyle(.tint)
             }
             .chartYAxis {
-                AxisMarks(preset: .extended) { value in
-                    AxisValueLabel(horizontalSpacing: 10)
+                AxisMarks(preset: .extended, position: .leading) { _ in
+                    AxisValueLabel(horizontalSpacing: 15)
+                        .font(.footnote)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .fixedSize(horizontal: false, vertical: true)
             .padding(.horizontal)
-            .padding(.vertical, 10)
+            .padding(.vertical, 12)
             .background(Color.gray.opacity(0.15), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
     }
@@ -63,7 +64,7 @@ public struct AppDetailDownloadsView: View {
 
 struct AppDetailDownloadsView_Previews: PreviewProvider {
     static var previews: some View {
-        AppDetailDownloadsView(clicksToday: 5, clicksWeek: 50, clicksMonth: 100, clicksYear: 150, clicksTotal: 200)
+        AppDetailDownloadsView(clicksToday: 5, clicksWeek: 50, clicksMonth: 100, clicksYear: 150, clicksTotal: 220)
             .padding()
             .previewLayout(.sizeThatFits)
     }
