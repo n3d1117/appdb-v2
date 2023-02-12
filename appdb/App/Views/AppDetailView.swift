@@ -258,7 +258,7 @@ struct AppDetailView: View {
         .tint(tintColor)
         .animation(.default, value: viewModel.state)
         .animation(.default, value: viewModel.isLoadingDetails)
-        .animation(.default, value: viewModel.appIconAverageColor)
+        .animation(.easeInOut(duration: 0.6), value: viewModel.appIconAverageColor)
         .animation(.default, value: viewModel.hasScrolledPastNavigationBar)
     }
     
