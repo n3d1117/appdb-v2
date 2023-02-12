@@ -21,7 +21,6 @@ public extension App {
         name: "Example",
         image: .exampleImage,
         version: "1.0",
-        clicksMonth: 439,
         description: "Example app description",
         whatsnew: "Example what's new",
         gname: Genre.mock.name,
@@ -46,7 +45,12 @@ public extension App {
         ),
         is18Plus: false,
         bundleId: "some.bundle.id",
-        price: "Free"
+        price: "Free",
+        clicksToday: 5,
+        clicksWeek: 50,
+        clicksMonth: 100,
+        clicksYear: 150,
+        clicksTotal: 200
     )
 }
 

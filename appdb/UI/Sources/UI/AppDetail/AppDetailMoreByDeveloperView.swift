@@ -34,22 +34,32 @@ public struct AppDetailMoreByDeveloperView: View {
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
             
-            VStack(spacing: 5) {
-                RowButton(text: "Developer Apps", systemImage: "circle.grid.3x3") {
-                    onDeveloperAppsTapped()
-                }
-                if developerWebsite != nil {
-                    RowButton(text: "Developer Website", systemImage: "globe") {
-                        onDeveloperWebsiteTapped()
-                    }
-                }
-                if developerSupport != nil {
-                    RowButton(text: "Developer Support", systemImage: "questionmark.circle") {
-                        onDeveloperSupportTapped()
-                    }
-                }
-            }
+            RowButtonVStack(rowButtons: rowButtons)
         }
+    }
+    
+    private var rowButtons: [RowButton] {
+        var rowButtons: [RowButton] = []
+        rowButtons.append(
+            RowButton(text: "Developer Apps", systemImage: "circle.grid.3x3") {
+                onDeveloperAppsTapped()
+            }
+        )
+        if developerWebsite != nil {
+            rowButtons.append(
+                RowButton(text: "Developer Website", systemImage: "globe") {
+                    onDeveloperWebsiteTapped()
+                }
+            )
+        }
+        if developerSupport != nil, developerSupport != developerWebsite {
+            rowButtons.append(
+                RowButton(text: "Developer Support", systemImage: "questionmark.circle") {
+                    onDeveloperSupportTapped()
+                }
+            )
+        }
+        return rowButtons
     }
 }
 

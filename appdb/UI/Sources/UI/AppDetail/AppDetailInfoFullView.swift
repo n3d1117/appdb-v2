@@ -10,7 +10,7 @@ import SwiftUI
 public struct AppDetailInfoFullView: View {
     
     @ScaledMetric private var spacing: CGFloat = 8
-    @ScaledMetric private var rowVerticalPadding: CGFloat = 10
+    @ScaledMetric private var rowVerticalPadding: CGFloat = 12
     
     let developer: String?
     let bundleID: String?
@@ -44,10 +44,10 @@ public struct AppDetailInfoFullView: View {
             .init(text: "Bundle ID", image: "qrcode", value: bundleID),
             .init(text: "Category", image: "list.bullet", value: genreName),
             .init(text: "Price", image: "dollarsign.circle", value: price),
-            .init(text: "Updated", image: "calendar", value: updatedDate?.formatted()),
+            .init(text: "Updated", image: "calendar", value: updatedDate?.formatted(.relative(presentation: .numeric))),
             .init(text: "Version", image: "number", value: version),
             .init(text: "Size", image: "externaldrive", value: size.map { "\($0.size.formatted()) \($0.unit)" }),
-            .init(text: "Customer ratings", image: "hand.thumbsup", value: rating.map { "\(NumberFormatter.ratingsNumberFormatter.string(from: $0.stars as NSNumber) ?? String(format: "%.1f", $0.stars)) stars (\($0.count.formatted()))"
+            .init(text: "Customer Ratings", image: "hand.thumbsup", value: rating.map { "\(NumberFormatter.ratingsNumberFormatter.string(from: $0.stars as NSNumber) ?? String(format: "%.1f", $0.stars)) stars (\($0.count.formatted()))"
             }),
             .init(text: "Rating", image: "hand.raised", value: censorRating),
             .init(text: "Compatibility", image: "ipad.and.iphone", value: compatibilityString),
@@ -72,7 +72,6 @@ public struct AppDetailInfoFullView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.vertical, 5)
             .background(Color.gray.opacity(0.15), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
     }

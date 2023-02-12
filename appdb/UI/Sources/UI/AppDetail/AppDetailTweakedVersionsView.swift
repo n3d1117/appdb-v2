@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  AppDetailTweakedVersionsView.swift
 //  
 //
 //  Created by ned on 08/02/23.
@@ -19,9 +19,12 @@ public struct AppDetailTweakedVersionsView: View {
     
     public var body: some View {
         let text = numberOfTweaks > 1 ? "\(numberOfTweaks) tweaks available" : "1 tweak available"
-        RowButton(text: text, systemImage: "hammer") {
-            onTap()
-        }
+        
+        RowButtonVStack(rowButtons: [
+            RowButton(text: text, systemImage: "hammer") {
+                onTap()
+            }
+        ])
     }
 }
 

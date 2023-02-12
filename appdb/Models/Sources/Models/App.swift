@@ -14,7 +14,11 @@ public struct App: Codable, Identifiable {
     public let name: String
     public let image: URL?
     public let version: String
+    public let clicksToday: Int
+    public let clicksWeek: Int
     public let clicksMonth: Int
+    public let clicksYear: Int
+    public let clicksTotal: Int
     public let description: String?
     public let whatsnew: String?
     public let compatibilityString: String
@@ -66,7 +70,6 @@ public struct App: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id, name, image, version, description, whatsnew, gname,
              pname, screenshots, added, pwebsite, psupport, price
-        case clicksMonth = "clicks_month"
         case compatibilityString = "compatibility_string"
         case tweakedVersions = "tweaked_versions"
         case is18Plus = "is_18plus"
@@ -75,6 +78,11 @@ public struct App: Codable, Identifiable {
         case originalTrackid = "original_trackid"
         case originalSection = "original_section"
         case bundleId = "bundle_id"
+        case clicksToday = "clicks_day"
+        case clicksWeek = "clicks_week"
+        case clicksMonth = "clicks_month"
+        case clicksYear = "clicks_year"
+        case clicksTotal = "clicks_all"
     }
     
     // MARK: - Decoding
@@ -84,7 +92,6 @@ public struct App: Codable, Identifiable {
         self.name = try container.decode(String.self, forKey: .name).htmlToMarkdown
         self.image = try container.decodeIfPresent(URL.self, forKey: .image)
         self.version = try container.decode(String.self, forKey: .version)
-        self.clicksMonth = try Int(container.decode(String.self, forKey: .clicksMonth)) ?? .zero
         self.description = try container.decodeIfPresent(String.self, forKey: .description)?.htmlToMarkdown
         self.whatsnew = try container.decodeIfPresent(String.self, forKey: .whatsnew)?.htmlToMarkdown
         self.gname = try container.decode(String.self, forKey: .gname)
@@ -102,6 +109,11 @@ public struct App: Codable, Identifiable {
         self.lastParseItunes = try? container.decodeJSON(LastParseItunes.self, forKey: .lastParseItunes)
         self.bundleId = try container.decodeIfPresent(String.self, forKey: .bundleId)
         self.price = try container.decodeIfPresent(String.self, forKey: .price)
+        self.clicksToday = try Int(container.decode(String.self, forKey: .clicksToday)) ?? .zero
+        self.clicksWeek = try Int(container.decode(String.self, forKey: .clicksWeek)) ?? .zero
+        self.clicksMonth = try Int(container.decode(String.self, forKey: .clicksMonth)) ?? .zero
+        self.clicksYear = try Int(container.decode(String.self, forKey: .clicksYear)) ?? .zero
+        self.clicksTotal = try Int(container.decode(String.self, forKey: .clicksTotal)) ?? .zero
     }
     
     // MARK: - Initializer
@@ -110,7 +122,6 @@ public struct App: Codable, Identifiable {
         name: String,
         image: URL,
         version: String,
-        clicksMonth: Int,
         description: String,
         whatsnew: String,
         gname: String,
@@ -127,13 +138,17 @@ public struct App: Codable, Identifiable {
         lastParseItunes: LastParseItunes?,
         is18Plus: Bool,
         bundleId: String?,
-        price: String?
+        price: String?,
+        clicksToday: Int,
+        clicksWeek: Int,
+        clicksMonth: Int,
+        clicksYear: Int,
+        clicksTotal: Int
     ) {
         self.id = id
         self.name = name
         self.image = image
         self.version = version
-        self.clicksMonth = clicksMonth
         self.description = description
         self.whatsnew = whatsnew
         self.gname = gname
@@ -151,6 +166,11 @@ public struct App: Codable, Identifiable {
         self.is18Plus = is18Plus
         self.bundleId = bundleId
         self.price = price
+        self.clicksToday = clicksToday
+        self.clicksWeek = clicksWeek
+        self.clicksMonth = clicksMonth
+        self.clicksYear = clicksYear
+        self.clicksTotal = clicksTotal
     }
 }
 
