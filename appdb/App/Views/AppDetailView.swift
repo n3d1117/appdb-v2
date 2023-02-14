@@ -49,6 +49,9 @@ struct AppDetailView: View {
                             onCategoryTapped: {
                                 // TODO
                                 print(app.genre.name)
+                            },
+                            onDownloadTapped: {
+                                viewModel.onDownloadTapped()
                             }
                         )
                         .padding()
@@ -218,6 +221,11 @@ struct AppDetailView: View {
                         
                         Spacer()
                     }
+                    .sheet(isPresented: $viewModel.showDownloadLinks) {
+                        AppLinksView(id: viewModel.id, type: viewModel.type, dominantColor: viewModel.appIconAverageColor)
+                            .presentationDetents([.medium, .large])
+                    }
+                    
                 } onOffsetChange: {
                     viewModel.scrollOffset = $0
                 }
@@ -236,7 +244,7 @@ struct AppDetailView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    
+                    viewModel.onDownloadTapped()
                 } label: {
                     Image(systemName: "icloud.and.arrow.down")
                         .font(.subheadline.weight(.semibold))
@@ -296,6 +304,8 @@ extension AppDetailView {
             didSet { calculateAverageColorBrightnessVariants() }
         }
         
+        @Published var showDownloadLinks = false
+                
         // MARK: - Vars
         private(set) var appScreenshots: [AppDetailScreenshots.Screenshot] = []
         private(set) var increasedBrightnessAverageColor: UIColor?
@@ -324,7 +334,6 @@ extension AppDetailView {
                 let app = try await loadApp()
                 appScreenshots = await loadScreenshots(for: app)
                 state = .success(app)
-                logger.log(.debug, "loadAppDetails")
             } catch {
                 logger.log(.error, "Error while loading app details: \(error)")
                 state = .failed(error)
@@ -341,6 +350,10 @@ extension AppDetailView {
                 return false
             }
             return updatedDate >= threeDaysAgo
+        }
+        
+        func onDownloadTapped() {
+            showDownloadLinks = true
         }
         
         // MARK: - Private

@@ -14,6 +14,7 @@ protocol HTTPEndpoint {
 public enum Endpoint {
     case apps(Apps)
     case news(News)
+    case links(Links)
 }
 
 extension Endpoint: HTTPEndpoint {
@@ -21,6 +22,7 @@ extension Endpoint: HTTPEndpoint {
         switch self {
         case .apps(let appsEndpoint): return appsEndpoint.queryItems()
         case .news(let newsEndpoint): return newsEndpoint.queryItems()
+        case .links(let linksEndpoint): return linksEndpoint.queryItems()
         }
     }
 }

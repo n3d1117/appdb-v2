@@ -58,6 +58,19 @@ public extension NewsEntry {
     static let mock: Self = .init(id: UUID().uuidString, title: "Example news")
 }
 
+public extension LinksResponse {
+    static let mock: Self = .init(apps: [
+        .init(trackid: Models.App.mock.id, versions: [
+            .init(number: "1.1", links: [
+                .init(id: "1", host: "example.com")
+            ]),
+            .init(number: "1.0", links: [
+                .init(id: "2", host: "another.example.com")
+            ])
+        ])
+    ])
+}
+
 public extension APIError {
     static let example: Self = .init(code: "Example code", translated: "Example translation")
 }

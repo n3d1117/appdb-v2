@@ -16,7 +16,7 @@ import Models
         Dependencies.apiService.register {
             .mock(.data([app]))
         }
-        let viewModel = AppsView.ViewModel()
+        let viewModel = AppsView.ViewModel(type: .ios)
         XCTAssertEqual(viewModel.state, .loading)
         
         await viewModel.loadApps()
@@ -29,7 +29,7 @@ import Models
         Dependencies.apiService.register {
             .mock(.error(apiError))
         }
-        let viewModel = AppsView.ViewModel()
+        let viewModel = AppsView.ViewModel(type: .ios)
         XCTAssertEqual(viewModel.state, .loading)
         
         await viewModel.loadApps()

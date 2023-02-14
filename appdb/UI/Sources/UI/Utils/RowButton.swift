@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RowButton: View {
+public struct RowButton: View {
     
     let text: String
     let systemImage: String?
@@ -30,7 +30,7 @@ struct RowButton: View {
         self.onTap = onTap
     }
     
-    var body: some View {
+    public var body: some View {
         Button {
             onTap()
         } label: {
@@ -76,13 +76,13 @@ struct RowButton_Previews: PreviewProvider {
 
 // MARK: RowButton VStack
 extension RowButton: Equatable, Identifiable, Hashable {
-    static func == (lhs: RowButton, rhs: RowButton) -> Bool {
+    public static func == (lhs: RowButton, rhs: RowButton) -> Bool {
         lhs.text == rhs.text
     }
     
-    var id: String { text }
+    public var id: String { text }
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(text)
     }
 }
@@ -90,6 +90,10 @@ extension RowButton: Equatable, Identifiable, Hashable {
 public struct RowButtonVStack: View {
     
     let rowButtons: [RowButton]
+    
+    public init(rowButtons: [RowButton]) {
+        self.rowButtons = rowButtons
+    }
     
     public var body: some View {
         VStack(spacing: 0) {

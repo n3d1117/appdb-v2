@@ -43,4 +43,11 @@ final class EndpointTests: XCTestCase {
         let url = try XCTUnwrap(request.url)
         XCTAssertEqual(url.absoluteString, "\(Self.urlPath)/?action=get_pages&category=news&id=469")
     }
+    
+    // MARK: - Links
+    func testLinksEndpointGeneratedURLIsCorrect() throws {
+        let request = API.generateRequest(.links(.get(type: .ios, trackid: "test")))
+        let url = try XCTUnwrap(request.url)
+        XCTAssertEqual(url.absoluteString, "\(Self.urlPath)/?action=get_links&type=ios&trackids=test")
+    }
 }

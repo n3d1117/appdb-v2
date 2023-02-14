@@ -11,16 +11,18 @@ import SwiftUI
 /// A scrollview that behaves more similarly to a `VStack` when its content size is small enough.
 public struct FittingScrollView<Content: View>: View {
     private let content: Content
-    let onOffsetChange: (CGFloat) -> Void
+    let onOffsetChange: ((CGFloat) -> Void)?
 
-    public init(@ViewBuilder content: () -> Content, onOffsetChange: @escaping (CGFloat) -> Void) {
+    public init(@ViewBuilder content: () -> Content, onOffsetChange: ((CGFloat) -> Void)? = nil) {
         self.content = content()
         self.onOffsetChange = onOffsetChange
     }
 
     public var body: some View {
         GeometryReader { geo in
-            ScrollViewOffset(onOffsetChange: onOffsetChange) {
+            ScrollViewOffset {
+                onOffsetChange?($0)
+            } content: {
                 VStack {
                     content
                 }.frame(maxWidth: geo.size.width, minHeight: geo.size.height)

@@ -16,17 +16,19 @@ public struct AppDetailHeaderView: View {
     
     let onImage: (UIImage?) -> Void
     let onCategoryTapped: () -> Void
+    let onDownloadTapped: () -> Void
     
     @ScaledMetric private var iconWidth: CGFloat = 120
     @ScaledMetric private var spacing: CGFloat = 15
     @ScaledMetric(relativeTo: .caption2) private var chevronSize: CGFloat = 9
     
-    public init(name: String, image: URL?, category: String, onImage: @escaping (UIImage?) -> Void, onCategoryTapped: @escaping () -> Void) {
+    public init(name: String, image: URL?, category: String, onImage: @escaping (UIImage?) -> Void, onCategoryTapped: @escaping () -> Void, onDownloadTapped: @escaping () -> Void) {
         self.name = name
         self.image = image
         self.category = category
         self.onImage = onImage
         self.onCategoryTapped = onCategoryTapped
+        self.onDownloadTapped = onDownloadTapped
     }
     
     public var body: some View {
@@ -68,7 +70,7 @@ public struct AppDetailHeaderView: View {
                 
                 HStack {
                     Button {
-                        
+                        onDownloadTapped()
                     } label: {
                         Image(systemName: "icloud.and.arrow.down")
                             .font(.title3.weight(.semibold))
@@ -105,7 +107,8 @@ struct AppDetailHeaderView_Previews: PreviewProvider {
             image: .init(string: "https://is2-ssl.mzstatic.com/image/thumb/Purple113/v4/40/3f/c5/403fc5f0-7622-1171-5127-fae1666d3a84/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/100x100bb.jpg")!,
             category: "Social Networking",
             onImage: { _ in },
-            onCategoryTapped: {}
+            onCategoryTapped: {},
+            onDownloadTapped: {}
         )
         .border(.red)
         .padding()
