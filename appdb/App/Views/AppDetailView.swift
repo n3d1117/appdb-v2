@@ -178,23 +178,19 @@ struct AppDetailView: View {
                                 )
                                 .padding()
                                 
-                                Divider()
-                                    .padding(.horizontal)
-                                
-                                // MARK: - Downloads
-                                AppDetailDownloadsView(
-                                    clicksToday: app.clicksToday,
-                                    clicksWeek: app.clicksWeek,
-                                    clicksMonth: app.clicksMonth,
-                                    clicksYear: app.clicksYear,
-                                    clicksTotal: app.clicksTotal
-                                )
+                                if !(app.clicksToday == .zero && app.clicksWeek == .zero && app.clicksMonth == .zero && app.clicksYear == .zero && app.clicksTotal == .zero) {
+                                    // MARK: - Downloads
+                                    AppDetailDownloadsView(
+                                        clicksToday: app.clicksToday,
+                                        clicksWeek: app.clicksWeek,
+                                        clicksMonth: app.clicksMonth,
+                                        clicksYear: app.clicksYear,
+                                        clicksTotal: app.clicksTotal
+                                    )
                                     .padding()
+                                }
                                 
                                 if let developer = app.publisher, !developer.isEmpty {
-                                    Divider()
-                                        .padding(.horizontal)
-                                    
                                     // MARK: - More by the developer
                                     AppDetailMoreByDeveloperView(
                                         developerName: developer,
