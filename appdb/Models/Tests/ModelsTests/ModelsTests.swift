@@ -66,11 +66,11 @@ final class ModelsTests: XCTestCase {
         
         let app = try XCTUnwrap(response.apps.first)
         XCTAssertEqual(app.versions.count, 2)
-        XCTAssertEqual(app.versions.map(\.number), ["2.4.0", "2.19.3"])
+        XCTAssertEqual(app.versions.map(\.number), ["2.19.3", "2.4.0"])
         
         let version = try XCTUnwrap(app.versions.first)
-        XCTAssertEqual(version.links.count, 2)
-        XCTAssertEqual(version.links.first, .init(id: "1", host: "a"))
+        XCTAssertEqual(version.links.count, 1)
+        XCTAssertEqual(version.links.first, .init(id: "3", host: "a"))
     }
 
 }

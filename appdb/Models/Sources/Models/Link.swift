@@ -21,7 +21,7 @@ public struct LinksResponse: Codable {
         public var id: String { number }
     }
     
-    private let apps: [App]
+    public let apps: [App]
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
