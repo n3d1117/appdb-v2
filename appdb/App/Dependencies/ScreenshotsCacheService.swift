@@ -21,17 +21,17 @@ class ScreenshotsCacheService {
     }
     
     func add(_ screenshot: AppScreenshotsCache) async throws {
-        try await storage.store(screenshot, forKey: CacheKey(screenshot.id))
+        try await storage.store(screenshot, forKey: CacheKey(String(screenshot.id)))
     }
     
-    func first(for id: String) async -> [Screenshot]? {
-        await storage.object(forKey: CacheKey(id))?.screenshots
+    func first(for id: Int) async -> [Screenshot]? {
+        await storage.object(forKey: CacheKey(String(id)))?.screenshots
     }
 }
 
 extension ScreenshotsCacheService {
     struct AppScreenshotsCache: Codable, Equatable, Identifiable {
-        let id: String
+        let id: Int
         let screenshots: [Screenshot]
     }
     
@@ -59,7 +59,7 @@ extension ScreenshotsCacheService {
             // no-op
         }
         
-        override func first(for id: String) async -> [ScreenshotsCacheService.Screenshot]? {
+        override func first(for id: Int) async -> [ScreenshotsCacheService.Screenshot]? {
             nil
         }
     }

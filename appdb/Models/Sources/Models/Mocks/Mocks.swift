@@ -12,12 +12,12 @@ extension URL {
 }
 
 public extension App.Genre {
-    static let mock: Self = .init(id: "1", name: "Example")
+    static let mock: Self = .init(id: 1, name: "Example")
 }
 
 public extension App {
     static let mock: Self = .init(
-        id: UUID().uuidString,
+        id: Int.random(in: 0...129999),
         name: "Example",
         image: .exampleImage,
         version: "1.0",
@@ -55,17 +55,17 @@ public extension App {
 }
 
 public extension NewsEntry {
-    static let mock: Self = .init(id: UUID().uuidString, title: "Example news")
+    static let mock: Self = .init(id: 1, title: "Example news")
 }
 
 public extension LinksResponse {
     static let mock: Self = .init(apps: [
         .init(trackid: Models.App.mock.id, versions: [
             .init(number: "1.1", links: [
-                .init(id: "1", host: "example.com")
+                .init(id: 1, host: "example.com")
             ]),
             .init(number: "1.0", links: [
-                .init(id: "2", host: "another.example.com")
+                .init(id: 2, host: "another.example.com")
             ])
         ])
     ])

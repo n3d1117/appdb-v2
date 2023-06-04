@@ -18,15 +18,7 @@ public struct APIResponse<T: Codable>: Codable {
         self.success = try container.decode(Bool.self, forKey: .success)
         self.errors = try container.decode([APIError].self, forKey: .errors)
         self.data = try container.decode(T.self, forKey: .data)
-        // `total` can either be an Int or a String...
-        if let totalAsInteger = try? container.decodeIfPresent(Int.self, forKey: .total) {
-            self.total = totalAsInteger
-        } else if let totalAsString = try? container.decodeIfPresent(String.self, forKey: .total),
-                  let totalAsInteger = Int(totalAsString) {
-            self.total = totalAsInteger
-        } else {
-            self.total = nil
-        }
+        self.total = try container.decodeIfPresent(Int.self, forKey: .total)
     }
     
     public init(success: Bool, errors: [APIError], data: T, total: Int? = nil) {

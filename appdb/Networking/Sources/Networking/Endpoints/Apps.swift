@@ -8,23 +8,23 @@
 import Foundation
 
 public enum Apps: HTTPEndpoint {
-    case list(type: AppType, page: Int = 1)
-    case detail(type: AppType, trackid: String)
+    case list(type: AppType, length: Int = 25, page: Int = 1)
+    case detail(type: AppType, trackid: Int)
     
-    public func queryItems() -> [URLQueryItem]? {
-        let baseItems: [URLQueryItem] = [
-            .init(name: "action", value: "search")
-        ]
+    var path: String { "search" }
+    
+    var queryItems: [URLQueryItem] {
         switch self {
-        case .list(let type, let page):
-            return baseItems + [
+        case .list(let type, let length, let page):
+            return [
                 .init(name: "type", value: type.rawValue),
-                .init(name: "page", value: String(page))
+                .init(name: "start", value: String((page - 1) * length)),
+                .init(name: "length", value: String(length))
             ]
         case .detail(let type, let trackid):
-            return baseItems + [
+            return [
                 .init(name: "type", value: type.rawValue),
-                .init(name: "trackid", value: trackid)
+                .init(name: "trackid", value: String(trackid))
             ]
         }
     }

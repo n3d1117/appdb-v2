@@ -15,7 +15,7 @@ struct AppDetailView: View {
     @StateObject var viewModel: ViewModel
     @Environment(\.colorScheme) var colorScheme
     
-    public init(id: String, type: AppType) {
+    public init(id: Int, type: AppType) {
         _viewModel = StateObject(wrappedValue: .init(id: id, type: type))
     }
     
@@ -291,9 +291,9 @@ extension AppDetailView {
     @MainActor final class ViewModel: ObservableObject {
         
         // MARK: - Dependencies
-        @Dependency(Dependencies.apiService) private var apiService: APIService
-        @Dependency(Dependencies.imageSizeFetcher) private var imageSizeFetcher: ImageSizeFetcher
-        @Dependency(Dependencies.screenshotsCache) private var screenshotsCache: ScreenshotsCacheService
+        @Dependency(Dependencies.apiService) private var apiService
+        @Dependency(Dependencies.imageSizeFetcher) private var imageSizeFetcher
+        @Dependency(Dependencies.screenshotsCache) private var screenshotsCache
         @Dependency(Dependencies.logger) private var logger
         
         // MARK: - Published vars
@@ -312,11 +312,11 @@ extension AppDetailView {
         private(set) var decreasedBrightnessAverageColor: UIColor?
         
         // MARK: - Constants
-        let id: String
+        let id: Int
         let type: AppType
         
         // MARK: - Initializers
-        init(id: String, type: AppType) {
+        init(id: Int, type: AppType) {
             self.id = id
             self.type = type
         }
@@ -442,19 +442,19 @@ struct AppDetailView_Previews: PreviewProvider {
             
             // Preview with mocked app
             let _ = Dependencies.apiService.register { .mock(.data([App.mock])) }
-            let viewModel = AppDetailView.ViewModel(id: "1", type: .ios)
+            let viewModel = AppDetailView.ViewModel(id: 1, type: .ios)
             AppDetailView(viewModel: viewModel)
                 .previewDisplayName("Mocked")
             
             // Preview with error
             let _ = Dependencies.apiService.register { .mock(.error(.example)) }
-            let viewModel2 = AppDetailView.ViewModel(id: "1", type: .ios)
+            let viewModel2 = AppDetailView.ViewModel(id: 1, type: .ios)
             AppDetailView(viewModel: viewModel2)
                 .previewDisplayName("Error")
             
             // Preview while loading
             let _ = Dependencies.apiService.register { .mock(.loading()) }
-            let viewModel3 = AppDetailView.ViewModel(id: "1", type: .ios)
+            let viewModel3 = AppDetailView.ViewModel(id: 1, type: .ios)
             AppDetailView(viewModel: viewModel3)
                 .previewDisplayName("Loading")
         }

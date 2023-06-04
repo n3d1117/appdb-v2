@@ -10,7 +10,7 @@ import Foundation
 public struct App: Codable, Identifiable {
     
     // MARK: - Public
-    public let id: String
+    public let id: Int
     public let name: String
     public let image: URL?
     public let version: String
@@ -32,11 +32,11 @@ public struct App: Codable, Identifiable {
     // MARK: - Private
     private let gname: String
     private let pname: String?
-    private let genreId: String
+    private let genreId: Int
     private let lastParseItunes: LastParseItunes?
     private let screenshots: Screenshots?
     private let added: Date?
-    private let originalTrackid: String?
+    private let originalTrackid: Int?
     private let originalSection: String?
     
     // MARK: - Computed vars
@@ -45,7 +45,7 @@ public struct App: Codable, Identifiable {
     public var lastUpdated: Date? { lastParseItunes?.published ?? added }
     public var censorRating: String? { lastParseItunes?.censorRating }
     public var languages: [String]? { lastParseItunes?.languages.components(separatedBy: ", ") }
-    public var isTweaked: Bool { originalTrackid != nil && originalTrackid != "0" }
+    public var isTweaked: Bool { originalTrackid != nil && originalTrackid != .zero }
     public var website: URL? { pwebsite ?? psupport }
     public var ratings: (count: Int, stars: Double)? {
         guard let ratings = lastParseItunes?.ratings else { return nil }
@@ -61,7 +61,7 @@ public struct App: Codable, Identifiable {
         if urls.isEmpty { urls = screenshots.ipad.map(\.src) }
         return urls
     }
-    public var originalApp: (trackid: String, section: String)? {
+    public var originalApp: (trackid: Int, section: String)? {
         guard isTweaked, let originalTrackid, let originalSection else { return nil }
         return (trackid: originalTrackid, section: originalSection)
     }
@@ -88,37 +88,46 @@ public struct App: Codable, Identifiable {
     // MARK: - Decoding
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
+        self.id = try container.decode(Int.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name).htmlToMarkdown
         self.image = try container.decodeIfPresent(URL.self, forKey: .image)
-        self.version = try container.decode(String.self, forKey: .version)
+        
+        // `version` can either be a String or a Float...
+        if let versionAsString = try? container.decode(String.self, forKey: .version) {
+            self.version = versionAsString
+        } else if let versionAsFloat = try? container.decode(Float.self, forKey: .version) {
+            self.version = String(versionAsFloat)
+        } else {
+            throw DecodingError.typeMismatch(String.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Invalid version value"))
+        }
+        
         self.description = try container.decodeIfPresent(String.self, forKey: .description)?.htmlToMarkdown
         self.whatsnew = try container.decodeIfPresent(String.self, forKey: .whatsnew)?.htmlToMarkdown
         self.gname = try container.decode(String.self, forKey: .gname)
         self.pname = try container.decodeIfPresent(String.self, forKey: .pname)
-        self.genreId = try container.decode(String.self, forKey: .genreId)
+        self.genreId = try container.decode(Int.self, forKey: .genreId)
         self.compatibilityString = try container.decode(String.self, forKey: .compatibilityString)
         self.tweakedVersions = try container.decodeIfPresent(TweakedVersions.self, forKey: .tweakedVersions)
-        self.originalTrackid = try container.decodeIfPresent(String.self, forKey: .originalTrackid)
+        self.originalTrackid = try container.decodeIfPresent(Int.self, forKey: .originalTrackid)
         self.originalSection = try container.decodeIfPresent(String.self, forKey: .originalSection)
         self.is18Plus = (try? container.decodeIfPresent(String.self, forKey: .is18Plus) ?? "") == "1"
         self.pwebsite = try? container.decodeIfPresent(URL.self, forKey: .pwebsite)
         self.psupport = try? container.decodeIfPresent(URL.self, forKey: .psupport)
-        self.added = try? container.decodeUnixDate(forKey: .added)
+        self.added = try? container.decodeDate(forKey: .added)
         self.screenshots = try? container.decodeJSON(Screenshots.self, forKey: .screenshots)
         self.lastParseItunes = try? container.decodeJSON(LastParseItunes.self, forKey: .lastParseItunes)
         self.bundleId = try container.decodeIfPresent(String.self, forKey: .bundleId)
         self.price = try container.decodeIfPresent(String.self, forKey: .price)
-        self.clicksToday = try Int(container.decode(String.self, forKey: .clicksToday)) ?? .zero
-        self.clicksWeek = try Int(container.decode(String.self, forKey: .clicksWeek)) ?? .zero
-        self.clicksMonth = try Int(container.decode(String.self, forKey: .clicksMonth)) ?? .zero
-        self.clicksYear = try Int(container.decode(String.self, forKey: .clicksYear)) ?? .zero
-        self.clicksTotal = try Int(container.decode(String.self, forKey: .clicksTotal)) ?? .zero
+        self.clicksToday = try container.decode(Int.self, forKey: .clicksToday)
+        self.clicksWeek = try container.decode(Int.self, forKey: .clicksWeek)
+        self.clicksMonth = try container.decode(Int.self, forKey: .clicksMonth)
+        self.clicksYear = try container.decode(Int.self, forKey: .clicksYear)
+        self.clicksTotal = try container.decode(Int.self, forKey: .clicksTotal)
     }
     
     // MARK: - Initializer
     public init(
-        id: String,
+        id: Int,
         name: String,
         image: URL,
         version: String,
@@ -126,10 +135,10 @@ public struct App: Codable, Identifiable {
         whatsnew: String,
         gname: String,
         pname: String?,
-        genreId: String,
+        genreId: Int,
         compatibilityString: String,
         added: Date?,
-        originalTrackid: String?,
+        originalTrackid: Int?,
         originalSection: String?,
         pWebsite: URL?,
         pSupport: URL?,
@@ -202,7 +211,7 @@ public struct LastParseItunes: Codable, Equatable {
         self.size = try container.decode(String.self, forKey: .size)
         self.languages = try container.decode(String.self, forKey: .languages)
         self.screenshots = try container.decodeIfPresent(App.Screenshots.self, forKey: .screenshots) ?? .empty
-        self.published = try container.decodeDDMMYYYYDate(forKey: .published)
+        self.published = try container.decodeDate(forKey: .published)
     }
     
     // MARK: - CustomerRating struct
@@ -240,7 +249,7 @@ extension App {
 // MARK: - Genre struct
 extension App {
     public struct Genre: Codable, Equatable {
-        public let id: String
+        public let id: Int
         public let name: String
     }
 }
@@ -251,7 +260,7 @@ extension App {
         public let cydia: [TweakedVersion]
         
         public struct TweakedVersion: Codable, Equatable {
-            public let trackid: String
+            public let trackid: Int
         }
     }
 }

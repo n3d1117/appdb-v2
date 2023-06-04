@@ -11,9 +11,10 @@ public enum News: HTTPEndpoint {
     case list(limit: Int)
     case detail(id: String)
     
-    public func queryItems() -> [URLQueryItem]? {
+    var path: String { "get_pages" }
+    
+    public var queryItems: [URLQueryItem] {
         let baseItems: [URLQueryItem] = [
-            .init(name: "action", value: "get_pages"),
             .init(name: "category", value: "news")
         ]
         switch self {

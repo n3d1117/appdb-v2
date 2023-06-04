@@ -8,15 +8,16 @@
 import Foundation
 
 public enum Links: HTTPEndpoint {
-    case get(type: AppType, trackid: String)
+    case get(type: AppType, trackid: Int)
     
-    public func queryItems() -> [URLQueryItem]? {
+    var path: String { "get_links" }
+    
+    public var queryItems: [URLQueryItem] {
         switch self {
         case .get(let type, let trackid):
             return [
-                .init(name: "action", value: "get_links"),
                 .init(name: "type", value: type.rawValue),
-                .init(name: "trackids", value: trackid),
+                .init(name: "trackids", value: String(trackid)),
             ]
         }
     }

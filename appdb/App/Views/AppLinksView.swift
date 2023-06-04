@@ -14,7 +14,7 @@ public struct AppLinksView: View {
     
     @StateObject var viewModel: ViewModel
     
-    public init(id: String, type: AppType, dominantColor: UIColor?) {
+    public init(id: Int, type: AppType, dominantColor: UIColor?) {
         _viewModel = StateObject(wrappedValue: .init(id: id, type: type, dominantColor: dominantColor))
     }
     
@@ -84,19 +84,19 @@ public struct AppLinksView: View {
 extension AppLinksView {
     @MainActor final class ViewModel: ObservableObject {
         // MARK: - Dependencies
-        @Dependency(Dependencies.apiService) private var apiService: APIService
+        @Dependency(Dependencies.apiService) private var apiService
         @Dependency(Dependencies.logger) private var logger
         
         // MARK: - Published vars
         @Published private(set) var state: ViewState<[LinksResponse.Version]> = .loading
         
         // MARK: - Constants
-        let id: String
+        let id: Int
         let type: AppType
         let dominantColor: UIColor?
         
         // MARK: - Initializers
-        init(id: String, type: AppType, dominantColor: UIColor?) {
+        init(id: Int, type: AppType, dominantColor: UIColor?) {
             self.id = id
             self.type = type
             self.dominantColor = dominantColor
@@ -128,13 +128,13 @@ struct AppDetailDownloadsPopoverView_Previews: PreviewProvider {
             
             // Preview with error
             let _ = Dependencies.apiService.register { .mock(.error(.example)) }
-            let viewModel2 = AppLinksView.ViewModel(id: "1", type: .ios, dominantColor: .blue)
+            let viewModel2 = AppLinksView.ViewModel(id: 1, type: .ios, dominantColor: .blue)
             AppLinksView(viewModel: viewModel2)
                 .previewDisplayName("Error")
             
             // Preview while loading
             let _ = Dependencies.apiService.register { .mock(.loading()) }
-            let viewModel3 = AppLinksView.ViewModel(id: "1", type: .ios, dominantColor: .blue)
+            let viewModel3 = AppLinksView.ViewModel(id: 1, type: .ios, dominantColor: .blue)
             AppLinksView(viewModel: viewModel3)
                 .previewDisplayName("Loading")
         }

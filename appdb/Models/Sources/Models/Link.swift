@@ -10,7 +10,7 @@ import Foundation
 // MARK: - LinksResponse
 public struct LinksResponse: Codable {
     public struct App: Codable {
-        let trackid: String
+        let trackid: Int
         let versions: [Version]
     }
     
@@ -25,9 +25,10 @@ public struct LinksResponse: Codable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let response = try container.decode([String: [String: [Link]]].self)
+        
+        let response = (try? container.decode([String: [String: [Link]]].self)) ?? [:]
         self.apps = response.map { trackid, versions in
-            App(trackid: trackid, versions: versions.map { number, links in
+            App(trackid: Int(trackid)!, versions: versions.map { number, links in
                 Version(number: number, links: links)
             }.sorted(by: { (v1, v2) -> Bool in
                 v1.number.compare(v2.number, options: .numeric) == .orderedDescending
@@ -39,7 +40,7 @@ public struct LinksResponse: Codable {
         self.apps = apps
     }
     
-    public func versions(for trackid: String) -> [Version] {
+    public func versions(for trackid: Int) -> [Version] {
         apps.first(where: { $0.trackid == trackid })?.versions ?? []
     }
 }
@@ -62,10 +63,10 @@ extension LinksResponse.Version: Hashable {
 
 // MARK: - Link
 public struct Link: Codable, Identifiable {
-    public let id: String
+    public let id: Int
     public let host: String
     
-    public init(id: String, host: String) {
+    public init(id: Int, host: String) {
         self.id = id
         self.host = host
     }

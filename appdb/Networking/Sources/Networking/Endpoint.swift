@@ -8,7 +8,8 @@
 import Foundation
 
 protocol HTTPEndpoint {
-    func queryItems() -> [URLQueryItem]?
+    var path: String { get }
+    var queryItems: [URLQueryItem] { get }
 }
 
 public enum Endpoint {
@@ -18,11 +19,18 @@ public enum Endpoint {
 }
 
 extension Endpoint: HTTPEndpoint {
-    public func queryItems() -> [URLQueryItem]? {
+    public var path: String {
         switch self {
-        case .apps(let appsEndpoint): return appsEndpoint.queryItems()
-        case .news(let newsEndpoint): return newsEndpoint.queryItems()
-        case .links(let linksEndpoint): return linksEndpoint.queryItems()
+        case .apps(let appsEndpoint): return appsEndpoint.path
+        case .news(let newsEndpoint): return newsEndpoint.path
+        case .links(let linksEndpoint): return linksEndpoint.path
+        }
+    }
+    public var queryItems: [URLQueryItem] {
+        switch self {
+        case .apps(let appsEndpoint): return appsEndpoint.queryItems
+        case .news(let newsEndpoint): return newsEndpoint.queryItems
+        case .links(let linksEndpoint): return linksEndpoint.queryItems
         }
     }
 }

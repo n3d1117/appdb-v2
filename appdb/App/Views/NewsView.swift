@@ -44,7 +44,8 @@ struct NewsView: View {
 
 extension NewsView {
     @MainActor final class ViewModel: ObservableObject {
-        @Dependency(Dependencies.apiService) private var apiService: APIService
+        @Dependency(Dependencies.apiService) private var apiService
+        @Dependency(Dependencies.logger) private var logger
         
         @Published private(set) var state: ViewState<[NewsEntry]> = .loading
         
@@ -53,6 +54,7 @@ extension NewsView {
                 let response: APIResponse<[NewsEntry]> = try await apiService.request(.news(.list(limit: 10_000)))
                 state = .success(response.data)
             } catch {
+                logger.log(.error, "Error while fetching news: \(error)")
                 state = .failed(error)
             }
         }
@@ -65,8 +67,8 @@ struct NewsView_Previews: PreviewProvider {
             // Preview with mocked news
             let _ = Dependencies.apiService.register {
                 .mock(.data([
-                    NewsEntry(id: "1", title: "One"),
-                    NewsEntry(id: "2", title: "Two")
+                    NewsEntry(id: 1, title: "One"),
+                    NewsEntry(id: 2, title: "Two")
                 ]))
             }
             let viewModel = NewsView.ViewModel()

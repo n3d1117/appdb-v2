@@ -9,7 +9,7 @@ import Foundation
 
 public enum API {
     public static let apiURL = "api.dbservices.to"
-    public static let apiVersion: String = "1.5"
+    public static let apiVersion: String = "1.6"
 
     public enum Method: String {
         case GET, POST, PUT, PATCH, DELETE
@@ -19,8 +19,8 @@ public enum API {
         var components = URLComponents()
         components.scheme = "https"
         components.host = Self.apiURL
-        components.path += "/v\(Self.apiVersion)/"
-        components.queryItems = endpoint.queryItems()
+        components.path += "/v\(Self.apiVersion)/\(endpoint.path)/"
+        components.queryItems = endpoint.queryItems
         return components.url!
     }
 

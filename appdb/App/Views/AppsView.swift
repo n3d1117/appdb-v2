@@ -66,7 +66,7 @@ struct AppsView: View {
 
 extension AppsView {
     @MainActor final class ViewModel: ObservableObject {
-        @Dependency(Dependencies.apiService) private var apiService: APIService
+        @Dependency(Dependencies.apiService) private var apiService
         @Dependency(Dependencies.logger) private var logger
         
         @Published private(set) var state: ViewState<[Models.App]> = .loading
@@ -95,6 +95,7 @@ extension AppsView {
                 let response: APIResponse<[Models.App]> = try await apiService.request(.apps(.list(type: type)))
                 state = .success(response.data)
             } catch {
+                logger.log(.error, "Error while fetching apps: \(error)")
                 state = .failed(error)
             }
         }

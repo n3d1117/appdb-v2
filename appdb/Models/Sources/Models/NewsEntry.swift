@@ -6,10 +6,10 @@
 //
 
 public struct NewsEntry: Codable, Identifiable {
-    public let id: String
+    public let id: Int
     public let title: String
     
-    public init(id: String, title: String) {
+    public init(id: Int, title: String) {
         self.id = id
         self.title = title
     }
