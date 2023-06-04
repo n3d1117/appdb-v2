@@ -26,9 +26,9 @@ public struct LinksResponse: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         
-        let response = (try? container.decode([String: [String: [Link]]].self)) ?? [:]
+        let response = (try? container.decode([Int: [String: [Link]]].self)) ?? [:]
         self.apps = response.map { trackid, versions in
-            App(trackid: Int(trackid)!, versions: versions.map { number, links in
+            App(trackid: trackid, versions: versions.map { number, links in
                 Version(number: number, links: links)
             }.sorted(by: { (v1, v2) -> Bool in
                 v1.number.compare(v2.number, options: .numeric) == .orderedDescending
