@@ -28,7 +28,7 @@ import Models
         let data = try JSONEncoder().encode(apiResponse)
         let apiService = APIService(networking: NetworkingMock(mockedData: data))
         
-        let response: APIResponse<[NewsEntry]> = try await apiService.request(.news(.list(limit: 1)))
+        let response: APIResponse<[NewsEntry]> = try await apiService.request(.news(.list()))
         XCTAssertEqual(response.data, apiResponse.data)
     }
     
@@ -38,7 +38,7 @@ import Models
         let apiService = APIService(networking: NetworkingMock(mockedData: data))
         
         do {
-            let _: APIResponse<[String]> = try await apiService.request(.news(.list(limit: 1)))
+            let _: APIResponse<[String]> = try await apiService.request(.news(.list()))
             XCTFail("This call should throw an error.")
         } catch {
             guard let error = error as? APIError else {

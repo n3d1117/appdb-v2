@@ -3,24 +3,7 @@ import XCTest
 
 final class ModelsTests: XCTestCase {
     
-    func testAPIResponseDecodingTotalWhenTotalIsString() throws {
-        let json = """
-        {
-            "success": true,
-            "errors": [],
-            "data": "",
-            "total": "20"
-        }
-        """ 
-        let data = json.data(using: .utf8)!
-
-        let response = try! JSONDecoder().decode(APIResponse<String>.self, from: data)
-        
-        let total = try XCTUnwrap(response.total)
-        XCTAssertEqual(total, 20)
-    }
-    
-    func testAPIResponseDecodingTotalWhenTotalIsInt() throws {
+    func testAPIResponseDecoding() throws {
         let json = """
         {
             "success": true,
@@ -34,6 +17,9 @@ final class ModelsTests: XCTestCase {
         let response = try! JSONDecoder().decode(APIResponse<String>.self, from: data)
         
         let total = try XCTUnwrap(response.total)
+        XCTAssertEqual(response.success, true)
+        XCTAssertTrue(response.errors.isEmpty)
+        XCTAssertTrue(response.data.isEmpty)
         XCTAssertEqual(total, 20)
     }
     
@@ -43,17 +29,17 @@ final class ModelsTests: XCTestCase {
            "1471067972":{
               "2.4.0":[
                  {
-                    "id":"1",
+                    "id":1,
                     "host": "a"
                  },
                  {
-                    "id":"2",
+                    "id":2,
                     "host": "a"
                  }
               ],
               "2.19.3":[
                  {
-                    "id":"3",
+                    "id":3,
                     "host": "a"
                  }
               ]
@@ -70,7 +56,7 @@ final class ModelsTests: XCTestCase {
         
         let version = try XCTUnwrap(app.versions.first)
         XCTAssertEqual(version.links.count, 1)
-        XCTAssertEqual(version.links.first, .init(id: "3", host: "a"))
+        XCTAssertEqual(version.links.first, .init(id: 3, host: "a"))
     }
 
 }

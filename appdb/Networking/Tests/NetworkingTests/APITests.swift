@@ -12,7 +12,7 @@ final class APITests: XCTestCase {
     
     // MARK: - HTTP Method
     func testHTTPRequestMethodIsCorrect() throws {
-        let newsListEndpoint = Endpoint.news(.list(limit: 10))
+        let newsListEndpoint = Endpoint.news(.list())
         
         var request = API.generateRequest(newsListEndpoint)
         XCTAssertEqual(request.httpMethod, "GET")
