@@ -8,7 +8,7 @@
 import Foundation
 
 public enum News: HTTPEndpoint {
-    case list(limit: Int)
+    case list(length: Int = 25, page: Int = 1)
     case detail(id: String)
     
     var path: String { "get_pages" }
@@ -18,8 +18,11 @@ public enum News: HTTPEndpoint {
             .init(name: "category", value: "news")
         ]
         switch self {
-        case .list(let limit):
-            return baseItems + [.init(name: "length", value: String(limit))]
+        case .list(let length, let page):
+            return baseItems + [
+                .init(name: "start", value: String((page - 1) * length)),
+                .init(name: "length", value: String(length))
+            ]
         case .detail(let id):
             return baseItems + [.init(name: "id", value: id)]
         }

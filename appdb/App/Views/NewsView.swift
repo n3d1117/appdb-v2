@@ -51,7 +51,8 @@ extension NewsView {
         
         func loadNews() async {
             do {
-                let response: APIResponse<[NewsEntry]> = try await apiService.request(.news(.list(limit: 10_000)))
+                // TODO: Paginated response
+                let response: APIResponse<[NewsEntry]> = try await apiService.request(.news(.list(length: 10_000)))
                 state = .success(response.data)
             } catch {
                 logger.log(.error, "Error while fetching news: \(error)")

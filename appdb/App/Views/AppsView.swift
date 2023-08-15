@@ -40,8 +40,8 @@ struct AppsView: View {
                             } label: {
                                 AppGridView(name: app.name, image: app.image?.iconHigherQuality())
                                     .onAppear {
-                                        if app == apps.last {
-                                            viewModel.currentTask = Task {
+                                        if !viewModel.isLoadingMore, app == apps.last {
+                                            Task {
                                                 await viewModel.loadMore()
                                             }
                                         }
@@ -79,15 +79,6 @@ extension AppsView {
         // MARK: - Initializers
         init(type: AppType) {
             self.type = type
-        }
-        
-        var currentTask: Task<Void, Never>? {
-            willSet {
-                if let task = currentTask {
-                    if task.isCancelled { return }
-                    task.cancel()
-                }
-            }
         }
         
         func loadApps() async {
