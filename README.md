@@ -10,7 +10,7 @@ PoC of an modern AppStore clone using [appdb](https://appdb.to) APIs. Written in
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/n3d1117/appdb-v2/assets/11541888/63386497-7524-411e-9c57-a166b4009ef1" alt="screenshots" title="screenshots" style="width=100%">
+  <img src="https://github.com/n3d1117/appdb-v2/assets/11541888/d1447481-9708-434e-8522-b1db95bbd69e" alt="screenshots" title="screenshots" style="width=100%">
 </p>
 
 ## Dependencies
